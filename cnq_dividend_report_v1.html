@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CNQ:TSX — Dividend Income Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8f6f1;
+    --surface: #ffffff;
+    --border: #d6d0c4;
+    --border-light: #e8e4da;
+    --text: #1c1a17;
+    --text-secondary: #4a4540;
+    --text-muted: #8a8078;
+    --globe-blue: #1a3a5c;
+    --green: #1a5c35;
+    --green-bg: #f0f7f2;
+    --green-border: #b8d9c4;
+    --red: #8b1a1a;
+    --red-bg: #fdf2f2;
+    --amber: #7a5a00;
+    --amber-bg: #fdf8ec;
+    --serif: 'Libre Baskerville', Georgia, serif;
+    --sans: 'Source Sans 3', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    font-size: 16px;
+    color: var(--text);
+    background: var(--bg);
+    padding: 28px 16px;
+    min-height: 100vh;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--globe-blue);
+  }
+
+  /* Masthead */
+  .masthead {
+    padding: 16px 28px 14px;
+    border-bottom: 1px solid var(--border-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .globe-wordmark {
+    font-family: var(--serif);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--globe-blue);
+    letter-spacing: .01em;
+  }
+  .globe-wordmark span {
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 13px;
+    margin-left: 6px;
+  }
+  .report-date {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: var(--mono);
+  }
+
+  .inner { padding: 24px 28px; }
+
+  /* Report type label */
+  .report-type {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+  }
+
+  /* Stock header */
+  .stock-header {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .company-name {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .ticker-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .ticker {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 2px 10px;
+    border-radius: 2px;
+  }
+  .sector-tag {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .price-row {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .price-item {}
+  .price-item-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .price-item-val {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .price-item-val.big {
+    font-size: 28px;
+  }
+
+  /* Verdict box */
+  .verdict-box {
+    border: 1px solid var(--green-border);
+    background: var(--green-bg);
+    border-radius: 3px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  .verdict-box.caution {
+    border-color: #e8c97a;
+    background: var(--amber-bg);
+  }
+  .verdict-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 6px;
+  }
+  .verdict-eyebrow.caution { color: var(--amber); }
+  .verdict-headline {
+    font-family: var(--serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+  .verdict-body {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  /* Section */
+  .section { margin-bottom: 24px; }
+  .section-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-light);
+  }
+
+  /* Key numbers */
+  .key-numbers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .kn-item {
+    padding: 14px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+  }
+  .kn-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .kn-val {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kn-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* Plain language explanation */
+  .plain-explain {
+    background: var(--bg);
+    border-left: 3px solid var(--border);
+    padding: 12px 16px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    border-radius: 0 2px 2px 0;
+  }
+  .plain-explain strong { color: var(--text); }
+
+  /* Dividend history table */
+  .div-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .div-table th {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+    background: var(--bg);
+  }
+  .div-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-secondary);
+  }
+  .div-table td:last-child {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .div-table tr:last-child td { border-bottom: none; }
+  .div-table tr:nth-child(even) td { background: #fafaf8; }
+
+  /* Metrics full-width */
+  .metric-row {
+    display: flex;
+    gap: 0;
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .metric-col {
+    flex: 1;
+    padding: 12px 14px;
+    border-right: 1px solid var(--border-light);
+  }
+  .metric-col:last-child { border-right: none; }
+  .metric-col-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+  .metric-col-val {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+  .metric-col-sub {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* Payout status bar */
+  .payout-wrap { margin-bottom: 14px; }
+  .payout-bar-outer {
+    height: 20px;
+    background: var(--bg);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 6px;
+    position: relative;
+  }
+  .payout-bar-fill {
+    height: 100%;
+    background: var(--green);
+    opacity: .7;
+    border-radius: 1px;
+  }
+  .payout-bar-marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1.5px;
+    background: var(--red);
+  }
+  .payout-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-family: var(--mono);
+  }
+
+  /* Valuation */
+  .val-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    background: var(--bg);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    margin-bottom: 14px;
+  }
+  .val-left { flex: 1; }
+  .val-label-sm {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+  .val-num {
+    font-family: var(--mono);
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .val-tag {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 2px;
+    border: 1px solid var(--green-border);
+    background: var(--green-bg);
+    color: var(--green);
+    white-space: nowrap;
+  }
+
+  /* CTA */
+  .cta-box {
+    background: var(--globe-blue);
+    border-radius: 2px;
+    padding: 20px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .cta-title {
+    font-family: var(--serif);
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .cta-sub { font-size: 13px; color: rgba(255,255,255,.65); }
+  .cta-btn {
+    white-space: nowrap;
+    padding: 10px 20px;
+    border-radius: 2px;
+    border: 1.5px solid rgba(255,255,255,.4);
+    background: transparent;
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    flex-shrink: 0;
+    letter-spacing: .01em;
+  }
+
+  /* Attribution */
+  .attr-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .attr-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+  .attr-logo em { font-style: normal; color: var(--globe-blue); font-weight: 600; }
+  .attr-sep { color: var(--border); }
+  .attr-text { font-size: 12px; color: var(--text-muted); }
+
+  .footer {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-light);
+  }
+
+  @media (max-width: 520px) {
+    .inner { padding: 18px 18px; }
+    .masthead { padding: 14px 18px; }
+    .key-numbers { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .metric-row { flex-direction: column; }
+    .metric-col { border-right: none; border-bottom: 1px solid var(--border-light); }
+    .metric-col:last-child { border-bottom: none; }
+    .cta-box { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead">
+    <div class="globe-wordmark">The Globe and Mail <span>Market Reports</span></div>
+    <div class="report-date">March 27, 2026</div>
+  </div>
+
+  <div class="inner">
+
+    <div class="report-type">Dividend Income Report</div>
+
+    <div class="stock-header">
+      <div class="company-name">Canadian Natural Resources</div>
+      <div class="ticker-row">
+        <span class="ticker">CNQ : TSX</span>
+        <span class="sector-tag">Energy &mdash; Oil &amp; Gas Production</span>
+      </div>
+      <div class="price-row">
+        <div class="price-item">
+          <div class="price-item-label">Close price</div>
+          <div class="price-item-val big">$69.46 <span style="font-size:15px;color:var(--text-muted)">CAD</span></div>
+        </div>
+        <div class="price-item">
+          <div class="price-item-label">Annual dividend</div>
+          <div class="price-item-val big">$2.35</div>
+        </div>
+        <div class="price-item">
+          <div class="price-item-label">Next payment</div>
+          <div class="price-item-val" style="font-size:16px;padding-top:4px">June 27, 2026</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Verdict -->
+    <div class="verdict-box">
+      <div class="verdict-eyebrow">Dividend assessment</div>
+      <div class="verdict-headline">CNQ's dividend is healthy and has grown every year for 8 consecutive years.</div>
+      <div class="verdict-body">The company pays out 61.8% of its earnings as dividends, which is within sustainable range. The dividend has compounded at 14.2% annually over the past decade &mdash; well ahead of inflation. Income investors holding CNQ have seen their quarterly payment grow consistently.</div>
+    </div>
+
+    <!-- What you earn -->
+    <div class="section">
+      <div class="section-title">What you earn</div>
+      <div class="key-numbers">
+        <div class="kn-item">
+          <div class="kn-label">Dividend yield</div>
+          <div class="kn-val">5.28%</div>
+          <div class="kn-sub">Income per year on every dollar invested</div>
+        </div>
+        <div class="kn-item">
+          <div class="kn-label">Per $10,000 invested</div>
+          <div class="kn-val">$528</div>
+          <div class="kn-sub">Estimated annual income before tax</div>
+        </div>
+        <div class="kn-item">
+          <div class="kn-label">Quarterly payment</div>
+          <div class="kn-val">$0.5875</div>
+          <div class="kn-sub">Per share, paid four times per year</div>
+        </div>
+        <div class="kn-item">
+          <div class="kn-label">10-year growth rate</div>
+          <div class="kn-val">14.2%</div>
+          <div class="kn-sub">Compound annual dividend growth</div>
+        </div>
+      </div>
+      <div class="plain-explain">
+        <strong>What this means:</strong> If you hold 500 shares of CNQ, you receive approximately $293.75 every quarter, or around $1,175 per year. Canadian dividend income is eligible for the dividend tax credit, which may reduce your effective tax rate on this income.
+      </div>
+    </div>
+
+    <!-- Is the dividend safe? -->
+    <div class="section">
+      <div class="section-title">Is the dividend safe?</div>
+
+      <div class="metric-row">
+        <div class="metric-col">
+          <div class="metric-col-label">Payout ratio</div>
+          <div class="metric-col-val">61.8%</div>
+          <div class="metric-col-sub">of earnings paid as dividends</div>
+        </div>
+        <div class="metric-col">
+          <div class="metric-col-label">Years without a cut</div>
+          <div class="metric-col-val">8 years</div>
+          <div class="metric-col-sub">uninterrupted dividend payments</div>
+        </div>
+        <div class="metric-col">
+          <div class="metric-col-label">Interest coverage</div>
+          <div class="metric-col-val">13.3x</div>
+          <div class="metric-col-sub">earnings cover interest payments</div>
+        </div>
+      </div>
+
+      <div class="payout-wrap">
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Payout ratio &mdash; how much of earnings are paid as dividends</div>
+        <div class="payout-bar-outer">
+          <div class="payout-bar-fill" style="width:61.8%"></div>
+          <div class="payout-bar-marker" style="left:100%"></div>
+        </div>
+        <div class="payout-labels">
+          <span>0%</span>
+          <span style="color:var(--green)">CNQ: 61.8%</span>
+          <span style="color:var(--red)">100% (unsustainable)</span>
+        </div>
+      </div>
+
+      <div class="plain-explain">
+        <strong>What this means:</strong> A payout ratio under 75% is generally considered sustainable for an energy company. CNQ's ratio of 61.8% leaves room to maintain the dividend even if earnings dip. A ratio above 100% would signal the company is paying out more than it earns, which is not sustainable.
+      </div>
+    </div>
+
+    <!-- Recent dividend history -->
+    <div class="section">
+      <div class="section-title">Recent dividend history</div>
+      <table class="div-table">
+        <thead>
+          <tr>
+            <th>Payment date</th>
+            <th>Type</th>
+            <th>Amount per share</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>July 3, 2025</td><td>Cash dividend</td><td>$0.5875</td></tr>
+          <tr><td>April 4, 2025</td><td>Cash dividend</td><td>$0.5875</td></tr>
+          <tr><td>January 3, 2025</td><td>Cash dividend</td><td>$0.5625</td></tr>
+          <tr><td>October 4, 2024</td><td>Cash dividend</td><td>$0.5250</td></tr>
+        </tbody>
+      </table>
+      <div class="plain-explain">
+        <strong>Trend:</strong> The quarterly payment has increased three times in the past four quarters, from $0.525 to $0.5875. This consistent growth is a positive sign for income investors planning around this stock.
+      </div>
+    </div>
+
+    <!-- Valuation -->
+    <div class="section">
+      <div class="section-title">Is the stock worth the price?</div>
+      <div class="val-row">
+        <div class="val-left">
+          <div class="val-label-sm">Stockcalc fundamental valuation</div>
+          <div class="val-num">$44.45 <span style="font-size:14px;color:var(--text-muted)">CAD</span></div>
+        </div>
+        <div>
+          <div class="val-tag">Fairly valued &mdash; within 5%</div>
+        </div>
+      </div>
+      <div class="plain-explain">
+        <strong>What this means:</strong> Based on CNQ's balance sheet, cash flow, and fundamentals, Stockcalc's model estimates the stock is worth approximately $44.45. At a recent close of $46.73, the stock is trading close to its estimated fair value. For a dividend investor, fair valuation combined with a growing yield is generally a positive combination.
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-box">
+      <div>
+        <div class="cta-title">Get a dividend report on any TSX stock, free</div>
+        <div class="cta-sub">Create a Globe account to access reports on thousands of Canadian and U.S. stocks.</div>
+      </div>
+      <button class="cta-btn">Create free account</button>
+    </div>
+
+    <div class="attr-row">
+      <div class="attr-logo"><em>stock</em>calc</div>
+      <span class="attr-sep">&mdash;</span>
+      <div class="attr-text">Fundamental valuation and dividend data by Patchell Brook Equity Analytics</div>
+    </div>
+
+    <div class="footer">
+      This report is provided for informational purposes only and does not constitute investment advice. Dividend income is not guaranteed. Tax treatment depends on your individual circumstances; consult a tax advisor. Fundamental valuation data provided by Stockcalc / Patchell Brook Equity Analytics Inc. &copy; 2026 The Globe and Mail.
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

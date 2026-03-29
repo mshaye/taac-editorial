@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CNQ:TSX — Fundamental Valuation Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f2f4f6;
+    --surface: #ffffff;
+    --border: #d4d8dd;
+    --border-light: #e8ebee;
+    --text: #111418;
+    --text-secondary: #5a6270;
+    --text-muted: #8c95a0;
+    --accent: #1a3a5c;
+    --red: #b91c1c;
+    --green: #15803d;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    font-size: 13px;
+    color: var(--text);
+    background: var(--bg);
+    padding: 24px 16px;
+    min-height: 100vh;
+    line-height: 1.4;
+  }
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+  }
+
+  /* Header bar */
+  .globe-bar {
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 20px;
+    border-radius: 2px 2px 0 0;
+  }
+  .globe-bar-left {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    opacity: .9;
+  }
+  .globe-bar-right {
+    font-family: var(--mono);
+    font-size: 10px;
+    opacity: .65;
+    letter-spacing: .05em;
+  }
+
+  .inner { padding: 20px 24px; }
+
+  /* Stock header */
+  .stock-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: 16px;
+  }
+  .stock-name {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .stock-ticker {
+    font-family: var(--mono);
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text);
+    letter-spacing: -.01em;
+  }
+  .stock-ticker span {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-left: 4px;
+  }
+  .badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .badge {
+    font-size: 10px;
+    color: var(--text-secondary);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 2px 7px;
+    font-weight: 500;
+    letter-spacing: .02em;
+  }
+  .price-block { text-align: right; flex-shrink: 0; }
+  .price-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+  .price-main {
+    font-family: var(--mono);
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text);
+  }
+  .price-sub {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 4px;
+    font-family: var(--mono);
+  }
+
+  /* Verdict */
+  .verdict-row {
+    display: flex;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border-light);
+  }
+  .valuation-block {}
+  .val-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+  .val-number {
+    font-family: var(--mono);
+    font-size: 32px;
+    font-weight: 600;
+    color: var(--red);
+    line-height: 1;
+  }
+  .verdict-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: var(--red);
+    border-radius: 2px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .03em;
+    margin-bottom: 4px;
+  }
+  .verdict-tag.fair {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+    color: var(--green);
+  }
+
+  /* Price bar */
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .bar-axis {
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    font-family: var(--mono);
+    color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+  .bar-track {
+    position: relative;
+    height: 38px;
+    background: var(--bg);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    overflow: visible;
+    margin-bottom: 8px;
+  }
+  .bar-seg {
+    position: absolute;
+    height: 8px;
+    border-radius: 1px;
+    background: var(--border);
+  }
+  .bar-seg.dcf { background: #94a3b8; top: 4px; }
+  .bar-seg.mult { background: #94a3b8; top: 15px; }
+  .bar-seg.comp { background: #94a3b8; top: 26px; }
+  .price-tick {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1.5px;
+    background: var(--red);
+  }
+  .bar-legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+  .bar-legend span {
+    font-size: 10px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* Model rows */
+  .model-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+  .model-table td { padding: 6px 0; vertical-align: middle; }
+  .model-table tr { border-bottom: 1px solid var(--border-light); }
+  .model-table tr:last-child { border-bottom: none; }
+  .col-label { font-size: 12px; color: var(--text-secondary); width: 120px; }
+  .col-bar { padding: 0 12px; }
+  .col-val { font-family: var(--mono); font-size: 12px; font-weight: 500; text-align: right; width: 72px; }
+  .col-status { font-size: 10px; text-align: right; width: 80px; letter-spacing: .02em; font-weight: 600; }
+  .col-status.over { color: var(--red); }
+  .col-status.fair { color: var(--green); }
+  .minibar-wrap { height: 4px; background: var(--border-light); border-radius: 1px; overflow: hidden; }
+  .minibar { height: 4px; border-radius: 1px; background: #94a3b8; }
+
+  /* Accuracy */
+  .acc-strip {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 12px 16px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  .acc-item { flex: 1; }
+  .acc-big {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1;
+  }
+  .acc-sub { font-size: 10px; color: var(--text-muted); margin-top: 3px; }
+  .acc-divider { width: 1px; background: var(--border); align-self: stretch; }
+  .acc-note { font-size: 10px; color: var(--text-muted); line-height: 1.5; flex: 1.5; }
+
+  /* Divider */
+  .divider { height: 1px; background: var(--border-light); margin: 16px 0; }
+
+  /* Metrics grid */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border-light);
+    border: 1px solid var(--border-light);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .metric-item {
+    background: var(--surface);
+    padding: 10px 12px;
+  }
+  .metric-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 3px;
+  }
+  .metric-val {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* CTA */
+  .cta-box {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
+  }
+  .cta-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; color: var(--text); }
+  .cta-sub { font-size: 11px; color: var(--text-muted); }
+  .cta-btn {
+    white-space: nowrap;
+    padding: 8px 16px;
+    border-radius: 2px;
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    letter-spacing: .02em;
+    flex-shrink: 0;
+  }
+
+  .stockcalc-attr {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .stockcalc-attr span {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+  .stockcalc-logo {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: .02em;
+  }
+  .stockcalc-logo em { font-style: normal; color: var(--accent); }
+
+  .footer {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-light);
+  }
+
+  @media (max-width: 520px) {
+    .inner { padding: 16px; }
+    .stock-header { flex-direction: column; gap: 12px; }
+    .price-block { text-align: left; }
+    .metric-grid { grid-template-columns: repeat(2, 1fr); }
+    .cta-box { flex-direction: column; align-items: flex-start; }
+    .acc-strip { flex-direction: column; gap: 12px; }
+    .acc-divider { width: 100%; height: 1px; }
+    .verdict-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="globe-bar">
+    <div class="globe-bar-left">The Globe and Mail &mdash; Market Analysis</div>
+    <div class="globe-bar-right">Report generated March 27, 2026</div>
+  </div>
+
+  <div class="inner">
+
+    <div class="stock-header">
+      <div>
+        <div class="stock-name">Canadian Natural Resources</div>
+        <div class="stock-ticker">CNQ <span>TSX</span></div>
+        <div class="badges">
+          <span class="badge">Energy</span>
+          <span class="badge">Oil &amp; Gas Production</span>
+          <span class="badge">Calgary, AB</span>
+        </div>
+      </div>
+      <div class="price-block">
+        <div class="price-label">Close price</div>
+        <div class="price-main">$69.46</div>
+        <div class="price-sub">CAD &bull; 52W $35.85 &ndash; $69.46</div>
+      </div>
+    </div>
+
+    <div class="verdict-row">
+      <div class="valuation-block">
+        <div class="val-label">Fundamental valuation</div>
+        <div class="val-number">$52.62</div>
+      </div>
+      <div style="padding-bottom:4px">
+        <div class="verdict-tag">&#9650; 24.2% overvalued</div>
+        <div style="font-size:11px;color:var(--text-muted)">vs. blended model average</div>
+      </div>
+    </div>
+
+    <div class="section-label">Current price vs. model valuations (CAD)</div>
+    <div class="bar-axis">
+      <span>$30</span><span>$40</span><span>$50</span><span>$60</span><span>$70</span><span>$80</span>
+    </div>
+    <div class="bar-track">
+      <div class="bar-seg dcf" style="left:0;width:80.6%"></div>
+      <div class="bar-seg mult" style="left:0;width:33.5%"></div>
+      <div class="bar-seg comp" style="left:0;width:21.6%"></div>
+      <div class="price-tick" style="left:78.9%"></div>
+    </div>
+    <div class="bar-legend">
+      <span><span style="width:12px;height:3px;background:#94a3b8;display:inline-block;border-radius:1px"></span>Model valuations</span>
+      <span><span style="width:1.5px;height:12px;background:var(--red);display:inline-block"></span><span style="color:var(--red)">Close price $69.46</span></span>
+    </div>
+
+    <table class="model-table">
+      <tr>
+        <td class="col-label">Discounted CF</td>
+        <td class="col-bar"><div class="minibar-wrap"><div class="minibar" style="width:88%"></div></div></td>
+        <td class="col-val">$70.30</td>
+        <td class="col-status fair">Fairly valued</td>
+      </tr>
+      <tr>
+        <td class="col-label">Multiples</td>
+        <td class="col-bar"><div class="minibar-wrap"><div class="minibar" style="width:58%"></div></div></td>
+        <td class="col-val">$46.75</td>
+        <td class="col-status over">Overvalued</td>
+      </tr>
+      <tr>
+        <td class="col-label">Comparables</td>
+        <td class="col-bar"><div class="minibar-wrap"><div class="minibar" style="width:51%"></div></div></td>
+        <td class="col-val">$40.80</td>
+        <td class="col-status over">Overvalued</td>
+      </tr>
+    </table>
+
+    <div class="acc-strip">
+      <div class="acc-item">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">At 5% spread</div>
+        <div class="acc-big">83%</div>
+        <div class="acc-sub">Hit in 20 days avg</div>
+      </div>
+      <div class="acc-divider"></div>
+      <div class="acc-item">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px">Within 12 months</div>
+        <div class="acc-big">90%</div>
+        <div class="acc-sub">All spreads</div>
+      </div>
+      <div class="acc-divider"></div>
+      <div class="acc-note">Historical accuracy &mdash; model tested against 5+ years of CNQ trading data</div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-label" style="margin-bottom:12px">Company snapshot</div>
+    <div class="metric-grid">
+      <div class="metric-item">
+        <div class="metric-label">Market cap</div>
+        <div class="metric-val">$146.5B</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-label">P/E ratio</div>
+        <div class="metric-val">10.78x</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-label">Beta</div>
+        <div class="metric-val">1.13</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-label">EPS (TTM)</div>
+        <div class="metric-val">$3.56</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-label">Shares out</div>
+        <div class="metric-val">2.11B</div>
+      </div>
+      <div class="metric-item">
+        <div class="metric-label">Book value/sh</div>
+        <div class="metric-val">$21.30</div>
+      </div>
+    </div>
+
+    <div class="cta-box">
+      <div>
+        <div class="cta-title">Get a report like this on any TSX or NYSE stock</div>
+        <div class="cta-sub">Free with a Globe account &bull; Updated daily &bull; Powered by Stockcalc</div>
+      </div>
+      <button class="cta-btn">Register free &rarr;</button>
+    </div>
+
+    <div class="stockcalc-attr">
+      <div class="stockcalc-logo"><em>stock</em>calc</div>
+      <span>Fundamental valuation by Patchell Brook Equity Analytics</span>
+    </div>
+
+    <div class="footer">
+      This report is provided for informational purposes only and does not constitute investment advice. Fundamental valuation data provided by Stockcalc / Patchell Brook Equity Analytics Inc. Past model accuracy does not guarantee future results. &copy; 2026 The Globe and Mail.
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
