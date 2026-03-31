@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quote Page Nav — Utility Approach</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'IBM Plex Sans', sans-serif; background: #f0f0f0; padding: 24px 16px; color: #1a1a1a; font-size: 14px; }
+
+  .page { max-width: 680px; margin: 0 auto; }
+  .page-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
+  .page-sub { font-size: 13px; color: #888; margin-bottom: 28px; line-height: 1.5; }
+
+  .section { margin-bottom: 36px; }
+  .section-title { font-size: 13px; font-weight: 600; color: #444; margin-bottom: 6px; padding-bottom: 8px; border-bottom: 1px solid #ddd; }
+  .note { font-size: 12px; color: #999; margin-top: 8px; font-style: italic; line-height: 1.5; }
+
+  .quote-header {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .stock-bar {
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .stock-ticker { font-weight: 700; font-size: 16px; }
+  .stock-price { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 500; }
+  .stock-change { font-size: 13px; color: #c0392b; }
+  .stock-name { font-size: 12px; color: #888; }
+
+  .nav-bar {
+    display: flex;
+    align-items: stretch;
+    padding: 0 16px;
+    border-bottom: 1px solid #eee;
+    overflow-x: auto;
+    background: #fff;
+    gap: 0;
+  }
+  .nav-item {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #555;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+  }
+  .nav-item.active {
+    color: #1a1a1a;
+    border-bottom-color: #1a1a1a;
+    font-weight: 600;
+  }
+
+  .nav-report {
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #555;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .nav-report svg {
+    flex-shrink: 0;
+    opacity: 0.45;
+  }
+
+  .nav-report.unlocked svg {
+    display: none;
+  }
+
+  .content-stub {
+    padding: 20px 16px;
+    color: #ccc;
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .user-state {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+  .anon { background: #fdecea; color: #c0392b; }
+  .registered { background: #eaf2f8; color: #1a5276; }
+  .subscriber { background: #eaf5ee; color: #1e7a3c; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-title">Quote page nav — utility approach</div>
+  <div class="page-sub">The report is a nav tab. A small inline SVG lock signals gating for anonymous users. It disappears once logged in.</div>
+
+  <!-- ANONYMOUS -->
+  <div class="section">
+    <div class="section-title">Anonymous user <span class="user-state anon">Not logged in</span></div>
+    <div class="quote-header">
+      <div class="stock-bar">
+        <span class="stock-ticker">RY</span>
+        <span class="stock-name">Royal Bank of Canada</span>
+        <span class="stock-price">$135.42</span>
+        <span class="stock-change">-0.38 (-0.28%)</span>
+      </div>
+      <div class="nav-bar">
+        <div class="nav-item active">Summary</div>
+        <div class="nav-item">News</div>
+        <div class="nav-item">Financials</div>
+        <div class="nav-item">Chart</div>
+        <a href="https://mshaye.github.io/taac-editorial/cnq_report_redesign.html" target="_blank" class="nav-report" style="text-decoration:none;color:inherit;">Valuation report
+          <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="5.5" width="9" height="7" rx="1.5" stroke="#555" stroke-width="1.2"/>
+            <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </a>
+        <a href="https://mshaye.github.io/taac-editorial/cnq_dividend_report_v2.html" target="_blank" class="nav-report" style="text-decoration:none;color:inherit;">Dividend report
+          <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="5.5" width="9" height="7" rx="1.5" stroke="#555" stroke-width="1.2"/>
+            <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </div>
+      <div class="content-stub">[ page content ]</div>
+    </div>
+    <div class="note">Clicking either tab routes to the custom registration landing page for that report.</div>
+  </div>
+
+  <!-- REGISTERED -->
+  <div class="section">
+    <div class="section-title">Registered user <span class="user-state registered">Logged in, not subscribed</span></div>
+    <div class="quote-header">
+      <div class="stock-bar">
+        <span class="stock-ticker">RY</span>
+        <span class="stock-name">Royal Bank of Canada</span>
+        <span class="stock-price">$135.42</span>
+        <span class="stock-change">-0.38 (-0.28%)</span>
+      </div>
+      <div class="nav-bar">
+        <div class="nav-item active">Summary</div>
+        <div class="nav-item">News</div>
+        <div class="nav-item">Financials</div>
+        <div class="nav-item">Chart</div>
+        <div class="nav-report unlocked">Valuation report</div>
+        <div class="nav-report unlocked">Dividend report</div>
+      </div>
+      <div class="content-stub">[ page content ]</div>
+    </div>
+    <div class="note">Lock disappears. Both tabs open the report directly — no gate, no friction.</div>
+  </div>
+
+  <!-- SUBSCRIBER -->
+  <div class="section">
+    <div class="section-title">Subscriber <span class="user-state subscriber">Logged in, subscribed</span></div>
+    <div class="quote-header">
+      <div class="stock-bar">
+        <span class="stock-ticker">RY</span>
+        <span class="stock-name">Royal Bank of Canada</span>
+        <span class="stock-price">$135.42</span>
+        <span class="stock-change">-0.38 (-0.28%)</span>
+      </div>
+      <div class="nav-bar">
+        <div class="nav-item active">Summary</div>
+        <div class="nav-item">News</div>
+        <div class="nav-item">Financials</div>
+        <div class="nav-item">Chart</div>
+        <div class="nav-report unlocked">Valuation report</div>
+        <div class="nav-report unlocked">Dividend report</div>
+      </div>
+      <div class="content-stub">[ page content ]</div>
+    </div>
+    <div class="note">Same as registered. Just a utility — no gate, no lock, no friction.</div>
+  </div>
+
+</div>
+</body>
+</html>
