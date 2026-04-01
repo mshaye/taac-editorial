@@ -111,9 +111,6 @@
 <body>
 <div class="page">
 
-  <div class="page-title">Quote page nav — utility approach</div>
-  <div class="page-sub">The report is a nav tab. A small inline SVG lock signals gating for anonymous users. It disappears once logged in.</div>
-
   <!-- ANONYMOUS -->
   <div class="section">
     <div class="section-title">Anonymous user <span class="user-state anon">Not logged in</span></div>
@@ -129,12 +126,15 @@
         <div class="nav-item">News</div>
         <div class="nav-item">Financials</div>
         <div class="nav-item">Chart</div>
-        <a href="https://mshaye.github.io/taac-editorial/cnq_report_v2.html" target="_blank" class="nav-report" style="text-decoration:none;color:inherit;">Valuation report
-          <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="1" y="5.5" width="9" height="7" rx="1.5" stroke="#555" stroke-width="1.2"/>
-            <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
-          </svg>
-        </a>
+<a href="https://mshaye.github.io/taac-editorial/cnq_report_v2.html" 
+   onclick="window.open('https://mshaye.github.io/taac-editorial/cnq_report_v2.html','_blank','toolbar=no,menubar=no,location=no,status=no,scrollbars=yes,resizable=yes,width=900,height=700'); return false;" 
+   class="nav-report" 
+   style="text-decoration:none;color:inherit;">Valuation report
+  <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="1" y="5.5" width="9" height="7" rx="1.5" stroke="#555" stroke-width="1.2"/>
+    <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
+  </svg>
+</a>
         <a href="https://mshaye.github.io/taac-editorial/cnq_dividend_report_v1.html" target="_blank" class="nav-report" style="text-decoration:none;color:inherit;">Dividend report
           <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="1" y="5.5" width="9" height="7" rx="1.5" stroke="#555" stroke-width="1.2"/>
