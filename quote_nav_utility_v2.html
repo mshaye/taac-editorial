@@ -1,15 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quote Page Nav — Utility Approach</title>
+<title>Quote Page Nav — Updated Nav</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'IBM Plex Sans', sans-serif; background: #f0f0f0; padding: 24px 16px; color: #1a1a1a; font-size: 14px; }
 
-  .page { max-width: 680px; margin: 0 auto; }
+  .page { max-width: 780px; margin: 0 auto; }
   .page-title { font-size: 18px; font-weight: 600; margin-bottom: 4px; }
   .page-sub { font-size: 13px; color: #888; margin-bottom: 28px; line-height: 1.5; }
 
@@ -45,7 +46,10 @@
     overflow-x: auto;
     background: #fff;
     gap: 0;
+    scrollbar-width: none;
   }
+  .nav-bar::-webkit-scrollbar { display: none; }
+
   .nav-item {
     padding: 10px 14px;
     font-size: 13px;
@@ -66,7 +70,6 @@
   .nav-report {
     padding: 10px 14px;
     font-size: 13px;
-    color: #555;
     white-space: nowrap;
     border-bottom: 2px solid transparent;
     cursor: pointer;
@@ -74,15 +77,13 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    text-decoration: none;
+    color: #555;
   }
 
   .nav-report svg {
     flex-shrink: 0;
     opacity: 0.45;
-  }
-
-  .nav-report.unlocked svg {
-    display: none;
   }
 
   .content-stub {
@@ -104,38 +105,40 @@
     vertical-align: middle;
   }
   .anon { background: #fdecea; color: #c0392b; }
-  .registered { background: #eaf2f8; color: #1a5276; }
-  .subscriber { background: #eaf5ee; color: #1e7a3c; }
 </style>
 </head>
 <body>
 <div class="page">
 
-  <!-- ANONYMOUS -->
+  <p class="page-title">Quote Page Nav — Updated Nav</p>
+  <p class="page-sub">Proposed sub-navigation for stock quote pages. Anonymous state only.</p>
+
   <div class="section">
     <div class="section-title">Anonymous user <span class="user-state anon">Not logged in</span></div>
     <div class="quote-header">
       <div class="stock-bar">
-        <span class="stock-ticker">RY</span>
-        <span class="stock-name">Royal Bank of Canada</span>
-        <span class="stock-price">$135.42</span>
-        <span class="stock-change">-0.38 (-0.28%)</span>
+        <span class="stock-ticker">TD-T</span>
+        <span class="stock-name">Toronto-Dominion Bank</span>
+        <span class="stock-price">$76.84</span>
+        <span class="stock-change">-0.52 (-0.67%)</span>
       </div>
       <div class="nav-bar">
         <div class="nav-item active">Summary</div>
-        <div class="nav-item">News</div>
+        <div class="nav-item">Charts</div>
+        <div class="nav-item">Dividends</div>
+        <div class="nav-item">Analysts</div>
+        <div class="nav-item">Price Report</div>
         <div class="nav-item">Financials</div>
-        <div class="nav-item">Chart</div>
-<a href="https://mshaye.github.io/taac-editorial/cnq_report_v2.html" 
-   onclick="window.open('https://mshaye.github.io/taac-editorial/cnq_report_v2.html','_blank','toolbar=no,menubar=no,location=no,status=no,scrollbars=yes,resizable=yes,width='+screen.width+',height='+screen.height+',top=0,left=0'); return false;" 
-   class="nav-report" 
-   style="text-decoration:none;color:inherit;">Valuation report
-  <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="1" y="5.5" width="9" height="7" rx="1.5" stroke="#555" stroke-width="1.2"/>
-    <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
-  </svg>
-</a>
-        <a href="https://mshaye.github.io/taac-editorial/cnq_dividend_report_v1.html" target="_blank" class="nav-report" style="text-decoration:none;color:inherit;">Dividend report
+        <div class="nav-item">Profile</div>
+        <a href="https://mshaye.github.io/taac-editorial/cnq_report_v2.html"
+           onclick="window.open('https://mshaye.github.io/taac-editorial/cnq_report_v2.html','_blank','toolbar=no,menubar=no,location=no,status=no,scrollbars=yes,resizable=yes,width='+screen.width+',height='+screen.height+',top=0,left=0'); return false;"
+           class="nav-report">Value Report
+          <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="1" y="5.5" width="9" height="7" rx="1.5" stroke="#555" stroke-width="1.2"/>
+            <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </a>
+        <a href="https://mshaye.github.io/taac-editorial/cnq_dividend_report_v1.html" target="_blank" class="nav-report">Dividend Report
           <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="1" y="5.5" width="9" height="7" rx="1.5" stroke="#555" stroke-width="1.2"/>
             <path d="M3 5.5V3.5a2.5 2.5 0 0 1 5 0v2" stroke="#555" stroke-width="1.2" stroke-linecap="round"/>
@@ -144,30 +147,7 @@
       </div>
       <div class="content-stub">[ page content ]</div>
     </div>
-    <div class="note">Clicking either tab routes to the custom registration landing page for that report.</div>
-  </div>
-
-  <!-- SUBSCRIBER -->
-  <div class="section">
-    <div class="section-title">Subscriber <span class="user-state subscriber">Logged in, subscribed</span></div>
-    <div class="quote-header">
-      <div class="stock-bar">
-        <span class="stock-ticker">RY</span>
-        <span class="stock-name">Royal Bank of Canada</span>
-        <span class="stock-price">$135.42</span>
-        <span class="stock-change">-0.38 (-0.28%)</span>
-      </div>
-      <div class="nav-bar">
-        <div class="nav-item active">Summary</div>
-        <div class="nav-item">News</div>
-        <div class="nav-item">Financials</div>
-        <div class="nav-item">Chart</div>
-        <div class="nav-report unlocked">Valuation report</div>
-        <div class="nav-report unlocked">Dividend report</div>
-      </div>
-      <div class="content-stub">[ page content ]</div>
-    </div>
-    <div class="note">Same as registered. Just a utility — no gate, no lock, no friction.</div>
+    <div class="note">Clicking either report tab routes to the custom registration landing page for that report.</div>
   </div>
 
 </div>
