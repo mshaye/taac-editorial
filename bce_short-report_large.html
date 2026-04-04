@@ -434,7 +434,7 @@
     }
 
     /* ── ANALYST ── */
-    .analyst-flex { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 14px; }
+    .analyst-flex { display: flex; flex-direction: row-reverse; gap: 20px; align-items: flex-start; margin-bottom: 14px; }
     .analyst-bars { flex: 1; }
     .abar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
     .abar-lbl { font-size: 11px; color: var(--text-sec); width: 40px; min-width: 40px; }
@@ -535,19 +535,21 @@
     </div>
 
     <!-- Valuation verdict -->
-    <div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border-light);display:flex;gap:20px;align-items:flex-start;">
+    <div style="margin-top:18px;padding-top:18px;border-top:1px solid var(--border-light);">
 
-      <div style="background:var(--green-bg);border:2px solid var(--green-border);border-radius:4px;padding:14px 22px;text-align:center;min-width:160px;">
-        <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;">Undervalued</div>
-        <div style="font-family:var(--mono);font-size:38px;font-weight:600;color:var(--green);line-height:1;">$32.75</div>
-        <div style="font-size:11px;color:var(--green);margin-top:6px;font-weight:500;">intrinsic value</div>
-        <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--green-border);font-size:13px;font-weight:700;color:var(--green);">+0.7% upside</div>
+      <div style="display:flex;gap:20px;align-items:flex-start;">
+        <div style="background:var(--green-bg);border:2px solid var(--green-border);border-radius:4px;padding:14px 22px;text-align:center;min-width:160px;">
+          <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);margin-bottom:6px;">Undervalued</div>
+          <div style="font-family:var(--mono);font-size:38px;font-weight:600;color:var(--green);line-height:1;">$32.75</div>
+          <div style="font-size:11px;color:var(--green);margin-top:6px;font-weight:500;">intrinsic value</div>
+          <div style="margin-top:8px;padding-top:8px;border-top:1px solid var(--green-border);font-size:13px;font-weight:700;color:var(--green);">+0.7% upside</div>
+        </div>
+        <div style="flex:1;padding-top:4px;">
+          <div style="font-size:12px;color:var(--text-sec);line-height:1.7;">Automated consensus derived from BCE's balance sheet and cash flows using three independent valuation models. Historically, BCE has reached our modelled price <strong>79% of the time within 12 months</strong>.</div>
+        </div>
       </div>
 
-      <div style="flex:1;padding-top:4px;">
-        <div style="font-size:15px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:8px;">BCE is worth slightly more than you can buy it for today.</div>
-        <div style="font-size:12px;color:var(--text-sec);line-height:1.7;">Automated consensus derived from BCE's balance sheet and cash flows using three independent valuation models. Historically, BCE has reached our modelled price <strong>79% of the time within 12 months</strong>.</div>
-      </div>
+      <div style="margin-top:14px;font-size:15px;font-weight:600;color:var(--text);line-height:1.4;">BCE is worth slightly more than you can buy it for today.</div>
 
     </div>
   </div>
@@ -784,7 +786,7 @@
     <div class="section-body">
       <div class="analyst-flex">
         <div class="analyst-bars">
-          <div class="sub-head">Recommendation Breakdown</div>
+          <div class="sub-head">Breakdown</div>
           <div class="abar">
             <div class="abar-lbl">Buy</div>
             <div class="abar-track"><div class="abar-fill buy" style="width:100%"></div></div>
