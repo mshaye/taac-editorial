@@ -267,14 +267,16 @@
 
   /* Metric row */
   .metric-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     border: 1px solid var(--border-light);
     border-radius: 2px;
     overflow: hidden;
     margin-bottom: 14px;
   }
-  .metric-col { flex: 1; padding: 12px 14px; border-right: 1px solid var(--border-light); }
-  .metric-col:last-child { border-right: none; }
+  .metric-col { padding: 14px 16px; border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
+  .metric-col:nth-child(even) { border-right: none; }
+  .metric-col:nth-last-child(-n+2) { border-bottom: none; }
   .metric-col-label {
     font-size: 10px;
     font-weight: 700;
@@ -391,8 +393,9 @@
   @media (max-width: 520px) {
     .report-body         { padding: 18px; }
     .key-numbers         { grid-template-columns: 1fr 1fr; gap: 8px; }
-    .metric-row          { flex-direction: column; }
-    .metric-col          { border-right: none; border-bottom: 1px solid var(--border-light); }
+    .metric-row          { grid-template-columns: 1fr; }
+    .metric-col          { border-right: none; }
+    .metric-col:nth-last-child(-n+2) { border-bottom: 1px solid var(--border-light); }
     .metric-col:last-child { border-bottom: none; }
     .cta-box             { flex-direction: column; align-items: flex-start; }
   }
@@ -421,11 +424,8 @@
 
     <div class="stock-header">
       <div class="company-name">Canadian Natural Resources</div>
-      <div class="ticker-row">
-        <span class="ticker">CNQ : TSX</span>
-        <span class="sector-tag">Energy &mdash; Oil &amp; Gas Production</span>
-      </div>
-      <div class="price-row">
+      <div style="font-family:var(--mono);font-size:14px;font-weight:500;color:var(--text-sec);margin-bottom:12px;">CNQ:TSX</div>
+      <div class="price-row" style="margin-bottom:12px;">
         <div class="price-item">
           <div class="price-item-label">Close price</div>
           <div class="price-item-val big">$69.46 <span style="font-size:14px;color:var(--text-muted)">CAD</span></div>
@@ -434,10 +434,10 @@
           <div class="price-item-label">Annual dividend</div>
           <div class="price-item-val big">$2.35</div>
         </div>
-        <div class="price-item">
-          <div class="price-item-label">Next payment</div>
-          <div class="price-item-val" style="font-size:15px;padding-top:4px">June 27, 2026</div>
-        </div>
+      </div>
+      <div style="display:flex;gap:6px;">
+        <span style="font-size:11px;font-weight:500;color:var(--text-sec);background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:2px 8px;">Energy</span>
+        <span style="font-size:11px;font-weight:500;color:var(--text-sec);background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:2px 8px;">Oil &amp; Gas Production</span>
       </div>
     </div>
 
@@ -468,9 +468,9 @@
           <div class="kn-sub">Per share, paid four times per year</div>
         </div>
         <div class="kn-item">
-          <div class="kn-label">10-year growth rate</div>
-          <div class="kn-val">14.2%</div>
-          <div class="kn-sub">Compound annual dividend growth</div>
+          <div class="kn-label">Next payment</div>
+          <div class="kn-val">June 27, 2026</div>
+          <div class="kn-sub">Next scheduled dividend date</div>
         </div>
       </div>
       <div class="plain-explain">
@@ -496,6 +496,11 @@
           <div class="metric-col-label">Interest coverage</div>
           <div class="metric-col-val">13.3x</div>
           <div class="metric-col-sub">earnings cover interest payments</div>
+        </div>
+        <div class="metric-col">
+          <div class="metric-col-label">10-year growth rate</div>
+          <div class="metric-col-val">14.2%</div>
+          <div class="metric-col-sub">Compound annual dividend growth</div>
         </div>
       </div>
       <div class="payout-wrap">
