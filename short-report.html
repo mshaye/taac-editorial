@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>BCE — Fundamental Valuation Report | Stockcalc</title>
+  <title>BCE — Valuation Report | Stockcalc</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <style>
 
@@ -23,8 +23,10 @@
       --green-bg:      #f0fdf4;
       --green-border:  #bbf7d0;
       --red:           #b91c1c;
+      --red-bg:        #fef2f2;
       --amber:         #b45309;
-      --serif:          'IBM Plex Serif', Georgia, serif;
+      --amber-bg:      #fffbeb;
+      --serif:         'Libre Baskerville', Georgia, serif;
       --mono:          'IBM Plex Mono', monospace;
       --sans:          'IBM Plex Sans', sans-serif;
     }
@@ -83,49 +85,58 @@
       letter-spacing: .04em;
     }
 
-    /* ── STOCK HEADER ── */
-    .stock-header {
+    /* ── REPORT BODY (stock header area) ── */
+    .report-body {
       background: var(--surface);
       border: 1px solid var(--border);
       border-top: none;
-      padding: 20px 22px 16px;
+      padding: 24px 22px;
     }
-    .stock-header-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-    .co-label {
+
+    /* Report type label */
+    .report-type {
       font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .08em;
+      font-weight: 700;
+      letter-spacing: .1em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 3px;
+      margin-bottom: 8px;
     }
-    .ticker {
-      font-family: var(--mono);
-      font-size: 32px;
-      font-weight: 600;
-      line-height: 1;
+
+    /* Stock identity block */
+    .stock-header {
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .company-name {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.2;
       color: var(--text);
-      letter-spacing: -.02em;
+      margin-bottom: 12px;
     }
-    .ticker small {
-      font-size: 16px;
-      font-weight: 400;
-      color: var(--text-muted);
-      margin-left: 5px;
-    }
-    .badges {
+    .ticker-row {
       display: flex;
-      gap: 4px;
+      align-items: center;
+      gap: 12px;
       flex-wrap: wrap;
-      margin-top: 8px;
+      margin-bottom: 12px;
     }
-    .badge {
+    .ticker-badge {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-sec);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 2px 10px;
+      border-radius: 2px;
+    }
+    .sector-tag { font-size: 13px; color: var(--text-muted); }
+    .sector-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .sector-pill {
       font-size: 11px;
       font-weight: 500;
       color: var(--text-sec);
@@ -134,111 +145,64 @@
       border-radius: 2px;
       padding: 2px 8px;
     }
-    .price-right    { text-align: right; flex-shrink: 0; }
-    .price-label {
+    .price-row  { display: flex; gap: 28px; flex-wrap: wrap; }
+    .price-item-label {
       font-size: 11px;
       font-weight: 600;
       letter-spacing: .08em;
       text-transform: uppercase;
       color: var(--text-muted);
-      margin-bottom: 3px;
+      margin-bottom: 2px;
     }
-    .price-main {
+    .price-item-val {
       font-family: var(--mono);
-      font-size: 32px;
-      font-weight: 600;
-      line-height: 1;
-      color: var(--text);
-    }
-
-    /* 52-week range bar */
-    .range-bar     { margin-top: 8px; }
-    .range-labels {
-      display: flex;
-      justify-content: space-between;
-      font-family: var(--mono);
-      font-size: 9px;
-      color: var(--text-muted);
-      margin-bottom: 3px;
-    }
-    .range-track {
-      position: relative;
-      width: 120px;
-      height: 4px;
-      background: var(--border-light);
-      border-radius: 2px;
-    }
-    .range-fill {
-      position: absolute;
-      left: 0;
-      height: 4px;
-      background: var(--green);
-      border-radius: 2px;
-    }
-    .range-tick {
-      position: absolute;
-      top: -3px;
-      width: 2px;
-      height: 10px;
-      background: var(--accent);
-      border-radius: 1px;
-    }
-
-    /* valuation verdict */
-    .verdict {
-      margin-top: 14px;
-      padding-top: 14px;
-      border-top: 1px solid var(--border-light);
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      flex-wrap: wrap;
-    }
-    .verdict-table {
-      flex: 1;
-      min-width: 0;
-      border-collapse: collapse;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 4px;
-      overflow: hidden;
-      font-size: 13px;
-      table-layout: fixed;
-    }
-    .verdict-table col:first-child { width: 55%; }
-    .verdict-table col:last-child  { width: 45%; }
-    .verdict-table td { padding: 10px 16px; white-space: nowrap; }
-    .verdict-table .row-price td {
-      border-bottom: 1px solid var(--border-light);
-      color: var(--text-muted);
+      font-size: 18px;
       font-weight: 500;
-    }
-    .verdict-table .row-price td:last-child {
-      font-family: var(--mono);
       color: var(--text);
-      text-align: right;
     }
-    .verdict-table .row-val { background: var(--green-bg); }
-    .verdict-table .row-val td:first-child {
-      color: var(--green);
-      font-weight: 600;
+    .price-item-val.big { font-size: 26px; }
+
+    /* Verdict box */
+    .verdict-box {
+      border: 1px solid var(--green-border);
+      background: var(--green-bg);
+      border-radius: 3px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
     }
-    .verdict-table .row-val td:last-child {
-      font-family: var(--mono);
+    .verdict-box.caution {
+      border-color: #fcd34d;
+      background: var(--amber-bg);
+    }
+    .verdict-box.neutral {
+      border-color: var(--accent-border);
+      background: var(--accent-light);
+    }
+    .verdict-eyebrow {
+      font-size: 11px;
       font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
       color: var(--green);
-      text-align: right;
+      margin-bottom: 6px;
     }
-    .verdict-copy {
-      flex: 1;
-      min-width: 0;
+    .verdict-eyebrow.neutral { color: var(--accent); }
+    .verdict-headline {
+      font-family: var(--serif);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .verdict-body {
       font-size: 13px;
       color: var(--text-sec);
-      line-height: 1.8;
+      line-height: 1.7;
     }
-    .verdict-copy .hl       { color: var(--text);     font-weight: 700; }
-    .verdict-copy .hl-green { color: var(--green);    font-weight: 700; }
-    .verdict-copy .hl-muted { color: var(--text-sec); font-weight: 700; }
+    .vnum-target { font-weight: 700; color: var(--accent); }
+    .vnum-market { font-weight: 700; color: var(--text); }
+    .vnum-green  { font-weight: 700; color: var(--green); }
 
     /* ── SECTIONS ── */
     .section {
@@ -265,6 +229,39 @@
       margin-bottom: 14px;
     }
 
+    /* ── KEY NUMBERS GRID ── */
+    .key-numbers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .kn-item {
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+    }
+    .kn-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .kn-val {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    /* Company description */
+    .co-desc { font-size: 13px; color: var(--text-sec); line-height: 1.7; }
+    .co-desc p + p { margin-top: 8px; }
+
     /* ── HELPERS ── */
     .divider { height: 1px; background: var(--border-light); margin: 14px 0; }
     .sub-head {
@@ -280,68 +277,8 @@
     .pos { color: var(--green); }
     .neg { color: var(--red); }
 
-    /* ── COMPANY OVERVIEW ── */
-    .overview-flex  { display: flex; gap: 24px; align-items: flex-start; }
-    .overview-stats { min-width: 200px; }
-    .stat-cell {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 12px;
-      border-bottom: 1px solid var(--border-light);
-    }
-    .stat-cell.last { border-bottom: none; }
-    .stat-lbl       { font-size: 12px; color: var(--text-muted); }
-    .stat-val       { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--text); }
-    .co-desc        { font-size: 13px; color: var(--text-sec); line-height: 1.7; }
-    .co-desc p + p  { margin-top: 8px; }
-
-    /* ── SUMMARY BAR CHART ── */
-    .bar-axis {
-      display: flex;
-      justify-content: space-between;
-      font-family: var(--mono);
-      font-size: 9px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-    .bar-track {
-      position: relative;
-      height: 44px;
-      background: var(--bg);
-      border: 1px solid var(--border-light);
-      border-radius: 2px;
-      margin-bottom: 8px;
-    }
-    .bar-seg {
-      position: absolute;
-      height: 7px;
-      border-radius: 1px;
-      left: 0;
-    }
-    .bar-seg.dcf  { top:  6px; background: #5b7eaa; }
-    .bar-seg.mult { top: 19px; background: #7d9ab8; }
-    .bar-seg.comp { top: 31px; background: #a2b5c6; }
-    .bar-price {
-      position: absolute;
-      inset: 0 auto 0 auto;
-      width: 1.5px;
-    }
-    .bar-legend {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-    }
-    .bar-legend span { display: flex; align-items: center; gap: 4px; }
-    .legend-swatch   { display: inline-block; width: 10px; height: 3px; border-radius: 1px; }
-    .legend-tick     { display: inline-block; width: 1.5px; height: 10px; }
-
-    /* ── MODEL ROWS ── */
-    .model-list { margin-bottom: 14px; }
+    /* ── MODEL ROWS (valuation summary) ── */
+    .model-list { margin-bottom: 0; }
     .model-row {
       display: flex;
       align-items: center;
@@ -413,14 +350,6 @@
     .method-item-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
     .method-item-body  { font-size: 12px; color: var(--text-sec); line-height: 1.7; }
 
-    /* ── FOOTER ── */
-    .footer            { background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 3px 3px; padding: 14px 22px; }
-    .footer-wordmark   { font-family: var(--mono); font-size: 13px; font-weight: 600; color: var(--accent); margin-bottom: 12px; }
-    .footer-wordmark span { font-weight: 300; opacity: .55; }
-    .disclaimer        { font-size: 10px; color: var(--text-muted); line-height: 1.65; }
-    .disclaimer p + p  { margin-top: 8px; }
-    .disclaimer a      { color: var(--text-muted); text-decoration: underline; }
-
     /* ── CTA ── */
     .cta-box {
       background: var(--accent);
@@ -433,7 +362,7 @@
       margin-bottom: 1px;
     }
     .cta-title {
-      font-family: 'Libre Baskerville', Georgia, serif;
+      font-family: var(--serif);
       font-size: 13px;
       font-weight: 700;
       color: #fff;
@@ -456,12 +385,16 @@
       text-decoration: none;
     }
 
+    /* ── FOOTER ── */
+    .footer            { background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 3px 3px; padding: 14px 22px; }
+    .disclaimer        { font-size: 10px; color: var(--text-muted); line-height: 1.65; }
+    .disclaimer p + p  { margin-top: 8px; }
+    .disclaimer a      { color: var(--text-muted); text-decoration: underline; }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 520px) {
-      .stock-header-top { flex-direction: column; }
-      .price-right      { text-align: left; }
-      .verdict          { flex-direction: column; }
-      .overview-flex    { flex-direction: column; }
+      .report-body      { padding: 18px; }
+      .key-numbers      { grid-template-columns: repeat(2, 1fr); }
       .section-body     { overflow-x: auto; }
       .dt               { min-width: 540px; }
     }
@@ -471,7 +404,7 @@
 <body>
 <div class="page">
 
-  <!-- ── HEADER ── -->
+  <!-- ── HEADER BAR ── -->
   <div class="header-bar">
     <svg class="header-bar-bg" viewBox="0 0 700 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <polyline points="0,38 40,30 80,34 120,22 160,28 200,18 240,24 280,14 320,20 360,10 400,16 440,8 480,18 520,12 560,22 600,10 640,18 700,8" fill="none" stroke="white" stroke-width="1.5"/>
@@ -483,108 +416,57 @@
     </div>
   </div>
 
-  <!-- ── STOCK HEADER ── -->
-  <div class="stock-header">
+  <!-- ── REPORT BODY ── -->
+  <div class="report-body">
 
-    <div class="stock-header-top">
-      <div>
-        <div class="co-label">BCE Inc.</div>
-        <div class="ticker">BCE <small>TSE</small></div>
-        <div class="badges">
-          <span class="badge">Communication Services</span>
-          <span class="badge">Telecom Services</span>
+    <div class="report-type">Valuation Report</div>
+
+    <!-- Stock identity -->
+    <div class="stock-header">
+      <div class="company-name">BCE Inc. (BCE)</div>
+      <div class="price-row">
+        <div class="price-item">
+          <div class="price-item-label">Close price</div>
+          <div class="price-item-val big">$32.53 <span style="font-size:14px;color:var(--text-muted)">CAD</span></div>
         </div>
       </div>
-      <div class="price-right">
-        <div class="price-label">Close price</div>
-        <div class="price-main">$32.53</div>
-        <div class="range-bar">
-          <div class="range-labels">
-            <span>$29.27</span><span>52W</span><span>$48.95</span>
-          </div>
-          <!-- Position = (32.53 − 29.27) / (48.95 − 29.27) = 16.6% -->
-          <div class="range-track">
-            <div class="range-fill" style="width:16.6%"></div>
-            <div class="range-tick" style="left:16.6%"></div>
-          </div>
-        </div>
+      <div class="sector-pills">
+        <span class="sector-pill">Communication Services</span>
+        <span class="sector-pill">Telecom Services</span>
       </div>
     </div>
 
-    <div class="verdict">
-      <table class="verdict-table">
-        <colgroup><col><col></colgroup>
-        <tbody>
-          <tr class="row-price">
-            <td>Market Price</td>
-            <td>$32.53</td>
-          </tr>
-          <tr class="row-val">
-            <td>Stockcalc Valuation</td>
-            <td>$32.75</td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="verdict-copy">
-        Our valuation for BCE of <span class="hl">$32.75</span> is the model's target price.
-        This shows BCE is <span class="hl-green">Undervalued</span> &#9650; <span class="hl">0.7%</span>
-        compared to market price. Historically for BCE, our target hits
-        <span class="hl-muted">79%</span> of the time within <span class="hl-muted">12 months</span>.
-      </p>
+    <!-- Verdict -->
+    <div class="verdict-box neutral">
+      <div class="verdict-eyebrow neutral">Fair Value</div>
+      <div class="verdict-headline">BCE is trading within 1% of Stockcalc's estimated fair value of $32.75.</div>
+      <div class="verdict-body">Our model targets BCE at <span class="vnum-green">$32.75</span> versus a market price of <span class="vnum-market">$32.53</span> &mdash; a <span class="vnum-green">&#9650; 0.7%</span> discount. Historically, our target for BCE is reached <strong>79%</strong> of the time within <strong>12 months</strong>.</div>
     </div>
 
-  </div>
-
-  <hr style="border:none;border-top:1px solid var(--border);margin:0;">
-
-
-  <!-- ── SUMMARY ── -->
-  <div class="section">
-    <div class="section-head">
-      <div class="section-title">Summary</div>
-    </div>
-    <div class="section-body">
-      <p class="section-note">Stockcalc generates an automated consensus using BCE's balance sheet and three independent valuation models. It blends the results to set a target price.</p>
-
-      <!-- Bar chart axis: $20–$40 = $20 range. Position = (value − 20) / 20 -->
-      <div class="bar-axis">
-        <span>$20</span><span>$25</span><span>$30</span><span>$35</span><span>$40</span>
+    <!-- Model summary — flows organically below verdict -->
+    <p class="section-note" style="margin-top:16px;margin-bottom:10px;">StockCalc generates a weighted average valuation using BCE's Financial Statements and up to three independent valuation models.</p>
+    <div class="model-list">
+      <div class="model-row">
+        <div class="model-name">Discounted Cash</div>
+        <div class="model-bar"><div class="mini-track"><div class="mini-fill" style="width:42%"></div></div></div>
+        <div class="model-val">$34.75</div>
+        <div class="model-status under">Undervalued</div>
       </div>
-      <div class="bar-track">
-        <div class="bar-seg dcf"  style="width:73.8%"></div><!-- Discounted Cash $34.75 -->
-        <div class="bar-seg mult" style="width:72.1%"></div><!-- Multiples       $34.42 -->
-        <div class="bar-seg comp" style="width:44.6%"></div><!-- Comparables     $28.92 -->
-        <div class="bar-price"   style="left:62.7%;background:var(--green);"></div><!-- Close $32.53 -->
+      <div class="model-row">
+        <div class="model-name">Comparables</div>
+        <div class="model-bar"><div class="mini-track"><div class="mini-fill" style="width:26%"></div></div></div>
+        <div class="model-val">$28.92</div>
+        <div class="model-status over">Overvalued</div>
       </div>
-      <div class="bar-legend">
-        <span><span class="legend-swatch" style="background:#5b7eaa;"></span>Discounted Cash $34.75</span>
-        <span><span class="legend-swatch" style="background:#7d9ab8;"></span>Multiples $34.42</span>
-        <span><span class="legend-swatch" style="background:#a2b5c6;"></span>Comparables $28.92</span>
-        <span><span class="legend-tick"   style="background:var(--green);"></span><span style="color:var(--green);">Close $32.53</span></span>
-      </div>
-
-      <div class="model-list">
-        <div class="model-row">
-          <div class="model-name">Discounted Cash</div>
-          <div class="model-bar"><div class="mini-track"><div class="mini-fill" style="width:42%"></div></div></div>
-          <div class="model-val">$34.75</div>
-          <div class="model-status under">Undervalued</div>
-        </div>
-        <div class="model-row">
-          <div class="model-name">Comparables</div>
-          <div class="model-bar"><div class="mini-track"><div class="mini-fill" style="width:26%"></div></div></div>
-          <div class="model-val">$28.92</div>
-          <div class="model-status over">Overvalued</div>
-        </div>
-        <div class="model-row">
-          <div class="model-name">Multiples</div>
-          <div class="model-bar"><div class="mini-track"><div class="mini-fill" style="width:41%"></div></div></div>
-          <div class="model-val">$34.42</div>
-          <div class="model-status under">Undervalued</div>
-        </div>
+      <div class="model-row">
+        <div class="model-name">Multiples</div>
+        <div class="model-bar"><div class="mini-track"><div class="mini-fill" style="width:41%"></div></div></div>
+        <div class="model-val">$34.42</div>
+        <div class="model-status under">Undervalued</div>
       </div>
     </div>
-  </div>
+
+  </div><!-- /.report-body -->
 
 
   <!-- ── COMPANY OVERVIEW ── -->
@@ -593,19 +475,35 @@
       <div class="section-title">Company Overview</div>
     </div>
     <div class="section-body">
-      <div class="overview-flex">
-        <div class="overview-stats">
-          <div class="stat-cell"><span class="stat-lbl">Market Cap</span><span class="stat-val">$30.0B</span></div>
-          <div class="stat-cell"><span class="stat-lbl">P/E Ratio</span><span class="stat-val">76.95</span></div>
-          <div class="stat-cell"><span class="stat-lbl">EPS</span><span class="stat-val">$2.01</span></div>
-          <div class="stat-cell"><span class="stat-lbl">Dividend Yield</span><span class="stat-val">5.38%</span></div>
-          <div class="stat-cell"><span class="stat-lbl">Shares Out.</span><span class="stat-val">921.8M</span></div>
-          <div class="stat-cell last"><span class="stat-lbl">Beta</span><span class="stat-val">0.6</span></div>
+      <div class="key-numbers">
+        <div class="kn-item">
+          <div class="kn-label">Market Cap</div>
+          <div class="kn-val">$30.0B</div>
         </div>
-        <div class="co-desc">
-          <p>BCE is both a wireless and internet service provider, offering wireless, broadband, television, and landline phone services in Canada. It is one of the big three national wireless carriers, with its roughly 10 million customers constituting about 30% of the market.</p>
-          <p>BCE is also the incumbent local exchange carrier throughout much of the eastern half of Canada, including Ontario and Quebec. Additionally, BCE has a media segment holding television, radio, and digital media assets, including Canadian rights to HBO, Showtime, and Starz.</p>
+        <div class="kn-item">
+          <div class="kn-label">P/E Ratio</div>
+          <div class="kn-val">76.95</div>
         </div>
+        <div class="kn-item">
+          <div class="kn-label">EPS</div>
+          <div class="kn-val">$2.01</div>
+        </div>
+        <div class="kn-item">
+          <div class="kn-label">Dividend Yield</div>
+          <div class="kn-val">5.38%</div>
+        </div>
+        <div class="kn-item">
+          <div class="kn-label">Shares Out.</div>
+          <div class="kn-val">921.8M</div>
+        </div>
+        <div class="kn-item">
+          <div class="kn-label">Beta</div>
+          <div class="kn-val">0.60</div>
+        </div>
+      </div>
+      <div class="co-desc">
+        <p>BCE is both a wireless and internet service provider, offering wireless, broadband, television, and landline phone services in Canada. It is one of the big three national wireless carriers, with its roughly 10 million customers constituting about 30% of the market.</p>
+        <p>BCE is also the incumbent local exchange carrier throughout much of the eastern half of Canada, including Ontario and Quebec. Additionally, BCE has a media segment holding television, radio, and digital media assets, including Canadian rights to HBO, Showtime, and Starz.</p>
       </div>
     </div>
   </div>
@@ -802,16 +700,16 @@
           <div class="method-item-body">The Discounted Cash Flow (DCF) valuation is a cash flow model where cash flow projections are discounted back to the present to calculate value per share. DCF is a common valuation technique especially for companies undergoing irregular cash flows such as resource companies (mining, forestry, oil and gas) going through price cycles or smaller companies about to generate cash flow (junior exploration companies, junior pharma, technology firms&hellip;).</div>
         </div>
         <div>
+          <div class="method-item-title">Price Comparables</div>
+          <div class="method-item-body">The Price Comparables valuation is the result of valuing the company we are looking at on the basis of ratios from selected comparable companies: Price to Earnings, Price to Book, Price to Sales, Price to Cash Flow, Enterprise Value (EV) to EBITDA. Each of these ratios for the selected comparable companies are averaged and multiplied by the values for the company we are interested in to calculate a value per share.</div>
+        </div>
+        <div>
           <div class="method-item-title">Other Comparables</div>
           <div class="method-item-body">We have included the Other Comparables as a way to value companies that cannot be valued using earnings-based ratios. This technique is very useful for companies still experiencing negative cash flows such as mining exploration firms. We use Cash/Share, Book Value/Share, MarketCap, 1 Year Return, and NetPPE as the ratios here. Each of these ratios for the selected comparable companies are averaged and multiplied by the values for the company we are interested in to calculate a value per share.</div>
         </div>
         <div>
           <div class="method-item-title">Adjusted Book Value (ABV)</div>
           <div class="method-item-body">With Adjusted Book Value (ABV) we calculate the book value per share for the company based on its balance sheet and multiply that book value per share by its historical price to book ratio to calculate a value per share.</div>
-        </div>
-        <div>
-          <div class="method-item-title">Price Comparables</div>
-          <div class="method-item-body">The Price Comparables valuation is the result of valuing the company we are looking at on the basis of ratios from selected comparable companies: Price to Earnings, Price to Book, Price to Sales, Price to Cash Flow, Enterprise Value (EV) to EBITDA. Each of these ratios for the selected comparable companies are averaged and multiplied by the values for the company we are interested in to calculate a value per share.</div>
         </div>
         <div>
           <div class="method-item-title">Multiples</div>
