@@ -114,7 +114,7 @@
     font-weight: 700;
     line-height: 1.2;
     color: var(--text);
-    margin-bottom: 14px;
+    margin-bottom: 10px;
   }
   .ticker-row {
     display: flex;
@@ -478,21 +478,26 @@
     <!-- Is the dividend safe? -->
     <div class="section">
       <div class="section-title">Is the dividend safe?</div>
-      <div class="metric-row">
-        <div class="metric-col">
+      <div class="metric-row" style="display:grid;grid-template-columns:1fr 1fr;border-radius:2px;overflow:hidden;">
+        <div class="metric-col" style="border-right:1px solid var(--border-light);border-bottom:1px solid var(--border-light);">
           <div class="metric-col-label">Payout ratio</div>
           <div class="metric-col-val">61.8%</div>
           <div class="metric-col-sub">of earnings paid as dividends</div>
         </div>
-        <div class="metric-col">
+        <div class="metric-col" style="border-bottom:1px solid var(--border-light);">
           <div class="metric-col-label">Years without a cut</div>
           <div class="metric-col-val">8 years</div>
           <div class="metric-col-sub">uninterrupted dividend payments</div>
         </div>
-        <div class="metric-col">
+        <div class="metric-col" style="border-right:1px solid var(--border-light);">
           <div class="metric-col-label">Interest coverage</div>
           <div class="metric-col-val">13.3x</div>
           <div class="metric-col-sub">earnings cover interest payments</div>
+        </div>
+        <div class="metric-col">
+          <div class="metric-col-label">10-year growth rate</div>
+          <div class="metric-col-val">14.2%</div>
+          <div class="metric-col-sub">Compound annual dividend growth</div>
         </div>
       </div>
       <div class="payout-wrap">
