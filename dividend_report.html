@@ -267,16 +267,14 @@
 
   /* Metric row */
   .metric-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     border: 1px solid var(--border-light);
     border-radius: 2px;
     overflow: hidden;
     margin-bottom: 14px;
   }
-  .metric-col { padding: 14px 16px; border-right: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light); }
-  .metric-col:nth-child(even) { border-right: none; }
-  .metric-col:nth-last-child(-n+2) { border-bottom: none; }
+  .metric-col { flex: 1; padding: 12px 14px; border-right: 1px solid var(--border-light); }
+  .metric-col:last-child { border-right: none; }
   .metric-col-label {
     font-size: 10px;
     font-weight: 700;
@@ -393,9 +391,8 @@
   @media (max-width: 520px) {
     .report-body         { padding: 18px; }
     .key-numbers         { grid-template-columns: 1fr 1fr; gap: 8px; }
-    .metric-row          { grid-template-columns: 1fr; }
-    .metric-col          { border-right: none; }
-    .metric-col:nth-last-child(-n+2) { border-bottom: 1px solid var(--border-light); }
+    .metric-row          { flex-direction: column; }
+    .metric-col          { border-right: none; border-bottom: 1px solid var(--border-light); }
     .metric-col:last-child { border-bottom: none; }
     .cta-box             { flex-direction: column; align-items: flex-start; }
   }
@@ -423,8 +420,12 @@
     <div class="report-type">Dividend Income Report</div>
 
     <div class="stock-header">
-      <div class="company-name" style="margin-bottom:10px;">Canadian Natural Resources (CNQ)</div>
-      <div class="price-row" style="margin-bottom:8px;">
+      <div class="company-name">Canadian Natural Resources</div>
+      <div class="ticker-row">
+        <span class="ticker">CNQ : TSX</span>
+        <span class="sector-tag">Energy &mdash; Oil &amp; Gas Production</span>
+      </div>
+      <div class="price-row">
         <div class="price-item">
           <div class="price-item-label">Close price</div>
           <div class="price-item-val big">$69.46 <span style="font-size:14px;color:var(--text-muted)">CAD</span></div>
@@ -433,11 +434,10 @@
           <div class="price-item-label">Annual dividend</div>
           <div class="price-item-val big">$2.35</div>
         </div>
-      </div>
-      <div style="display:flex;gap:6px;">
-        <span style="font-size:11px;font-weight:500;color:var(--text-sec);background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:2px 8px;">TSX</span>
-        <span style="font-size:11px;font-weight:500;color:var(--text-sec);background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:2px 8px;">Energy</span>
-        <span style="font-size:11px;font-weight:500;color:var(--text-sec);background:var(--bg);border:1px solid var(--border);border-radius:2px;padding:2px 8px;">Oil &amp; Gas Production</span>
+        <div class="price-item">
+          <div class="price-item-label">Next payment</div>
+          <div class="price-item-val" style="font-size:15px;padding-top:4px">June 27, 2026</div>
+        </div>
       </div>
     </div>
 
@@ -445,7 +445,7 @@
     <div class="verdict-box">
       <div class="verdict-eyebrow">Dividend assessment</div>
       <div class="verdict-headline">CNQ's dividend is healthy and has grown every year for 8 consecutive years.</div>
-      <div class="verdict-body">The company pays out 61.8% of its earnings as dividends, which is within sustainable range. The dividend has compounded at 14.2% annually over the past decade &mdash; well ahead of inflation. Income investors holding CNQ have seen their quarterly payment grow consistently.</div>
+      <div class="verdict-body">Canadian Natural Resources pays out 61.8% of its earnings back to shareholders as dividends. Compound annual dividend growth rates over the last 10 years has been 14.21%. We look for this number to at least exceed inflation over that time period.</div>
     </div>
 
     <!-- What you earn -->
@@ -468,13 +468,13 @@
           <div class="kn-sub">Per share, paid four times per year</div>
         </div>
         <div class="kn-item">
-          <div class="kn-label">Next payment</div>
-          <div class="kn-val">June 27, 2026</div>
-          <div class="kn-sub">Next scheduled dividend date</div>
+          <div class="kn-label">10-year growth rate</div>
+          <div class="kn-val">14.2%</div>
+          <div class="kn-sub">Compound annual dividend growth</div>
         </div>
       </div>
       <div class="plain-explain">
-        <strong>What this means:</strong> If you hold 500 shares of CNQ, you receive approximately $293.75 every quarter, or around $1,175 per year. Canadian dividend income is eligible for the dividend tax credit, which may reduce your effective tax rate on this income.
+        Many investors rely on dividend income especially during retirement. The dividend yield helps us understand the sustainable amount we would expect to receive from this stock. At 5.28% every $10,000 dollars of investment in CNQ would provide $528.00 in dividend income each year.
       </div>
     </div>
 
@@ -496,11 +496,6 @@
           <div class="metric-col-label">Interest coverage</div>
           <div class="metric-col-val">13.3x</div>
           <div class="metric-col-sub">earnings cover interest payments</div>
-        </div>
-        <div class="metric-col">
-          <div class="metric-col-label">10-year growth rate</div>
-          <div class="metric-col-val">14.2%</div>
-          <div class="metric-col-sub">Compound annual dividend growth</div>
         </div>
       </div>
       <div class="payout-wrap">
