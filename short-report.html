@@ -14,53 +14,31 @@
        DESIGN TOKENS
     ───────────────────────────────────────── */
     :root {
-      /* Backgrounds */
       --bg:            #f2f4f6;
       --surface:       #ffffff;
-
-      /* Borders */
       --border:        #d4d8dd;
       --border-light:  #e8ebee;
-
-      /* Text */
       --text:          #111418;
       --text-sec:      #5a6270;
       --text-muted:    #8c95a0;
-
-      /* Accent (brand navy) */
       --accent:        #122462;
       --accent-light:  #edf0f7;
       --accent-border: #bcc5dc;
-
-      /* Semantic colours */
       --green:         #15803d;
       --green-bg:      #f0fdf4;
       --green-border:  #bbf7d0;
+      --green-mid:     #166534;
       --red:           #b91c1c;
       --red-bg:        #fef2f2;
       --amber:         #b45309;
       --amber-bg:      #fffbeb;
-
-      /* Type stacks */
       --serif: 'Libre Baskerville', Georgia, serif;
       --mono:  'IBM Plex Mono', monospace;
       --sans:  'IBM Plex Sans', sans-serif;
     }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ─────────────────────────────────────────
-       RESET
-    ───────────────────────────────────────── */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-
-    /* ─────────────────────────────────────────
-       BASE
-    ───────────────────────────────────────── */
     body {
       font-family: var(--sans);
       font-size: 14px;
@@ -70,16 +48,9 @@
       padding: 28px 16px 56px;
     }
 
-    .page {
-      max-width: 720px;
-      margin: 0 auto;
-      zoom: 1.25;
-    }
+    .page { max-width: 720px; margin: 0 auto; zoom: 1.25; }
 
-
-    /* ─────────────────────────────────────────
-       HEADER BAR
-    ───────────────────────────────────────── */
+    /* HEADER BAR */
     .header-bar {
       position: relative;
       overflow: hidden;
@@ -87,604 +58,161 @@
       padding: 10px 22px;
       border-radius: 3px 3px 0 0;
     }
+    .header-bar-bg { position: absolute; inset: 0; opacity: 0.07; pointer-events: none; }
+    .header-bar-inner { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; }
+    .sc-wordmark { font-family: var(--mono); font-size: 16px; font-weight: 600; color: #fff; letter-spacing: -0.01em; }
+    .sc-wordmark span { font-weight: 400; opacity: 0.6; }
+    .header-date { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; }
 
-    .header-bar-bg {
-      position: absolute;
-      inset: 0;
-      opacity: 0.07;
-      pointer-events: none;
-    }
-
-    .header-bar-inner {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .sc-wordmark {
-      font-family: var(--mono);
-      font-size: 16px;
-      font-weight: 600;
-      color: #fff;
-      letter-spacing: -0.01em;
-    }
-
-    .sc-wordmark span {
-      font-weight: 400;
-      opacity: 0.6;
-    }
-
-    .header-date {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: rgba(255, 255, 255, 0.6);
-      letter-spacing: 0.04em;
-    }
-
-
-    /* ─────────────────────────────────────────
-       REPORT BODY (stock header area)
-    ───────────────────────────────────────── */
-    .report-body {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: none;
-      padding: 24px 22px;
-    }
-
-    .report-type {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
+    /* REPORT BODY */
+    .report-body { background: var(--surface); border: 1px solid var(--border); border-top: none; padding: 24px 22px; }
+    .report-type { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
 
     /* Stock identity */
-    .stock-header {
-      margin-bottom: 20px;
-      padding-bottom: 20px;
-      border-bottom: 1px solid var(--border-light);
-    }
+    .stock-header { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light); }
+    .company-name { font-family: var(--serif); font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--text); margin-bottom: 12px; }
+    .price-row { display: flex; gap: 28px; flex-wrap: wrap; }
+    .price-item-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+    .price-item-val { font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--text); }
+    .price-item-val.big { font-size: 26px; }
+    .price-currency { font-size: 14px; color: var(--text-muted); }
+    .sector-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .sector-pill { font-size: 11px; font-weight: 500; color: var(--text-sec); background: var(--bg); border: 1px solid var(--border); border-radius: 2px; padding: 2px 8px; }
 
-    .company-name {
-      font-family: var(--serif);
-      font-size: 24px;
-      font-weight: 700;
-      line-height: 1.2;
-      color: var(--text);
-      margin-bottom: 12px;
-    }
-
-    .price-row {
-      display: flex;
-      gap: 28px;
-      flex-wrap: wrap;
-    }
-
-    .price-item-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 2px;
-    }
-
-    .price-item-val {
-      font-family: var(--mono);
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .price-item-val.big {
-      font-size: 26px;
-    }
-
-    .price-currency {
-      font-size: 14px;
-      color: var(--text-muted);
-    }
-
-    /* Sector pills */
-    .sector-pills {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .sector-pill {
-      font-size: 11px;
-      font-weight: 500;
-      color: var(--text-sec);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 2px 8px;
-    }
-
-
-    /* ─────────────────────────────────────────
-       VERDICT BOX
-    ───────────────────────────────────────── */
+    /* VERDICT BOX */
     .verdict-box {
-      border: 1px solid var(--green-border);
       background: var(--green-bg);
+      border: 1px solid var(--green-border);
       border-radius: 3px;
-      padding: 16px 18px;
+      padding: 22px 24px;
+      display: flex;
+      gap: 24px;
+      align-items: center;
       margin-bottom: 20px;
     }
-
-    .verdict-box.caution {
-      border-color: #fcd34d;
-      background: var(--amber-bg);
+    .verdict-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid var(--green-border);
+      padding-right: 24px;
+      min-width: 110px;
+      flex-shrink: 0;
+      gap: 5px;
     }
-
-    .verdict-box.neutral {
-      border-color: var(--accent-border);
-      background: var(--accent-light);
-    }
-
-    .verdict-eyebrow {
-      font-size: 11px;
+    .verdict-target-label {
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 6px;
+      color: var(--green-mid);
+      text-align: center;
     }
-
-    .verdict-eyebrow.neutral {
-      color: var(--accent);
-    }
-
-    .verdict-headline {
-      font-family: var(--serif);
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 1.4;
-      color: var(--text);
-      margin-bottom: 8px;
-    }
-
-    .verdict-body {
-      font-size: 13px;
-      line-height: 1.7;
-      color: var(--text-sec);
-    }
-
-    /* Inline number emphasis within verdict */
-    .vnum-target { font-weight: 700; color: var(--accent); }
-    .vnum-market { font-weight: 700; color: var(--text); }
-    .vnum-green  { font-weight: 700; color: var(--green); }
-
-
-    /* ─────────────────────────────────────────
-       MODEL SUMMARY (valuation rows)
-    ───────────────────────────────────────── */
-    .model-intro {
-      font-size: 11px;
-      color: var(--text-muted);
-      line-height: 1.6;
-      margin: 16px 0 10px;
-    }
-
-    .model-list {}
-
-    .model-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 7px 0;
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .model-row:last-child {
-      border-bottom: none;
-    }
-
-    .model-name {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-sec);
-      width: 130px;
-      min-width: 130px;
-    }
-
-    .model-bar {
-      flex: 1;
-    }
-
-    .mini-track {
-      height: 3px;
-      background: var(--border-light);
-      border-radius: 1px;
-      overflow: hidden;
-    }
-
-    .mini-fill {
-      height: 3px;
-      border-radius: 1px;
-      background: var(--accent);
-      opacity: 0.4;
-    }
-
-    .model-val {
+    .verdict-price {
       font-family: var(--mono);
-      font-size: 13px;
+      font-size: 36px;
       font-weight: 600;
-      width: 60px;
-      text-align: right;
+      color: var(--green);
+      line-height: 1;
     }
+    .verdict-price-currency { font-size: 16px; font-weight: 400; }
+    .verdict-right { flex: 1; min-width: 0; }
+    .verdict-body { font-size: 13px; line-height: 1.7; color: var(--text-sec); }
+    .vnum-target { font-weight: 700; color: var(--accent); }
+    .vnum-market { font-family: var(--mono); font-weight: 600; color: var(--text); }
+    .vnum-green  { font-weight: 700; color: var(--green); }
+    .vnum-stat   { font-weight: 700; color: var(--green-mid); }
 
-    .model-status {
-      font-size: 11px;
-      font-weight: 700;
-      width: 80px;
-      text-align: right;
-      letter-spacing: 0.02em;
-    }
-
+    /* MODEL SUMMARY */
+    .model-intro { font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 16px 0 10px; }
+    .model-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border-light); }
+    .model-row:last-child { border-bottom: none; }
+    .model-name { font-size: 13px; font-weight: 500; color: var(--text-sec); width: 130px; min-width: 130px; }
+    .model-bar { flex: 1; }
+    .mini-track { height: 3px; background: var(--border-light); border-radius: 1px; overflow: hidden; }
+    .mini-fill { height: 3px; border-radius: 1px; background: var(--accent); opacity: 0.4; }
+    .model-val { font-family: var(--mono); font-size: 13px; font-weight: 600; width: 60px; text-align: right; }
+    .model-status { font-size: 11px; font-weight: 700; width: 80px; text-align: right; letter-spacing: 0.02em; }
     .model-status.over  { color: var(--red); }
     .model-status.under { color: var(--green); }
 
+    /* SECTIONS */
+    .section { background: var(--surface); border: 1px solid var(--border); border-top: none; }
+    .section-head { padding: 11px 22px 9px; border-bottom: 1px solid var(--border-light); }
+    .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-sec); }
+    .section-body { padding: 18px 22px; }
 
-    /* ─────────────────────────────────────────
-       SECTIONS
-    ───────────────────────────────────────── */
-    .section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: none;
-    }
+    /* KEY NUMBERS */
+    .key-numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+    .kn-item { padding: 12px 14px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 2px; }
+    .kn-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+    .kn-val { font-family: var(--mono); font-size: 18px; font-weight: 500; line-height: 1; color: var(--text); }
+    .co-desc { font-size: 13px; line-height: 1.7; color: var(--text-sec); }
+    .co-desc p + p { margin-top: 8px; }
 
-    .section-head {
-      padding: 11px 22px 9px;
-      border-bottom: 1px solid var(--border-light);
-    }
-
-    .section-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-sec);
-    }
-
-    .section-body {
-      padding: 18px 22px;
-    }
-
-
-    /* ─────────────────────────────────────────
-       KEY NUMBERS GRID
-    ───────────────────────────────────────── */
-    .key-numbers {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .kn-item {
-      padding: 12px 14px;
-      background: var(--bg);
-      border: 1px solid var(--border-light);
-      border-radius: 2px;
-    }
-
-    .kn-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .kn-val {
-      font-family: var(--mono);
-      font-size: 18px;
-      font-weight: 500;
-      line-height: 1;
-      color: var(--text);
-    }
-
-    /* Company description */
-    .co-desc {
-      font-size: 13px;
-      line-height: 1.7;
-      color: var(--text-sec);
-    }
-
-    .co-desc p + p {
-      margin-top: 8px;
-    }
-
-
-    /* ─────────────────────────────────────────
-       DATA TABLES
-    ───────────────────────────────────────── */
-    .dt {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-
-    .dt + .dt {
-      margin-top: 14px;
-    }
-
-    .dt th {
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      padding: 7px 10px;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--text-sec);
-      white-space: nowrap;
-      text-align: right;
-    }
-
-    .dt th:first-child {
-      text-align: left;
-    }
-
-    .dt td {
-      padding: 7px 10px;
-      border-bottom: 1px solid var(--border-light);
-      vertical-align: middle;
-      text-align: right;
-      font-family: var(--mono);
-      font-size: 13px;
-    }
-
-    .dt td:first-child {
-      text-align: left;
-      font-family: var(--sans);
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .dt tr:last-child td  { border-bottom: none; }
-    .dt tr:hover td       { background: #fafbfc; }
-
-    /* Row variants */
-    .dt-hl td      { background: var(--accent-light) !important; color: var(--accent) !important; font-weight: 600; }
+    /* DATA TABLES */
+    .dt { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .dt + .dt { margin-top: 14px; }
+    .dt th { background: var(--bg); border-bottom: 1px solid var(--border); padding: 7px 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-sec); white-space: nowrap; text-align: right; }
+    .dt th:first-child { text-align: left; }
+    .dt td { padding: 7px 10px; border-bottom: 1px solid var(--border-light); vertical-align: middle; text-align: right; font-family: var(--mono); font-size: 13px; }
+    .dt td:first-child { text-align: left; font-family: var(--sans); font-weight: 500; color: var(--text); }
+    .dt tr:last-child td { border-bottom: none; }
+    .dt tr:hover td { background: #fafbfc; }
+    .dt-hl td { background: var(--accent-light) !important; color: var(--accent) !important; font-weight: 600; }
     .dt-subject td { background: var(--bg) !important; font-weight: 600; }
-    .dt-avg td     { background: var(--bg) !important; color: var(--text-sec) !important; font-weight: 600; }
+    .dt-avg td { background: var(--bg) !important; color: var(--text-sec) !important; font-weight: 600; }
 
-
-    /* ─────────────────────────────────────────
-       ANALYST COVERAGE
-    ───────────────────────────────────────── */
-    .analyst-flex {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      margin-bottom: 14px;
-    }
-
-    .analyst-bars {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .abar {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .abar-lbl {
-      font-size: 11px;
-      color: var(--text-sec);
-      width: 40px;
-      min-width: 40px;
-    }
-
-    .abar-track {
-      flex: 1;
-      height: 5px;
-      background: var(--border-light);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .abar-fill {
-      height: 5px;
-      border-radius: 2px;
-    }
-
+    /* ANALYST COVERAGE */
+    .analyst-flex { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 14px; }
+    .analyst-bars { flex: 1; min-width: 0; }
+    .abar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .abar-lbl { font-size: 11px; color: var(--text-sec); width: 40px; min-width: 40px; }
+    .abar-track { flex: 1; height: 5px; background: var(--border-light); border-radius: 2px; overflow: hidden; }
+    .abar-fill { height: 5px; border-radius: 2px; }
     .abar-fill.buy  { background: var(--green); }
     .abar-fill.hold { background: var(--amber); }
     .abar-fill.sell { background: var(--red); }
+    .abar-n { font-family: var(--mono); font-size: 11px; font-weight: 500; width: 18px; text-align: right; }
+    .consensus-box { border: 1px solid var(--border); border-radius: 2px; padding: 10px 14px; text-align: center; min-width: 110px; }
+    .con-lbl { font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+    .con-val { font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--green); }
+    .con-sub { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+    .con-price { font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--text); }
+    .con-upside { font-size: 10px; color: var(--green); margin-top: 1px; }
 
-    .abar-n {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
-      width: 18px;
-      text-align: right;
-    }
+    /* METHODOLOGY */
+    .method-list { display: flex; flex-direction: column; gap: 16px; }
+    .method-item-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .method-item-body { font-size: 12px; line-height: 1.7; color: var(--text-sec); }
 
-    .consensus-box {
-      border: 1px solid var(--border);
-      border-radius: 2px;
-      padding: 10px 14px;
-      text-align: center;
-      min-width: 110px;
-    }
+    /* CTA */
+    .cta-box { display: flex; justify-content: space-between; align-items: center; gap: 16px; background: var(--accent); border-radius: 2px; padding: 20px 22px; margin-bottom: 1px; }
+    .cta-title { font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .cta-sub { font-size: 10px; color: rgba(255,255,255,0.65); }
+    .cta-btn { flex-shrink: 0; white-space: nowrap; padding: 8px 16px; border-radius: 2px; border: 1.5px solid rgba(255,255,255,0.4); background: transparent; color: #fff; font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; cursor: pointer; }
 
-    .con-lbl {
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 2px;
-    }
-
-    .con-val {
-      font-family: var(--mono);
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--green);
-    }
-
-    .con-sub {
-      font-size: 10px;
-      color: var(--text-muted);
-      margin-top: 1px;
-    }
-
-    .con-price {
-      font-family: var(--mono);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text);
-    }
-
-    .con-upside {
-      font-size: 10px;
-      color: var(--green);
-      margin-top: 1px;
-    }
-
-
-    /* ─────────────────────────────────────────
-       METHODOLOGY
-    ───────────────────────────────────────── */
-    .method-list {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .method-item-title {
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-
-    .method-item-body {
-      font-size: 12px;
-      line-height: 1.7;
-      color: var(--text-sec);
-    }
-
-
-    /* ─────────────────────────────────────────
-       CTA
-    ───────────────────────────────────────── */
-    .cta-box {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 16px;
-      background: var(--accent);
-      border-radius: 2px;
-      padding: 20px 22px;
-      margin-bottom: 1px;
-    }
-
-    .cta-title {
-      font-family: var(--serif);
-      font-size: 13px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-
-    .cta-sub {
-      font-size: 10px;
-      color: rgba(255, 255, 255, 0.65);
-    }
-
-    .cta-btn {
-      flex-shrink: 0;
-      white-space: nowrap;
-      padding: 8px 16px;
-      border-radius: 2px;
-      border: 1.5px solid rgba(255, 255, 255, 0.4);
-      background: transparent;
-      color: #fff;
-      font-family: var(--sans);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.01em;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-
-    /* ─────────────────────────────────────────
-       FOOTER
-    ───────────────────────────────────────── */
-    .footer {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-top: none;
-      border-radius: 0 0 3px 3px;
-      padding: 14px 22px;
-    }
-
-    .disclaimer {
-      font-size: 10px;
-      line-height: 1.65;
-      color: var(--text-muted);
-    }
-
+    /* FOOTER */
+    .footer { background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 3px 3px; padding: 14px 22px; }
+    .disclaimer { font-size: 10px; line-height: 1.65; color: var(--text-muted); }
     .disclaimer p + p { margin-top: 8px; }
+    .disclaimer a { color: var(--text-muted); text-decoration: underline; }
 
-    .disclaimer a {
-      color: var(--text-muted);
-      text-decoration: underline;
-    }
-
-
-    /* ─────────────────────────────────────────
-       UTILITIES
-    ───────────────────────────────────────── */
-    .divider {
-      height: 1px;
-      background: var(--border-light);
-      margin: 14px 0;
-    }
-
-    .sub-head {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-sec);
-      margin-top: 16px;
-      margin-bottom: 8px;
-    }
-
+    /* UTILITIES */
+    .divider { height: 1px; background: var(--border-light); margin: 14px 0; }
+    .sub-head { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-sec); margin-top: 16px; margin-bottom: 8px; }
     .sub-head:first-child { margin-top: 0; }
-
     .pos { color: var(--green); }
     .neg { color: var(--red); }
 
-
-    /* ─────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────── */
     @media (max-width: 520px) {
       .report-body  { padding: 18px; }
       .key-numbers  { grid-template-columns: repeat(2, 1fr); }
       .section-body { overflow-x: auto; }
       .dt           { min-width: 540px; }
+      .verdict-box  { flex-direction: column; }
+      .verdict-left { border-right: none; border-bottom: 1px solid var(--green-border); padding-right: 0; padding-bottom: 16px; width: 100%; }
     }
 
   </style>
@@ -726,13 +254,15 @@
     </div>
 
     <!-- Verdict -->
-    <div class="verdict-box neutral">
-      <div class="verdict-eyebrow neutral">Fair Value</div>
-      <div class="verdict-headline">BCE is trading within 1% of Stockcalc's estimated fair value of $32.75.</div>
-      <div class="verdict-body">
-        Our model targets BCE at <span class="vnum-green">$32.75</span> versus a market price of
-        <span class="vnum-market">$32.53</span> &mdash; a <span class="vnum-green">&#9650; 0.7%</span> discount.
-        Historically, our target for BCE is reached <strong>79%</strong> of the time within <strong>12 months</strong>.
+    <div class="verdict-box">
+      <div class="verdict-left">
+        <div class="verdict-target-label">Price target</div>
+        <div class="verdict-price"><span class="verdict-price-currency">$</span>32.75</div>
+      </div>
+      <div class="verdict-right">
+        <div class="verdict-body">
+          Stockcalc valuation targets BCE at <span class="vnum-target">$32.75</span> versus a market price of <span class="vnum-market">$32.53</span>. This means it is trading at a <span class="vnum-green">$0.22 discount (&#9650;&thinsp;0.7%)</span>. Historically, our target for BCE is reached <span class="vnum-stat">79% of the time within 12 months</span>.
+        </div>
       </div>
     </div>
 
@@ -764,35 +294,15 @@
 
   <!-- COMPANY OVERVIEW -->
   <div class="section">
-    <div class="section-head">
-      <div class="section-title">Company Overview</div>
-    </div>
+    <div class="section-head"><div class="section-title">Company Overview</div></div>
     <div class="section-body">
       <div class="key-numbers">
-        <div class="kn-item">
-          <div class="kn-label">Market Cap</div>
-          <div class="kn-val">$30.0B</div>
-        </div>
-        <div class="kn-item">
-          <div class="kn-label">P/E Ratio</div>
-          <div class="kn-val">76.95</div>
-        </div>
-        <div class="kn-item">
-          <div class="kn-label">EPS</div>
-          <div class="kn-val">$2.01</div>
-        </div>
-        <div class="kn-item">
-          <div class="kn-label">Dividend Yield</div>
-          <div class="kn-val">5.38%</div>
-        </div>
-        <div class="kn-item">
-          <div class="kn-label">Shares Out.</div>
-          <div class="kn-val">921.8M</div>
-        </div>
-        <div class="kn-item">
-          <div class="kn-label">Beta</div>
-          <div class="kn-val">0.60</div>
-        </div>
+        <div class="kn-item"><div class="kn-label">Market Cap</div><div class="kn-val">$30.0B</div></div>
+        <div class="kn-item"><div class="kn-label">P/E Ratio</div><div class="kn-val">76.95</div></div>
+        <div class="kn-item"><div class="kn-label">EPS</div><div class="kn-val">$2.01</div></div>
+        <div class="kn-item"><div class="kn-label">Dividend Yield</div><div class="kn-val">5.38%</div></div>
+        <div class="kn-item"><div class="kn-label">Shares Out.</div><div class="kn-val">921.8M</div></div>
+        <div class="kn-item"><div class="kn-label">Beta</div><div class="kn-val">0.60</div></div>
       </div>
       <div class="co-desc">
         <p>BCE is both a wireless and internet service provider, offering wireless, broadband, television, and landline phone services in Canada. It is one of the big three national wireless carriers, with its roughly 10 million customers constituting about 30% of the market.</p>
@@ -804,19 +314,12 @@
 
   <!-- DISCOUNTED CASH FLOW -->
   <div class="section">
-    <div class="section-head">
-      <div class="section-title">Discounted Cash Flow</div>
-    </div>
+    <div class="section-head"><div class="section-title">Discounted Cash Flow</div></div>
     <div class="section-body">
       <table class="dt">
         <thead>
           <tr>
-            <th>Variable</th>
-            <th>Current Value</th>
-            <th>Dropped 1%</th>
-            <th>Dropped 5%</th>
-            <th>Raised 1%</th>
-            <th>Raised 5%</th>
+            <th>Variable</th><th>Current Value</th><th>Dropped 1%</th><th>Dropped 5%</th><th>Raised 1%</th><th>Raised 5%</th>
           </tr>
         </thead>
         <tbody>
@@ -835,19 +338,12 @@
 
   <!-- COMPARABLES -->
   <div class="section">
-    <div class="section-head">
-      <div class="section-title">Comparables</div>
-    </div>
+    <div class="section-head"><div class="section-title">Comparables</div></div>
     <div class="section-body">
       <div class="sub-head">Model Inputs</div>
       <table class="dt">
         <thead>
-          <tr>
-            <th>BCE</th>
-            <th>End of Date Value</th>
-            <th>Price Based on Comparables</th>
-            <th>Adjustment Factor (%)</th>
-          </tr>
+          <tr><th>BCE</th><th>End of Date Value</th><th>Price Based on Comparables</th><th>Adjustment Factor (%)</th></tr>
         </thead>
         <tbody>
           <tr><td>Earnings / Share</td>   <td>$0.18</td>  <td>$3.31</td>                <td>0</td></tr>
@@ -861,16 +357,14 @@
       <div class="sub-head">Peer Group</div>
       <table class="dt">
         <thead>
-          <tr>
-            <th>Company</th><th>Ticker</th><th>P/E</th><th>P/B</th><th>P/S</th><th>P/CF</th>
-          </tr>
+          <tr><th>Company</th><th>Ticker</th><th>P/E</th><th>P/B</th><th>P/S</th><th>P/CF</th></tr>
         </thead>
         <tbody>
-          <tr class="dt-subject"><td>BCE Inc.</td>             <td>BCE</td>   <td>21.60</td><td>2.94</td><td>2.12</td><td>5.99</td></tr>
-          <tr><td>Quebecor Inc.</td>          <td>QBR.A</td> <td>11.87</td><td>4.17</td><td>3.32</td><td>9.80</td></tr>
-          <tr><td>Rogers Communications</td>  <td>RCI.A</td> <td>14.85</td><td>2.44</td><td>1.26</td><td>5.00</td></tr>
-          <tr><td>TELUS Corporation</td>      <td>T</td>     <td>28.39</td><td>2.18</td><td>1.67</td><td>7.90</td></tr>
-          <tr class="dt-avg"><td>Average</td> <td></td>      <td>18.37</td><td>2.93</td><td>2.08</td><td>7.57</td></tr>
+          <tr class="dt-subject"><td>BCE Inc.</td>            <td>BCE</td>   <td>21.60</td><td>2.94</td><td>2.12</td><td>5.99</td></tr>
+          <tr><td>Quebecor Inc.</td>         <td>QBR.A</td> <td>11.87</td><td>4.17</td><td>3.32</td><td>9.80</td></tr>
+          <tr><td>Rogers Communications</td> <td>RCI.A</td> <td>14.85</td><td>2.44</td><td>1.26</td><td>5.00</td></tr>
+          <tr><td>TELUS Corporation</td>     <td>T</td>     <td>28.39</td><td>2.18</td><td>1.67</td><td>7.90</td></tr>
+          <tr class="dt-avg"><td>Average</td><td></td>      <td>18.37</td><td>2.93</td><td>2.08</td><td>7.57</td></tr>
         </tbody>
       </table>
     </div>
@@ -879,15 +373,11 @@
 
   <!-- MULTIPLES -->
   <div class="section">
-    <div class="section-head">
-      <div class="section-title">Multiples</div>
-    </div>
+    <div class="section-head"><div class="section-title">Multiples</div></div>
     <div class="section-body">
       <table class="dt">
         <thead>
-          <tr>
-            <th>Metric</th><th>BCE Value</th><th>Historic Ratio Avg</th><th>Implied Price</th>
-          </tr>
+          <tr><th>Metric</th><th>BCE Value</th><th>Historic Ratio Avg</th><th>Implied Price</th></tr>
         </thead>
         <tbody>
           <tr><td>Earnings / Share</td>   <td>$0.18</td>  <td>28.29</td><td>$5.09</td></tr>
@@ -904,9 +394,7 @@
 
   <!-- ADJUSTED BOOK VALUE -->
   <div class="section">
-    <div class="section-head">
-      <div class="section-title">Adjusted Book Value</div>
-    </div>
+    <div class="section-head"><div class="section-title">Adjusted Book Value</div></div>
     <div class="section-body">
       <table class="dt">
         <thead>
@@ -926,16 +414,14 @@
 
   <!-- ANALYST COVERAGE -->
   <div class="section">
-    <div class="section-head">
-      <div class="section-title">Analyst Coverage</div>
-    </div>
+    <div class="section-head"><div class="section-title">Analyst Coverage</div></div>
     <div class="section-body">
       <div class="analyst-flex">
         <div class="analyst-bars">
           <div class="sub-head">Breakdown</div>
           <div class="abar">
             <div class="abar-lbl">Buy</div>
-            <div class="abar-track"><div class="abar-fill buy"  style="width:100%"></div></div>
+            <div class="abar-track"><div class="abar-fill buy" style="width:100%"></div></div>
             <div class="abar-n">1</div>
           </div>
           <div class="abar">
@@ -963,12 +449,7 @@
       <table class="dt">
         <thead>
           <tr>
-            <th>Year</th>
-            <th>Mean EPS</th>
-            <th># Analysts</th>
-            <th>Mean Revenue (CAD M)</th>
-            <th># Analysts</th>
-            <th>Mean Target</th>
+            <th>Year</th><th>Mean EPS</th><th># Analysts</th><th>Mean Revenue (CAD M)</th><th># Analysts</th><th>Mean Target</th>
           </tr>
         </thead>
         <tbody>
@@ -983,9 +464,7 @@
 
   <!-- ABOUT THE MODELS -->
   <div class="section">
-    <div class="section-head">
-      <div class="section-title">About the Models</div>
-    </div>
+    <div class="section-head"><div class="section-title">About the Models</div></div>
     <div class="section-body">
       <div class="method-list">
         <div>
