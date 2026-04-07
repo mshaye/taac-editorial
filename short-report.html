@@ -4,21 +4,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BCE — Valuation Report | Stockcalc</title>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet"
+  >
   <style>
 
-    /* ── DESIGN TOKENS ── */
+    /* ─────────────────────────────────────────
+       DESIGN TOKENS
+    ───────────────────────────────────────── */
     :root {
+      /* Backgrounds */
       --bg:            #f2f4f6;
       --surface:       #ffffff;
+
+      /* Borders */
       --border:        #d4d8dd;
       --border-light:  #e8ebee;
+
+      /* Text */
       --text:          #111418;
       --text-sec:      #5a6270;
       --text-muted:    #8c95a0;
+
+      /* Accent (brand navy) */
       --accent:        #122462;
       --accent-light:  #edf0f7;
       --accent-border: #bcc5dc;
+
+      /* Semantic colours */
       --green:         #15803d;
       --green-bg:      #f0fdf4;
       --green-border:  #bbf7d0;
@@ -26,43 +40,61 @@
       --red-bg:        #fef2f2;
       --amber:         #b45309;
       --amber-bg:      #fffbeb;
-      --serif:         'Libre Baskerville', Georgia, serif;
-      --mono:          'IBM Plex Mono', monospace;
-      --sans:          'IBM Plex Sans', sans-serif;
+
+      /* Type stacks */
+      --serif: 'Libre Baskerville', Georgia, serif;
+      --mono:  'IBM Plex Mono', monospace;
+      --sans:  'IBM Plex Sans', sans-serif;
     }
 
-    /* ── RESET ── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ── BASE ── */
+    /* ─────────────────────────────────────────
+       RESET
+    ───────────────────────────────────────── */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    /* ─────────────────────────────────────────
+       BASE
+    ───────────────────────────────────────── */
     body {
       font-family: var(--sans);
       font-size: 14px;
+      line-height: 1.5;
       color: var(--text);
       background: var(--bg);
       padding: 28px 16px 56px;
-      line-height: 1.5;
     }
+
     .page {
       max-width: 720px;
       margin: 0 auto;
       zoom: 1.25;
     }
 
-    /* ── HEADER BAR ── */
+
+    /* ─────────────────────────────────────────
+       HEADER BAR
+    ───────────────────────────────────────── */
     .header-bar {
+      position: relative;
+      overflow: hidden;
       background: var(--accent);
       padding: 10px 22px;
       border-radius: 3px 3px 0 0;
-      position: relative;
-      overflow: hidden;
     }
+
     .header-bar-bg {
       position: absolute;
       inset: 0;
       opacity: 0.07;
       pointer-events: none;
     }
+
     .header-bar-inner {
       position: relative;
       z-index: 1;
@@ -70,6 +102,7 @@
       justify-content: space-between;
       align-items: center;
     }
+
     .sc-wordmark {
       font-family: var(--mono);
       font-size: 16px;
@@ -77,15 +110,23 @@
       color: #fff;
       letter-spacing: -0.01em;
     }
-    .sc-wordmark span { font-weight: 400; opacity: .6; }
+
+    .sc-wordmark span {
+      font-weight: 400;
+      opacity: 0.6;
+    }
+
     .header-date {
       font-family: var(--mono);
       font-size: 11px;
-      color: rgba(255,255,255,.6);
-      letter-spacing: .04em;
+      color: rgba(255, 255, 255, 0.6);
+      letter-spacing: 0.04em;
     }
 
-    /* ── REPORT BODY (stock header area) ── */
+
+    /* ─────────────────────────────────────────
+       REPORT BODY (stock header area)
+    ───────────────────────────────────────── */
     .report-body {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -93,22 +134,22 @@
       padding: 24px 22px;
     }
 
-    /* Report type label */
     .report-type {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: .1em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-muted);
       margin-bottom: 8px;
     }
 
-    /* Stock identity block */
+    /* Stock identity */
     .stock-header {
       margin-bottom: 20px;
       padding-bottom: 20px;
       border-bottom: 1px solid var(--border-light);
     }
+
     .company-name {
       font-family: var(--serif);
       font-size: 24px;
@@ -117,25 +158,46 @@
       color: var(--text);
       margin-bottom: 12px;
     }
-    .ticker-row {
+
+    .price-row {
       display: flex;
-      align-items: center;
-      gap: 12px;
+      gap: 28px;
       flex-wrap: wrap;
-      margin-bottom: 12px;
     }
-    .ticker-badge {
+
+    .price-item-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .price-item-val {
       font-family: var(--mono);
-      font-size: 13px;
+      font-size: 18px;
       font-weight: 500;
-      color: var(--text-sec);
-      background: var(--bg);
-      border: 1px solid var(--border);
-      padding: 2px 10px;
-      border-radius: 2px;
+      color: var(--text);
     }
-    .sector-tag { font-size: 13px; color: var(--text-muted); }
-    .sector-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+
+    .price-item-val.big {
+      font-size: 26px;
+    }
+
+    .price-currency {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* Sector pills */
+    .sector-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
     .sector-pill {
       font-size: 11px;
       font-weight: 500;
@@ -145,24 +207,11 @@
       border-radius: 2px;
       padding: 2px 8px;
     }
-    .price-row  { display: flex; gap: 28px; flex-wrap: wrap; }
-    .price-item-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 2px;
-    }
-    .price-item-val {
-      font-family: var(--mono);
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--text);
-    }
-    .price-item-val.big { font-size: 26px; }
 
-    /* Verdict box */
+
+    /* ─────────────────────────────────────────
+       VERDICT BOX
+    ───────────────────────────────────────── */
     .verdict-box {
       border: 1px solid var(--green-border);
       background: var(--green-bg);
@@ -170,115 +219,63 @@
       padding: 16px 18px;
       margin-bottom: 20px;
     }
+
     .verdict-box.caution {
       border-color: #fcd34d;
       background: var(--amber-bg);
     }
+
     .verdict-box.neutral {
       border-color: var(--accent-border);
       background: var(--accent-light);
     }
+
     .verdict-eyebrow {
       font-size: 11px;
       font-weight: 700;
-      letter-spacing: .1em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--green);
       margin-bottom: 6px;
     }
-    .verdict-eyebrow.neutral { color: var(--accent); }
+
+    .verdict-eyebrow.neutral {
+      color: var(--accent);
+    }
+
     .verdict-headline {
       font-family: var(--serif);
       font-size: 16px;
       font-weight: 700;
-      color: var(--text);
       line-height: 1.4;
+      color: var(--text);
       margin-bottom: 8px;
     }
+
     .verdict-body {
       font-size: 13px;
-      color: var(--text-sec);
       line-height: 1.7;
+      color: var(--text-sec);
     }
+
+    /* Inline number emphasis within verdict */
     .vnum-target { font-weight: 700; color: var(--accent); }
     .vnum-market { font-weight: 700; color: var(--text); }
     .vnum-green  { font-weight: 700; color: var(--green); }
 
-    /* ── SECTIONS ── */
-    .section {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-top: none;
-    }
-    .section-head {
-      padding: 11px 22px 9px;
-      border-bottom: 1px solid var(--border-light);
-    }
-    .section-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--text-sec);
-    }
-    .section-body  { padding: 18px 22px; }
-    .section-note {
+
+    /* ─────────────────────────────────────────
+       MODEL SUMMARY (valuation rows)
+    ───────────────────────────────────────── */
+    .model-intro {
       font-size: 11px;
       color: var(--text-muted);
       line-height: 1.6;
-      margin-bottom: 14px;
+      margin: 16px 0 10px;
     }
 
-    /* ── KEY NUMBERS GRID ── */
-    .key-numbers {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-    .kn-item {
-      padding: 12px 14px;
-      background: var(--bg);
-      border: 1px solid var(--border-light);
-      border-radius: 2px;
-    }
-    .kn-label {
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-    .kn-val {
-      font-family: var(--mono);
-      font-size: 18px;
-      font-weight: 500;
-      color: var(--text);
-      line-height: 1;
-    }
+    .model-list {}
 
-    /* Company description */
-    .co-desc { font-size: 13px; color: var(--text-sec); line-height: 1.7; }
-    .co-desc p + p { margin-top: 8px; }
-
-    /* ── HELPERS ── */
-    .divider { height: 1px; background: var(--border-light); margin: 14px 0; }
-    .sub-head {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--text-sec);
-      margin-top: 16px;
-      margin-bottom: 8px;
-    }
-    .sub-head:first-child { margin-top: 0; }
-    .pos { color: var(--green); }
-    .neg { color: var(--red); }
-
-    /* ── MODEL ROWS (valuation summary) ── */
-    .model-list { margin-bottom: 0; }
     .model-row {
       display: flex;
       align-items: center;
@@ -286,32 +283,160 @@
       padding: 7px 0;
       border-bottom: 1px solid var(--border-light);
     }
-    .model-row:last-child { border-bottom: none; }
-    .model-name   { font-size: 13px; font-weight: 500; color: var(--text-sec); width: 130px; min-width: 130px; }
-    .model-bar    { flex: 1; }
-    .mini-track   { height: 3px; background: var(--border-light); border-radius: 1px; overflow: hidden; }
-    .mini-fill    { height: 3px; border-radius: 1px; background: var(--accent); opacity: .4; }
-    .model-val    { font-family: var(--mono); font-size: 13px; font-weight: 600; width: 60px; text-align: right; }
-    .model-status { font-size: 11px; font-weight: 700; width: 80px; text-align: right; letter-spacing: .02em; }
+
+    .model-row:last-child {
+      border-bottom: none;
+    }
+
+    .model-name {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-sec);
+      width: 130px;
+      min-width: 130px;
+    }
+
+    .model-bar {
+      flex: 1;
+    }
+
+    .mini-track {
+      height: 3px;
+      background: var(--border-light);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+
+    .mini-fill {
+      height: 3px;
+      border-radius: 1px;
+      background: var(--accent);
+      opacity: 0.4;
+    }
+
+    .model-val {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      width: 60px;
+      text-align: right;
+    }
+
+    .model-status {
+      font-size: 11px;
+      font-weight: 700;
+      width: 80px;
+      text-align: right;
+      letter-spacing: 0.02em;
+    }
+
     .model-status.over  { color: var(--red); }
     .model-status.under { color: var(--green); }
 
-    /* ── DATA TABLES ── */
-    .dt { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .dt + .dt { margin-top: 14px; }
+
+    /* ─────────────────────────────────────────
+       SECTIONS
+    ───────────────────────────────────────── */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: none;
+    }
+
+    .section-head {
+      padding: 11px 22px 9px;
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-sec);
+    }
+
+    .section-body {
+      padding: 18px 22px;
+    }
+
+
+    /* ─────────────────────────────────────────
+       KEY NUMBERS GRID
+    ───────────────────────────────────────── */
+    .key-numbers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .kn-item {
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border-light);
+      border-radius: 2px;
+    }
+
+    .kn-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .kn-val {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 1;
+      color: var(--text);
+    }
+
+    /* Company description */
+    .co-desc {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-sec);
+    }
+
+    .co-desc p + p {
+      margin-top: 8px;
+    }
+
+
+    /* ─────────────────────────────────────────
+       DATA TABLES
+    ───────────────────────────────────────── */
+    .dt {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .dt + .dt {
+      margin-top: 14px;
+    }
+
     .dt th {
       background: var(--bg);
       border-bottom: 1px solid var(--border);
       padding: 7px 10px;
       font-size: 10px;
       font-weight: 700;
-      letter-spacing: .07em;
+      letter-spacing: 0.07em;
       text-transform: uppercase;
       color: var(--text-sec);
       white-space: nowrap;
       text-align: right;
     }
-    .dt th:first-child { text-align: left; }
+
+    .dt th:first-child {
+      text-align: left;
+    }
+
     .dt td {
       padding: 7px 10px;
       border-bottom: 1px solid var(--border-light);
@@ -320,47 +445,158 @@
       font-family: var(--mono);
       font-size: 13px;
     }
-    .dt td:first-child  { text-align: left; font-family: var(--sans); color: var(--text); font-weight: 500; }
-    .dt tr:last-child td { border-bottom: none; }
-    .dt tr:hover td     { background: #fafbfc; }
+
+    .dt td:first-child {
+      text-align: left;
+      font-family: var(--sans);
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .dt tr:last-child td  { border-bottom: none; }
+    .dt tr:hover td       { background: #fafbfc; }
+
+    /* Row variants */
     .dt-hl td      { background: var(--accent-light) !important; color: var(--accent) !important; font-weight: 600; }
     .dt-subject td { background: var(--bg) !important; font-weight: 600; }
     .dt-avg td     { background: var(--bg) !important; color: var(--text-sec) !important; font-weight: 600; }
 
-    /* ── ANALYST ── */
-    .analyst-flex  { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 14px; }
-    .analyst-bars  { flex: 1; min-width: 0; }
-    .abar          { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    .abar-lbl      { font-size: 11px; color: var(--text-sec); width: 40px; min-width: 40px; }
-    .abar-track    { flex: 1; height: 5px; background: var(--border-light); border-radius: 2px; overflow: hidden; }
-    .abar-fill     { height: 5px; border-radius: 2px; }
+
+    /* ─────────────────────────────────────────
+       ANALYST COVERAGE
+    ───────────────────────────────────────── */
+    .analyst-flex {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .analyst-bars {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .abar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .abar-lbl {
+      font-size: 11px;
+      color: var(--text-sec);
+      width: 40px;
+      min-width: 40px;
+    }
+
+    .abar-track {
+      flex: 1;
+      height: 5px;
+      background: var(--border-light);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .abar-fill {
+      height: 5px;
+      border-radius: 2px;
+    }
+
     .abar-fill.buy  { background: var(--green); }
     .abar-fill.hold { background: var(--amber); }
     .abar-fill.sell { background: var(--red); }
-    .abar-n         { font-family: var(--mono); font-size: 11px; font-weight: 500; width: 18px; text-align: right; }
-    .consensus-box  { border: 1px solid var(--border); border-radius: 2px; padding: 10px 14px; text-align: center; min-width: 110px; }
-    .con-lbl        { font-size: 9px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
-    .con-val        { font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--green); }
-    .con-sub        { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
-    .con-price      { font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--text); }
-    .con-upside     { font-size: 10px; color: var(--green); margin-top: 1px; }
 
-    /* ── METHODOLOGY ── */
-    .method-list       { display: flex; flex-direction: column; gap: 16px; }
-    .method-item-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
-    .method-item-body  { font-size: 12px; color: var(--text-sec); line-height: 1.7; }
+    .abar-n {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      width: 18px;
+      text-align: right;
+    }
 
-    /* ── CTA ── */
-    .cta-box {
-      background: var(--accent);
+    .consensus-box {
+      border: 1px solid var(--border);
       border-radius: 2px;
-      padding: 20px 22px;
+      padding: 10px 14px;
+      text-align: center;
+      min-width: 110px;
+    }
+
+    .con-lbl {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .con-val {
+      font-family: var(--mono);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--green);
+    }
+
+    .con-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 1px;
+    }
+
+    .con-price {
+      font-family: var(--mono);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .con-upside {
+      font-size: 10px;
+      color: var(--green);
+      margin-top: 1px;
+    }
+
+
+    /* ─────────────────────────────────────────
+       METHODOLOGY
+    ───────────────────────────────────────── */
+    .method-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .method-item-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .method-item-body {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--text-sec);
+    }
+
+
+    /* ─────────────────────────────────────────
+       CTA
+    ───────────────────────────────────────── */
+    .cta-box {
       display: flex;
       justify-content: space-between;
       align-items: center;
       gap: 16px;
+      background: var(--accent);
+      border-radius: 2px;
+      padding: 20px 22px;
       margin-bottom: 1px;
     }
+
     .cta-title {
       font-family: var(--serif);
       font-size: 13px;
@@ -368,35 +604,87 @@
       color: #fff;
       margin-bottom: 4px;
     }
-    .cta-sub   { font-size: 10px; color: rgba(255,255,255,.65); }
+
+    .cta-sub {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
     .cta-btn {
+      flex-shrink: 0;
       white-space: nowrap;
       padding: 8px 16px;
       border-radius: 2px;
-      border: 1.5px solid rgba(255,255,255,.4);
+      border: 1.5px solid rgba(255, 255, 255, 0.4);
       background: transparent;
       color: #fff;
       font-family: var(--sans);
       font-size: 10px;
       font-weight: 600;
-      cursor: pointer;
-      flex-shrink: 0;
-      letter-spacing: .01em;
+      letter-spacing: 0.01em;
       text-decoration: none;
+      cursor: pointer;
     }
 
-    /* ── FOOTER ── */
-    .footer            { background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 3px 3px; padding: 14px 22px; }
-    .disclaimer        { font-size: 10px; color: var(--text-muted); line-height: 1.65; }
-    .disclaimer p + p  { margin-top: 8px; }
-    .disclaimer a      { color: var(--text-muted); text-decoration: underline; }
 
-    /* ── RESPONSIVE ── */
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+    .footer {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 3px 3px;
+      padding: 14px 22px;
+    }
+
+    .disclaimer {
+      font-size: 10px;
+      line-height: 1.65;
+      color: var(--text-muted);
+    }
+
+    .disclaimer p + p { margin-top: 8px; }
+
+    .disclaimer a {
+      color: var(--text-muted);
+      text-decoration: underline;
+    }
+
+
+    /* ─────────────────────────────────────────
+       UTILITIES
+    ───────────────────────────────────────── */
+    .divider {
+      height: 1px;
+      background: var(--border-light);
+      margin: 14px 0;
+    }
+
+    .sub-head {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-sec);
+      margin-top: 16px;
+      margin-bottom: 8px;
+    }
+
+    .sub-head:first-child { margin-top: 0; }
+
+    .pos { color: var(--green); }
+    .neg { color: var(--red); }
+
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
     @media (max-width: 520px) {
-      .report-body      { padding: 18px; }
-      .key-numbers      { grid-template-columns: repeat(2, 1fr); }
-      .section-body     { overflow-x: auto; }
-      .dt               { min-width: 540px; }
+      .report-body  { padding: 18px; }
+      .key-numbers  { grid-template-columns: repeat(2, 1fr); }
+      .section-body { overflow-x: auto; }
+      .dt           { min-width: 540px; }
     }
 
   </style>
@@ -404,7 +692,7 @@
 <body>
 <div class="page">
 
-  <!-- ── HEADER BAR ── -->
+  <!-- HEADER BAR -->
   <div class="header-bar">
     <svg class="header-bar-bg" viewBox="0 0 700 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
       <polyline points="0,38 40,30 80,34 120,22 160,28 200,18 240,24 280,14 320,20 360,10 400,16 440,8 480,18 520,12 560,22 600,10 640,18 700,8" fill="none" stroke="white" stroke-width="1.5"/>
@@ -416,7 +704,7 @@
     </div>
   </div>
 
-  <!-- ── REPORT BODY ── -->
+  <!-- REPORT BODY -->
   <div class="report-body">
 
     <div class="report-type">Valuation Report</div>
@@ -427,10 +715,11 @@
       <div class="price-row">
         <div class="price-item">
           <div class="price-item-label">Close price</div>
-          <div class="price-item-val big">$32.53 <span style="font-size:14px;color:var(--text-muted)">CAD</span></div>
+          <div class="price-item-val big">$32.53 <span class="price-currency">CAD</span></div>
         </div>
       </div>
       <div class="sector-pills">
+        <span class="sector-pill">TSX</span>
         <span class="sector-pill">Communication Services</span>
         <span class="sector-pill">Telecom Services</span>
       </div>
@@ -440,11 +729,15 @@
     <div class="verdict-box neutral">
       <div class="verdict-eyebrow neutral">Fair Value</div>
       <div class="verdict-headline">BCE is trading within 1% of Stockcalc's estimated fair value of $32.75.</div>
-      <div class="verdict-body">Our model targets BCE at <span class="vnum-green">$32.75</span> versus a market price of <span class="vnum-market">$32.53</span> &mdash; a <span class="vnum-green">&#9650; 0.7%</span> discount. Historically, our target for BCE is reached <strong>79%</strong> of the time within <strong>12 months</strong>.</div>
+      <div class="verdict-body">
+        Our model targets BCE at <span class="vnum-green">$32.75</span> versus a market price of
+        <span class="vnum-market">$32.53</span> &mdash; a <span class="vnum-green">&#9650; 0.7%</span> discount.
+        Historically, our target for BCE is reached <strong>79%</strong> of the time within <strong>12 months</strong>.
+      </div>
     </div>
 
-    <!-- Model summary — flows organically below verdict -->
-    <p class="section-note" style="margin-top:16px;margin-bottom:10px;">StockCalc generates a weighted average valuation using BCE's Financial Statements and up to three independent valuation models.</p>
+    <!-- Model summary -->
+    <p class="model-intro">StockCalc generates a weighted average valuation using BCE's Financial Statements and up to three independent valuation models.</p>
     <div class="model-list">
       <div class="model-row">
         <div class="model-name">Discounted Cash</div>
@@ -469,7 +762,7 @@
   </div><!-- /.report-body -->
 
 
-  <!-- ── COMPANY OVERVIEW ── -->
+  <!-- COMPANY OVERVIEW -->
   <div class="section">
     <div class="section-head">
       <div class="section-title">Company Overview</div>
@@ -509,7 +802,7 @@
   </div>
 
 
-  <!-- ── DISCOUNTED CASH FLOW ── -->
+  <!-- DISCOUNTED CASH FLOW -->
   <div class="section">
     <div class="section-head">
       <div class="section-title">Discounted Cash Flow</div>
@@ -531,7 +824,7 @@
           <tr><td>Terminal Growth Rate</td> <td>0%</td>      <td class="pos">$22.65</td> <td>&mdash;</td>            <td class="neg">$53.41</td> <td>&mdash;</td></tr>
           <tr><td>Tax Rate</td>             <td>60.61%</td>  <td>&mdash;</td>            <td class="pos">$44.05</td> <td>&mdash;</td>            <td class="neg">$25.45</td></tr>
           <tr><td>Cash Flow</td>            <td>$8.06B</td>  <td>&mdash;</td>            <td class="neg">$31.09</td> <td>&mdash;</td>            <td class="pos">$38.41</td></tr>
-          <tr><td>Capital Expenditures</td> <td>0</td>       <td>&mdash;</td>            <td>$34.75</td>            <td>&mdash;</td>            <td>$34.75</td></tr>
+          <tr><td>Capital Expenditures</td> <td>0</td>       <td>&mdash;</td>            <td>$34.75</td>             <td>&mdash;</td>            <td>$34.75</td></tr>
           <tr><td>Long-Term Debt</td>       <td>$33.87B</td> <td>&mdash;</td>            <td class="pos">$32.91</td> <td>&mdash;</td>            <td class="neg">$36.59</td></tr>
           <tr class="dt-hl"><td>Valuation</td><td>$34.75</td><td></td><td></td><td></td><td></td></tr>
         </tbody>
@@ -540,7 +833,7 @@
   </div>
 
 
-  <!-- ── COMPARABLES ── -->
+  <!-- COMPARABLES -->
   <div class="section">
     <div class="section-head">
       <div class="section-title">Comparables</div>
@@ -573,18 +866,18 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="dt-subject"><td>BCE Inc.</td>            <td>BCE</td>   <td>21.60</td><td>2.94</td><td>2.12</td><td>5.99</td></tr>
-          <tr><td>Quebecor Inc.</td>         <td>QBR.A</td> <td>11.87</td><td>4.17</td><td>3.32</td><td>9.80</td></tr>
-          <tr><td>Rogers Communications</td> <td>RCI.A</td> <td>14.85</td><td>2.44</td><td>1.26</td><td>5.00</td></tr>
-          <tr><td>TELUS Corporation</td>     <td>T</td>     <td>28.39</td><td>2.18</td><td>1.67</td><td>7.90</td></tr>
-          <tr class="dt-avg"><td>Average</td><td></td>      <td>18.37</td><td>2.93</td><td>2.08</td><td>7.57</td></tr>
+          <tr class="dt-subject"><td>BCE Inc.</td>             <td>BCE</td>   <td>21.60</td><td>2.94</td><td>2.12</td><td>5.99</td></tr>
+          <tr><td>Quebecor Inc.</td>          <td>QBR.A</td> <td>11.87</td><td>4.17</td><td>3.32</td><td>9.80</td></tr>
+          <tr><td>Rogers Communications</td>  <td>RCI.A</td> <td>14.85</td><td>2.44</td><td>1.26</td><td>5.00</td></tr>
+          <tr><td>TELUS Corporation</td>      <td>T</td>     <td>28.39</td><td>2.18</td><td>1.67</td><td>7.90</td></tr>
+          <tr class="dt-avg"><td>Average</td> <td></td>      <td>18.37</td><td>2.93</td><td>2.08</td><td>7.57</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
 
-  <!-- ── MULTIPLES ── -->
+  <!-- MULTIPLES -->
   <div class="section">
     <div class="section-head">
       <div class="section-title">Multiples</div>
@@ -609,7 +902,7 @@
   </div>
 
 
-  <!-- ── ADJUSTED BOOK VALUE ── -->
+  <!-- ADJUSTED BOOK VALUE -->
   <div class="section">
     <div class="section-head">
       <div class="section-title">Adjusted Book Value</div>
@@ -631,7 +924,7 @@
   </div>
 
 
-  <!-- ── ANALYST COVERAGE ── -->
+  <!-- ANALYST COVERAGE -->
   <div class="section">
     <div class="section-head">
       <div class="section-title">Analyst Coverage</div>
@@ -670,8 +963,12 @@
       <table class="dt">
         <thead>
           <tr>
-            <th>Year</th><th>Mean EPS</th><th># Analysts</th>
-            <th>Mean Revenue (CAD M)</th><th># Analysts</th><th>Mean Target</th>
+            <th>Year</th>
+            <th>Mean EPS</th>
+            <th># Analysts</th>
+            <th>Mean Revenue (CAD M)</th>
+            <th># Analysts</th>
+            <th>Mean Target</th>
           </tr>
         </thead>
         <tbody>
@@ -684,7 +981,7 @@
   </div>
 
 
-  <!-- ── ABOUT THE MODELS ── -->
+  <!-- ABOUT THE MODELS -->
   <div class="section">
     <div class="section-head">
       <div class="section-title">About the Models</div>
@@ -724,7 +1021,7 @@
   </div>
 
 
-  <!-- ── CTA ── -->
+  <!-- CTA -->
   <div class="cta-box">
     <div>
       <div class="cta-title">Stock valuation is our passion.</div>
@@ -733,7 +1030,7 @@
     <a class="cta-btn" href="https://www.stockcalc.com">www.stockcalc.com</a>
   </div>
 
-  <!-- ── FOOTER ── -->
+  <!-- FOOTER -->
   <div class="footer">
     <div class="disclaimer">
       <p>Risk Disclosure: Equities trading and trading of all markets, exchanges and instruments contains substantial risk and is not for every investor. An investor could potentially lose all or more than the initial investment. Risk capital is money that can be lost without jeopardizing ones' financial security or life style. Only risk capital should be used for trading and only those with sufficient risk capital should consider trading. Past performance is not necessarily indicative of future results. View full risk information <a href="https://www.stockcalc.com/Disclaimer.html">here</a>.</p>
