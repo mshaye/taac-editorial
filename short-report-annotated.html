@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- STOCKCALC: <title> — format: "{company_name} — Valuation Report | Stockcalc" -->
+  <title>BCE — Valuation Report | Stockcalc</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+    rel="stylesheet"
+  >
+  <style>
+
+    /* ─────────────────────────────────────────
+       DESIGN TOKENS — DO NOT MODIFY
+       All colours, fonts, and spacing are Globe/Stockcalc brand.
+       Ask Mike Shaye (Globe) before changing any value here.
+    ───────────────────────────────────────── */
+    :root {
+      --bg:            #f2f4f6;
+      --surface:       #ffffff;
+      --border:        #d4d8dd;
+      --border-light:  #e8ebee;
+      --text:          #111418;
+      --text-sec:      #5a6270;
+      --text-muted:    #8c95a0;
+      --accent:        #122462;       /* Stockcalc navy — brand primary */
+      --accent-light:  #edf0f7;
+      --accent-border: #bcc5dc;
+      --green:         #15803d;
+      --green-bg:      #f0fdf4;
+      --green-border:  #bbf7d0;
+      --green-mid:     #166534;
+      --red:           #b91c1c;
+      --red-bg:        #fef2f2;
+      --amber:         #b45309;
+      --amber-bg:      #fffbeb;
+      --serif: 'Libre Baskerville', Georgia, serif;
+      --mono:  'IBM Plex Mono', monospace;
+      --sans:  'IBM Plex Sans', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      font-size: 14px;
+      line-height: 1.5;
+      color: var(--text);
+      background: var(--bg);
+      padding: 28px 16px 56px;
+    }
+
+    .page { max-width: 720px; margin: 0 auto; zoom: 1.25; }
+
+    /* HEADER BAR */
+    .header-bar {
+      position: relative;
+      overflow: hidden;
+      background: var(--accent);
+      padding: 10px 22px;
+      border-radius: 3px 3px 0 0;
+    }
+    .header-bar-bg { position: absolute; inset: 0; opacity: 0.07; pointer-events: none; }
+    .header-bar-inner { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; }
+    .sc-wordmark { font-family: var(--mono); font-size: 16px; font-weight: 600; color: #fff; letter-spacing: -0.01em; }
+    .sc-wordmark span { font-weight: 400; opacity: 0.6; }
+    .header-date { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; }
+
+    /* REPORT BODY */
+    .report-body { background: var(--surface); border: 1px solid var(--border); border-top: none; padding: 24px 22px; }
+    .report-type { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+
+    /* Stock identity */
+    .stock-header { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light); }
+    .company-name { font-family: var(--serif); font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--text); margin-bottom: 12px; }
+    .price-row { display: flex; gap: 28px; flex-wrap: wrap; }
+    .price-item-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+    .price-item-val { font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--text); }
+    .price-item-val.big { font-size: 26px; }
+    .price-currency { font-size: 14px; color: var(--text-muted); }
+    .sector-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+    .sector-pill { font-size: 11px; font-weight: 500; color: var(--text-sec); background: var(--bg); border: 1px solid var(--border); border-radius: 2px; padding: 2px 8px; }
+
+    /* VERDICT BOX */
+    /*
+      STOCKCALC NOTE — Verdict box background/border:
+        Undervalued (WAV > close_price) → use --green-bg / --green-border (current)
+        Overvalued  (WAV < close_price) → swap to --red-bg  / a red border variant
+      This colour swap applies to the entire .verdict-box, .verdict-left border,
+      .verdict-target-label, .verdict-price, .vnum-green spans, and the
+      .verdict-price colour below.
+    */
+    .verdict-box {
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      border-radius: 3px;
+      padding: 22px 24px;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .verdict-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-right: 1px solid var(--green-border);
+      padding-right: 24px;
+      min-width: 110px;
+      flex-shrink: 0;
+      gap: 5px;
+    }
+    .verdict-target-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      text-align: center;
+    }
+    .verdict-price {
+      font-family: var(--mono);
+      font-size: 36px;
+      font-weight: 600;
+      color: var(--green);
+      line-height: 1;
+    }
+    .verdict-price-currency { font-size: 16px; font-weight: 400; }
+    .verdict-right { flex: 1; min-width: 0; }
+    .verdict-body { font-size: 13px; line-height: 1.7; color: var(--text-sec); }
+    .vnum-target { font-weight: 700; color: var(--accent); }
+    .vnum-market { font-family: var(--mono); font-weight: 600; color: var(--text); }
+    .vnum-green  { font-weight: 700; color: var(--green); }
+    .vnum-stat   { font-weight: 700; color: var(--green-mid); }
+
+    /* MODEL SUMMARY */
+    .model-intro { font-size: 11px; color: var(--text-muted); line-height: 1.6; margin: 16px 0 10px; }
+    .model-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border-light); }
+    .model-row:last-child { border-bottom: none; }
+    .model-name { font-size: 13px; font-weight: 500; color: var(--text-sec); width: 130px; min-width: 130px; }
+    .model-bar { flex: 1; }
+    .mini-track { height: 3px; background: var(--border-light); border-radius: 1px; overflow: hidden; }
+    .mini-fill { height: 3px; border-radius: 1px; background: var(--accent); opacity: 0.4; }
+    .model-val { font-family: var(--mono); font-size: 13px; font-weight: 600; width: 60px; text-align: right; }
+    .model-status { font-size: 11px; font-weight: 700; width: 80px; text-align: right; letter-spacing: 0.02em; }
+    .model-status.over  { color: var(--red); }
+    .model-status.under { color: var(--green); }
+
+    /* SECTIONS */
+    .section { background: var(--surface); border: 1px solid var(--border); border-top: none; }
+    .section-head { padding: 11px 22px 9px; border-bottom: 1px solid var(--border-light); }
+    .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-sec); }
+    .section-body { padding: 18px 22px; }
+
+    /* KEY NUMBERS */
+    .key-numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
+    .kn-item { padding: 12px 14px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 2px; }
+    .kn-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+    .kn-val { font-family: var(--mono); font-size: 18px; font-weight: 500; line-height: 1; color: var(--text); }
+    .co-desc { font-size: 13px; line-height: 1.7; color: var(--text-sec); }
+    .co-desc p + p { margin-top: 8px; }
+
+    /* DATA TABLES */
+    .dt { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .dt + .dt { margin-top: 14px; }
+    .dt th { background: var(--bg); border-bottom: 1px solid var(--border); padding: 7px 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-sec); white-space: nowrap; text-align: right; }
+    .dt th:first-child { text-align: left; }
+    .dt td { padding: 7px 10px; border-bottom: 1px solid var(--border-light); vertical-align: middle; text-align: right; font-family: var(--mono); font-size: 13px; }
+    .dt td:first-child { text-align: left; font-family: var(--sans); font-weight: 500; color: var(--text); }
+    .dt tr:last-child td { border-bottom: none; }
+    .dt tr:hover td { background: #fafbfc; }
+    .dt-hl td { background: var(--accent-light) !important; color: var(--accent) !important; font-weight: 600; }
+    .dt-subject td { background: var(--bg) !important; font-weight: 600; }
+    .dt-avg td { background: var(--bg) !important; color: var(--text-sec) !important; font-weight: 600; }
+
+    /* ANALYST COVERAGE */
+    .analyst-flex { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 14px; }
+    .analyst-bars { flex: 1; min-width: 0; }
+    .abar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    .abar-lbl { font-size: 11px; color: var(--text-sec); width: 40px; min-width: 40px; }
+    .abar-track { flex: 1; height: 5px; background: var(--border-light); border-radius: 2px; overflow: hidden; }
+    .abar-fill { height: 5px; border-radius: 2px; }
+    .abar-fill.buy  { background: var(--green); }
+    .abar-fill.hold { background: var(--amber); }
+    .abar-fill.sell { background: var(--red); }
+    .abar-n { font-family: var(--mono); font-size: 11px; font-weight: 500; width: 18px; text-align: right; }
+    .consensus-box { border: 1px solid var(--border); border-radius: 2px; padding: 10px 14px; text-align: center; min-width: 110px; }
+    .con-lbl { font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+    .con-val { font-family: var(--mono); font-size: 16px; font-weight: 600; color: var(--green); }
+    .con-sub { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+    .con-price { font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--text); }
+    .con-upside { font-size: 10px; color: var(--green); margin-top: 1px; }
+
+    /* METHODOLOGY */
+    .method-list { display: flex; flex-direction: column; gap: 16px; }
+    .method-item-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+    .method-item-body { font-size: 12px; line-height: 1.7; color: var(--text-sec); }
+
+    /* CTA */
+    .cta-box { display: flex; justify-content: space-between; align-items: center; gap: 16px; background: var(--accent); border-radius: 2px; padding: 20px 22px; margin-bottom: 1px; }
+    .cta-title { font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .cta-sub { font-size: 10px; color: rgba(255,255,255,0.65); }
+    .cta-btn { flex-shrink: 0; white-space: nowrap; padding: 8px 16px; border-radius: 2px; border: 1.5px solid rgba(255,255,255,0.4); background: transparent; color: #fff; font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; cursor: pointer; }
+
+    /* FOOTER */
+    .footer { background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 3px 3px; padding: 14px 22px; }
+    .disclaimer { font-size: 10px; line-height: 1.65; color: var(--text-muted); }
+    .disclaimer p + p { margin-top: 8px; }
+    .disclaimer a { color: var(--text-muted); text-decoration: underline; }
+
+    /* UTILITIES */
+    .divider { height: 1px; background: var(--border-light); margin: 14px 0; }
+    .sub-head { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-sec); margin-top: 16px; margin-bottom: 8px; }
+    .sub-head:first-child { margin-top: 0; }
+    .pos { color: var(--green); }
+    .neg { color: var(--red); }
+
+    @media (max-width: 520px) {
+      .report-body  { padding: 18px; }
+      .key-numbers  { grid-template-columns: repeat(2, 1fr); }
+      .section-body { overflow-x: auto; }
+      .dt           { min-width: 540px; }
+      .verdict-box  { flex-direction: column; }
+      .verdict-left { border-right: none; border-bottom: 1px solid var(--green-border); padding-right: 0; padding-bottom: 16px; width: 100%; }
+    }
+
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HEADER BAR
+  ════════════════════════════════════════════════════════════ -->
+  <div class="header-bar">
+    <!-- Decorative SVG lines — static, no data binding needed -->
+    <svg class="header-bar-bg" viewBox="0 0 700 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="0,38 40,30 80,34 120,22 160,28 200,18 240,24 280,14 320,20 360,10 400,16 440,8 480,18 520,12 560,22 600,10 640,18 700,8" fill="none" stroke="white" stroke-width="1.5"/>
+      <polyline points="0,44 50,36 100,40 150,28 200,34 250,24 300,30 350,18 400,26 450,14 500,22 550,16 600,28 650,18 700,24" fill="none" stroke="white" stroke-width="1"/>
+    </svg>
+    <div class="header-bar-inner">
+      <!-- Stockcalc wordmark — static, no data binding -->
+      <div class="sc-wordmark">stock<span>calc</span></div>
+      <!-- STOCKCALC: report_date — format "Month DD, YYYY" (e.g. "August 01, 2025") -->
+      <div class="header-date">August 01, 2025</div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       REPORT BODY
+       Top portion of the card: identity, verdict, model summary.
+  ════════════════════════════════════════════════════════════ -->
+  <div class="report-body">
+
+    <!-- "VALUATION REPORT" label — static string, no data binding -->
+    <div class="report-type">Valuation Report</div>
+
+    <!-- ── STOCK IDENTITY ────────────────────────────────────── -->
+    <div class="stock-header">
+
+      <!-- STOCKCALC: company_name + ticker — format "{company_name} ({ticker})"
+           e.g. "BCE Inc. (BCE)" -->
+      <div class="company-name">BCE Inc. (BCE)</div>
+
+      <div class="price-row">
+        <div class="price-item">
+          <div class="price-item-label">Close price</div>
+          <!-- STOCKCALC: close_price — most recent EOD closing price.
+               Format: "${close_price} " followed by currency code in .price-currency span.
+               Example: "$32.53 CAD" -->
+          <div class="price-item-val big">$32.53 <span class="price-currency">CAD</span></div>
+          <!--                            ↑ close_price          ↑ currency -->
+        </div>
+      </div>
+
+      <div class="sector-pills">
+        <!-- STOCKCALC: exchange — short code, e.g. "TSX" or "NYSE" -->
+        <span class="sector-pill">TSX</span>
+        <!-- STOCKCALC: sector — GICS sector name, e.g. "Communication Services" -->
+        <span class="sector-pill">Communication Services</span>
+        <!-- STOCKCALC: industry — GICS industry name, e.g. "Telecom Services" -->
+        <span class="sector-pill">Telecom Services</span>
+      </div>
+    </div>
+
+
+    <!-- ── VERDICT BOX ───────────────────────────────────────────
+         Conditional styling: when WAV > close_price the box is green (current).
+         When WAV < close_price swap to red variant — see CSS note above.
+    ─────────────────────────────────────────────────────────── -->
+    <div class="verdict-box">
+      <div class="verdict-left">
+        <!-- "Price target" label — static string -->
+        <div class="verdict-target-label">Price target</div>
+        <!-- STOCKCALC: wav_price — weighted average valuation output.
+             Format: "$" prefix + two decimal places. e.g. "$32.75" -->
+        <div class="verdict-price"><span class="verdict-price-currency">$</span>32.75</div>
+        <!--                                                              ↑ wav_price -->
+      </div>
+      <div class="verdict-right">
+        <div class="verdict-body">
+          <!-- STOCKCALC: the following sentence is templated. Substitute each value:
+               [wav_price]       = weighted average valuation, e.g. "$32.75"
+               [close_price]     = EOD close price, e.g. "$32.53"
+               [abs_gap]         = abs(wav_price − close_price), e.g. "$0.22"
+               [direction_word]  = "discount" if wav > close, "premium" if wav < close
+               [pct_gap]         = abs gap as % of close price, 1 decimal, e.g. "0.7%"
+               [arrow]           = "▲" if undervalued, "▼" if overvalued
+               [ticker]          = ticker symbol, e.g. "BCE"
+               [accuracy_pct]    = historical accuracy percentage, whole number, e.g. "79"
+          -->
+          Stockcalc valuation targets BCE at <strong>$32.75</strong> versus a market price of <strong>$32.53</strong>. This means it is trading at a <span class="vnum-green"><strong>$0.22</strong></span> discount (<span class="vnum-green"><strong>&#9650;&thinsp;0.7%</strong></span>). Historically, our target for BCE is reached <strong>79% of the time within 12 months</strong>.
+          <!--                                        ↑ wav_price              ↑ close_price                                                  ↑ abs_gap     ↑ direction                ↑ arrow  ↑ pct_gap                              ↑ ticker          ↑ accuracy_pct -->
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ── MODEL SUMMARY ─────────────────────────────────────────
+         Static intro sentence with ticker interpolated.
+         Model rows are rendered in a loop — include only models active for this company.
+         The mini progress bar width is: (model_price / (close_price * 1.5)) * 100 — approximate visual only.
+         "Undervalued" / "Overvalued" class: use .under when model_price > close_price, .over when less.
+    ─────────────────────────────────────────────────────────── -->
+
+    <!-- STOCKCALC: ticker appears inline — "using {company_name}'s Financial Statements" -->
+    <p class="model-intro">StockCalc generates a weighted average valuation using BCE's Financial Statements and up to three independent valuation models.</p>
+    <!--                                                                              ↑ company_name -->
+
+    <div class="model-list">
+
+      <!-- STOCKCALC: Model row 1 — render only if DCF model is active for this company -->
+      <!-- model_name: "Discounted Cash" (short label — keep this truncation) -->
+      <!-- dcf_valuation: model output price -->
+      <!-- verdict: .under + "Undervalued" if dcf_valuation > close_price; .over + "Overvalued" if less -->
+      <div class="model-row">
+        <div class="model-name">Discounted Cash</div>
+        <!-- mini-fill width: computed visual approximation, see note above -->
+        <div class="model-bar"><div class="mini-track"><div class="mini-fill" style="width:42%"></div></div></div>
+        <!--                                                                           ↑ computed % -->
+        <div class="model-val">$34.75</div>
+        <!--                    ↑ dcf_valuation -->
+        <div class="model-status under">Undervalued</div>
+        <!--                   ↑ class        ↑ string — both driven by dcf_valuation vs close_price -->
+      </div>
+
+      <!-- STOCKCALC: Model row 2 — render only if Comparables model is active for this company -->
+      <div class="model-row">
+        <div class="model-name">Comparables</div>
+        <div class="model-bar"><div class="mini-track"><div class="mini-fill" style="width:26%"></div></div></div>
+        <div class="model-val">$28.92</div>
+        <!--                    ↑ comparables_valuation -->
+        <div class="model-status over">Overvalued</div>
+        <!--                   ↑ class        ↑ string — both driven by comparables_valuation vs close_price -->
+      </div>
+
+      <!-- STOCKCALC: Model row 3 — render only if Multiples model is active for this company -->
+      <div class="model-row">
+        <div class="model-name">Multiples</div>
+        <div class="model-bar"><div class="mini-track"><div class="mini-fill" style="width:41%"></div></div></div>
+        <div class="model-val">$34.42</div>
+        <!--                    ↑ multiples_valuation -->
+        <div class="model-status under">Undervalued</div>
+      </div>
+
+      <!-- STOCKCALC: If ABV is one of the active models instead of the above, add a 4th row here.
+           The design supports up to 3 rows — confirm model selection logic with Stockcalc. -->
+
+    </div>
+
+  </div><!-- /.report-body -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       COMPANY OVERVIEW
+  ════════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-head"><div class="section-title">Company Overview</div></div>
+    <div class="section-body">
+
+      <!-- Key numbers grid — 6 cells, 3 columns -->
+      <div class="key-numbers">
+
+        <!-- STOCKCALC: market_cap — display in billions, 1 decimal. e.g. "$30.0B"
+             Raw source likely in dollars or millions — divide accordingly. -->
+        <div class="kn-item"><div class="kn-label">Market Cap</div><div class="kn-val">$30.0B</div></div>
+
+        <!-- STOCKCALC: pe_ratio — trailing P/E. 2 decimal places. -->
+        <div class="kn-item"><div class="kn-label">P/E Ratio</div><div class="kn-val">76.95</div></div>
+
+        <!-- STOCKCALC: eps — earnings per share. Format: "$X.XX" -->
+        <div class="kn-item"><div class="kn-label">EPS</div><div class="kn-val">$2.01</div></div>
+
+        <!-- STOCKCALC: dividend_yield — as percentage. Format: "X.XX%" -->
+        <div class="kn-item"><div class="kn-label">Dividend Yield</div><div class="kn-val">5.38%</div></div>
+
+        <!-- STOCKCALC: shares_outstanding — display in millions, 1 decimal. e.g. "921.8M"
+             NOTE: ABV section uses 912.3M — confirm which source field is authoritative. -->
+        <div class="kn-item"><div class="kn-label">Shares Out.</div><div class="kn-val">921.8M</div></div>
+
+        <!-- STOCKCALC: beta — 2 decimal places. -->
+        <div class="kn-item"><div class="kn-label">Beta</div><div class="kn-val">0.60</div></div>
+
+      </div>
+
+      <!-- STOCKCALC: company_description — long-form text, plain text or HTML paragraphs.
+           Render as one or more <p> tags inside .co-desc.
+           Source: static company metadata from Stockcalc database. -->
+      <div class="co-desc">
+        <p>BCE is both a wireless and internet service provider, offering wireless, broadband, television, and landline phone services in Canada. It is one of the big three national wireless carriers, with its roughly 10 million customers constituting about 30% of the market.</p>
+        <p>BCE is also the incumbent local exchange carrier throughout much of the eastern half of Canada, including Ontario and Quebec. Additionally, BCE has a media segment holding television, radio, and digital media assets, including Canadian rights to HBO, Showtime, and Starz.</p>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       DISCOUNTED CASH FLOW
+       STOCKCALC: Render this section only if DCF is one of the active models.
+  ════════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-head"><div class="section-title">Discounted Cash Flow</div></div>
+    <div class="section-body">
+      <table class="dt">
+        <thead>
+          <tr>
+            <!-- Column headers — static strings, no data binding -->
+            <th>Variable</th><th>Current Value</th><th>Dropped 1%</th><th>Dropped 5%</th><th>Raised 1%</th><th>Raised 5%</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- STOCKCALC: Row — WACC
+               dcf_wacc                  = current value, e.g. "4.69%"
+               dcf_sensitivity_wacc_d1   = implied price when WACC drops 1pp (.pos class)
+               dcf_sensitivity_wacc_u1   = implied price when WACC raises 1pp (.neg class)
+               "—" cells: WACC sensitivity uses 1% steps, not 5%, so Dropped/Raised 5% cols are blank -->
+          <tr>
+            <td>WACC (or Ke)</td>
+            <td>4.69%</td>                         <!-- dcf_wacc -->
+            <td class="pos">$55.22</td>             <!-- dcf_sensitivity_wacc_d1 -->
+            <td>&mdash;</td>                        <!-- no 5% sensitivity for WACC -->
+            <td class="neg">$21.48</td>             <!-- dcf_sensitivity_wacc_u1 -->
+            <td>&mdash;</td>
+          </tr>
+
+          <!-- STOCKCALC: Row — Terminal Growth Rate
+               dcf_terminal_growth_rate  = current value, e.g. "0%"
+               dcf_sensitivity_tgr_d1    = implied price when TGR drops 1pp (.pos class)
+               dcf_sensitivity_tgr_u1    = implied price when TGR raises 1pp (.neg class) -->
+          <tr>
+            <td>Terminal Growth Rate</td>
+            <td>0%</td>                             <!-- dcf_terminal_growth_rate -->
+            <td class="pos">$22.65</td>             <!-- dcf_sensitivity_tgr_d1 -->
+            <td>&mdash;</td>
+            <td class="neg">$53.41</td>             <!-- dcf_sensitivity_tgr_u1 -->
+            <td>&mdash;</td>
+          </tr>
+
+          <!-- STOCKCALC: Row — Tax Rate
+               dcf_tax_rate              = current value, e.g. "60.61%"
+               dcf_sensitivity_tax_d5    = implied price when tax drops 5pp (.pos class)
+               dcf_sensitivity_tax_u5    = implied price when tax raises 5pp (.neg class) -->
+          <tr>
+            <td>Tax Rate</td>
+            <td>60.61%</td>                         <!-- dcf_tax_rate -->
+            <td>&mdash;</td>
+            <td class="pos">$44.05</td>             <!-- dcf_sensitivity_tax_d5 -->
+            <td>&mdash;</td>
+            <td class="neg">$25.45</td>             <!-- dcf_sensitivity_tax_u5 -->
+          </tr>
+
+          <!-- STOCKCALC: Row — Cash Flow
+               dcf_cash_flow             = current value in billions, e.g. "$8.06B"
+               dcf_sensitivity_cf_d5     = implied price when CF drops 5% (.neg class — lower CF = lower price)
+               dcf_sensitivity_cf_u5     = implied price when CF raises 5% (.pos class) -->
+          <tr>
+            <td>Cash Flow</td>
+            <td>$8.06B</td>                         <!-- dcf_cash_flow (display in billions) -->
+            <td>&mdash;</td>
+            <td class="neg">$31.09</td>             <!-- dcf_sensitivity_cf_d5 -->
+            <td>&mdash;</td>
+            <td class="pos">$38.41</td>             <!-- dcf_sensitivity_cf_u5 -->
+          </tr>
+
+          <!-- STOCKCALC: Row — Capital Expenditures
+               dcf_capex                 = current value. If 0, display "0".
+               dcf_sensitivity_capex_d5  = implied price when CapEx drops 5%
+               dcf_sensitivity_capex_u5  = implied price when CapEx raises 5%
+               NOTE: Both sensitivity cells show $34.75 here because CapEx = 0 (no effect). -->
+          <tr>
+            <td>Capital Expenditures</td>
+            <td>0</td>                              <!-- dcf_capex -->
+            <td>&mdash;</td>
+            <td>$34.75</td>                         <!-- dcf_sensitivity_capex_d5 -->
+            <td>&mdash;</td>
+            <td>$34.75</td>                         <!-- dcf_sensitivity_capex_u5 -->
+          </tr>
+
+          <!-- STOCKCALC: Row — Long-Term Debt
+               dcf_long_term_debt        = current value in billions, e.g. "$33.87B"
+               dcf_sensitivity_debt_d5   = implied price when debt drops 5% (.pos class — less debt = higher value)
+               dcf_sensitivity_debt_u5   = implied price when debt raises 5% (.neg class) -->
+          <tr>
+            <td>Long-Term Debt</td>
+            <td>$33.87B</td>                        <!-- dcf_long_term_debt (display in billions) -->
+            <td>&mdash;</td>
+            <td class="pos">$32.91</td>             <!-- dcf_sensitivity_debt_d5 -->
+            <td>&mdash;</td>
+            <td class="neg">$36.59</td>             <!-- dcf_sensitivity_debt_u5 -->
+          </tr>
+
+          <!-- STOCKCALC: Highlighted row — DCF base valuation output
+               dcf_valuation = final model output, e.g. "$34.75"
+               Same value as the "Discounted Cash" model card in the hero above. -->
+          <tr class="dt-hl">
+            <td>Valuation</td>
+            <td>$34.75</td>                         <!-- dcf_valuation -->
+            <td></td><td></td><td></td><td></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       COMPARABLES
+       STOCKCALC: Render this section only if Comparables is one of the active models.
+  ════════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-head"><div class="section-title">Comparables</div></div>
+    <div class="section-body">
+
+      <div class="sub-head">Model Inputs</div>
+      <!-- STOCKCALC: The first column header is the subject company ticker symbol. -->
+      <table class="dt">
+        <thead>
+          <tr>
+            <!-- STOCKCALC: first <th> content = ticker symbol -->
+            <th>BCE</th>
+            <th>End of Date Value</th>
+            <th>Price Based on Comparables</th>
+            <th>Adjustment Factor (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- STOCKCALC: Each row = one financial ratio used in the Comparables model.
+               Columns: row label (static) | EOD value | price based on comps | adjustment factor
+               All adjustment factors for BCE are 0 — but this field is data-driven, not hardcoded. -->
+
+          <!-- comp_eps_eod | comp_price_eps | comp_adj_eps -->
+          <tr><td>Earnings / Share</td>   <td>$0.18</td>  <td>$3.31</td>                <td>0</td></tr>
+
+          <!-- comp_bvps_eod | comp_price_bvps | comp_adj_bvps -->
+          <tr><td>Book Value / Share</td> <td>$0.00</td>  <td>$0.00</td>                <td>0</td></tr>
+
+          <!-- comp_sps_eod | comp_price_sps | comp_adj_sps -->
+          <tr><td>Sales / Share</td>      <td>$26.18</td> <td>$54.53</td>               <td>0</td></tr>
+
+          <!-- comp_cfps_eod | comp_price_cfps | comp_adj_cfps
+               NOTE: negative value — render with parentheses and .neg class -->
+          <tr><td>Cash Flow / Share</td>  <td>$0.00</td>  <td class="neg">($35.62)</td> <td>0</td></tr>
+
+          <!-- comp_ebitdaps_eod | comp_price_ebitdaps | comp_adj_ebitdaps -->
+          <tr><td>EBITDA / Share</td>     <td>$8.36</td>  <td>$0.00</td>                <td>0</td></tr>
+
+          <!-- STOCKCALC: Highlighted row — Comparables weighted valuation output
+               comparables_valuation = final model output, e.g. "$28.92"
+               Same value as the "Comparables" model card in the hero above. -->
+          <tr class="dt-hl"><td>Valuation</td><td></td><td>$28.92</td><td></td></tr>
+          <!--                                              ↑ comparables_valuation -->
+
+        </tbody>
+      </table>
+
+      <div class="sub-head">Peer Group</div>
+      <!-- STOCKCALC: Peer group table — rows are dynamic (1 subject + N peers + 1 average).
+           Number of peers varies by company. Loop over comp_peers array.
+           Row classes: subject company = .dt-subject | peer rows = no class | average row = .dt-avg -->
+      <table class="dt">
+        <thead>
+          <tr><th>Company</th><th>Ticker</th><th>P/E</th><th>P/B</th><th>P/S</th><th>P/CF</th></tr>
+        </thead>
+        <tbody>
+
+          <!-- STOCKCALC: Subject company row (.dt-subject class)
+               company_name | ticker | comp_subject_pe | comp_subject_pb | comp_subject_ps | comp_subject_pcf -->
+          <tr class="dt-subject">
+            <td>BCE Inc.</td>            <!-- company_name -->
+            <td>BCE</td>                 <!-- ticker -->
+            <td>21.60</td>               <!-- comp_subject_pe -->
+            <td>2.94</td>                <!-- comp_subject_pb -->
+            <td>2.12</td>                <!-- comp_subject_ps -->
+            <td>5.99</td>                <!-- comp_subject_pcf -->
+          </tr>
+
+          <!-- STOCKCALC: Peer rows — render one <tr> per item in comp_peers[]
+               comp_peers[n].company_name | comp_peers[n].ticker | .pe | .pb | .ps | .pcf -->
+          <tr><td>Quebecor Inc.</td>         <td>QBR.A</td> <td>11.87</td><td>4.17</td><td>3.32</td><td>9.80</td></tr>
+          <tr><td>Rogers Communications</td> <td>RCI.A</td> <td>14.85</td><td>2.44</td><td>1.26</td><td>5.00</td></tr>
+          <tr><td>TELUS Corporation</td>     <td>T</td>     <td>28.39</td><td>2.18</td><td>1.67</td><td>7.90</td></tr>
+
+          <!-- STOCKCALC: Average row (.dt-avg class) — average of peers only (exclude subject)
+               comp_peer_avg_pe | comp_peer_avg_pb | comp_peer_avg_ps | comp_peer_avg_pcf -->
+          <tr class="dt-avg">
+            <td>Average</td><td></td>
+            <td>18.37</td>               <!-- comp_peer_avg_pe -->
+            <td>2.93</td>                <!-- comp_peer_avg_pb -->
+            <td>2.08</td>                <!-- comp_peer_avg_ps -->
+            <td>7.57</td>                <!-- comp_peer_avg_pcf -->
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MULTIPLES
+       STOCKCALC: Render this section only if Multiples is one of the active models.
+  ════════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-head"><div class="section-title">Multiples</div></div>
+    <div class="section-body">
+      <table class="dt">
+        <thead>
+          <tr>
+            <!-- STOCKCALC: first column header = ticker symbol -->
+            <th>Metric</th><th>BCE Value</th><th>Historic Ratio Avg</th><th>Implied Price</th>
+            <!--                  ↑ ticker -->
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- STOCKCALC: Each row = one ratio. Columns:
+               row label (static) | mult_*_value (EOD) | mult_*_hist_ratio | mult_*_implied_price -->
+
+          <!-- mult_eps_value | mult_eps_hist_ratio | mult_eps_implied_price -->
+          <tr><td>Earnings / Share</td>   <td>$0.18</td>  <td>28.29</td><td>$5.09</td></tr>
+
+          <!-- mult_bvps_value | mult_bvps_hist_ratio | mult_bvps_implied_price -->
+          <tr><td>Book Value / Share</td> <td>$0.00</td>  <td>2.58</td> <td>$0.00</td></tr>
+
+          <!-- mult_sps_value | mult_sps_hist_ratio | mult_sps_implied_price -->
+          <tr><td>Sales / Share</td>      <td>$26.18</td> <td>1.74</td> <td>$45.46</td></tr>
+
+          <!-- mult_cfps_value | mult_cfps_hist_ratio | mult_cfps_implied_price -->
+          <tr><td>Cash Flow / Share</td>  <td>$0.00</td>  <td>5.36</td> <td>$0.00</td></tr>
+
+          <!-- mult_ebitdaps_value | mult_ebitdaps_hist_ratio | mult_ebitdaps_implied_price -->
+          <tr><td>EBITDA / Share</td>     <td>$8.36</td>  <td>6.31</td> <td>$52.71</td></tr>
+
+          <!-- STOCKCALC: Highlighted row — Multiples weighted valuation output
+               multiples_valuation = final model output, e.g. "$34.42"
+               Same value as the "Multiples" model card in the hero above. -->
+          <tr class="dt-hl"><td>Valuation</td><td></td><td></td><td>$34.42</td></tr>
+          <!--                                                       ↑ multiples_valuation -->
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       ADJUSTED BOOK VALUE
+       STOCKCALC: Render this section only if ABV is one of the active models.
+       (For BCE, ABV is supplemental — it appears here but is not one of the 3 hero model cards.)
+  ════════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-head"><div class="section-title">Adjusted Book Value</div></div>
+    <div class="section-body">
+      <table class="dt">
+        <thead>
+          <tr><th>Item</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+
+          <!-- STOCKCALC: abv_equity — Adjusted Net Book Value (Equity).
+               Display as raw dollars with commas. e.g. "$21,174,000,000" -->
+          <tr><td>Adjusted Net Book Value (Equity)</td>   <td>$21,174,000,000</td></tr>
+
+          <!-- STOCKCALC: abv_shares_outstanding — Common shares, raw integer with commas.
+               NOTE: slightly different from the Company Overview shares figure (921.8M).
+               Confirm which source field is authoritative for each location. -->
+          <tr><td>Common Shares Outstanding</td>          <td>912,300,000</td></tr>
+
+          <!-- STOCKCALC: abv_per_share — ANBV per share. Format: "$XX.XX" -->
+          <tr><td>ANBV per Share</td>                     <td>$19.00</td></tr>
+
+          <!-- STOCKCALC: abv_avg_pb_10yr — 10-year average Price/Book ratio. 2 decimal places. -->
+          <tr><td>Average Price to Book Ratio (10yr)</td> <td>2.64</td></tr>
+
+          <!-- STOCKCALC: abv_implied_price — ABV implied price (ANBV per share × avg P/B).
+               Format: "$XX.XX" -->
+          <tr class="dt-hl"><td>Average</td>              <td>$50.22</td></tr>
+          <!--                                               ↑ abv_implied_price -->
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       ANALYST COVERAGE
+       STOCKCALC: If no analyst coverage exists for this company, either hide this
+       section entirely or replace with a "No analyst coverage available" message.
+  ════════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-head"><div class="section-title">Analyst Coverage</div></div>
+    <div class="section-body">
+
+      <div class="analyst-flex">
+
+        <!-- Buy/Hold/Sell bar chart -->
+        <div class="analyst-bars">
+          <div class="sub-head">Breakdown</div>
+
+          <!-- STOCKCALC: Buy bar
+               abar-fill width = (analyst_buy_count / analyst_total_count) * 100 + "%"
+               abar-n text     = analyst_buy_count -->
+          <div class="abar">
+            <div class="abar-lbl">Buy</div>
+            <div class="abar-track"><div class="abar-fill buy" style="width:100%"></div></div>
+            <!--                                                       ↑ computed % -->
+            <div class="abar-n">1</div>
+            <!--                 ↑ analyst_buy_count -->
+          </div>
+
+          <!-- STOCKCALC: Hold bar — analyst_hold_count -->
+          <div class="abar">
+            <div class="abar-lbl">Hold</div>
+            <div class="abar-track"><div class="abar-fill hold" style="width:0%"></div></div>
+            <div class="abar-n">0</div>
+          </div>
+
+          <!-- STOCKCALC: Sell bar — analyst_sell_count -->
+          <div class="abar">
+            <div class="abar-lbl">Sell</div>
+            <div class="abar-track"><div class="abar-fill sell" style="width:0%"></div></div>
+            <div class="abar-n">0</div>
+          </div>
+        </div>
+
+        <!-- Consensus summary box -->
+        <div class="consensus-box">
+          <!-- STOCKCALC: analyst_consensus_label — "Buy", "Hold", or "Sell" string -->
+          <div class="con-lbl">Consensus</div>
+          <div class="con-val">Buy</div>
+          <!--                  ↑ analyst_consensus_label -->
+
+          <!-- STOCKCALC: analyst_consensus_rating — numeric score out of 5. Format: "Rating: X.X / 5" -->
+          <div class="con-sub">Rating: 4.5 / 5</div>
+          <!--                          ↑ analyst_consensus_rating -->
+
+          <div class="divider"></div>
+
+          <!-- STOCKCALC: analyst_target_year — typically the current calendar year as a string -->
+          <div class="con-lbl">2025 Target</div>
+          <!--                  ↑ analyst_target_year -->
+
+          <!-- STOCKCALC: analyst_target_price — consensus price target. Format: "$XX.XX" -->
+          <div class="con-price">$34.14</div>
+          <!--                    ↑ analyst_target_price -->
+
+          <!-- STOCKCALC: analyst_upside_pct — computed: ((analyst_target_price − close_price) / close_price) × 100
+               Format: "+X.X% upside" (positive) or "−X.X% downside" (negative) -->
+          <div class="con-upside">+4.9% upside</div>
+          <!--                     ↑ analyst_upside_pct (with sign and label) -->
+        </div>
+
+      </div>
+
+      <!-- Analyst Consensus Estimates table -->
+      <div class="sub-head">Analyst Consensus Estimates</div>
+      <!-- STOCKCALC: Render one <tr> per year in analyst_estimates[].
+           Typically 3 rows: prior year, current year, next year.
+           Use "&mdash;" (—) for any null/missing values. -->
+      <table class="dt">
+        <thead>
+          <tr>
+            <th>Year</th><th>Mean EPS</th><th># Analysts</th><th>Mean Revenue (CAD M)</th><th># Analysts</th><th>Mean Target</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- STOCKCALC: analyst_estimates[n].year | .mean_eps | .eps_analyst_count | .mean_revenue_m | .rev_analyst_count | .mean_target
+               Null values → render &mdash; -->
+          <tr>
+            <td>2024</td>        <!-- analyst_estimates[0].year -->
+            <td>$2.56</td>       <!-- analyst_estimates[0].mean_eps -->
+            <td>&mdash;</td>     <!-- analyst_estimates[0].eps_analyst_count (null) -->
+            <td>$24,409</td>     <!-- analyst_estimates[0].mean_revenue_m — note $ prefix, comma-formatted -->
+            <td>10</td>          <!-- analyst_estimates[0].rev_analyst_count -->
+            <td>&mdash;</td>     <!-- analyst_estimates[0].mean_target (null) -->
+          </tr>
+          <tr>
+            <td>2025</td>        <!-- analyst_estimates[1].year -->
+            <td>$2.75</td>       <!-- analyst_estimates[1].mean_eps -->
+            <td>7</td>           <!-- analyst_estimates[1].eps_analyst_count -->
+            <td>$24,327</td>     <!-- analyst_estimates[1].mean_revenue_m -->
+            <td>7</td>           <!-- analyst_estimates[1].rev_analyst_count -->
+            <td>$34.14</td>      <!-- analyst_estimates[1].mean_target -->
+          </tr>
+          <tr>
+            <td>2026</td>        <!-- analyst_estimates[2].year -->
+            <td>$2.71</td>       <!-- analyst_estimates[2].mean_eps -->
+            <td>7</td>           <!-- analyst_estimates[2].eps_analyst_count -->
+            <td>$25,071</td>     <!-- analyst_estimates[2].mean_revenue_m -->
+            <td>7</td>           <!-- analyst_estimates[2].rev_analyst_count -->
+            <td>&mdash;</td>     <!-- analyst_estimates[2].mean_target (null) -->
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       ABOUT THE MODELS — fully static, no data binding required
+  ════════════════════════════════════════════════════════════ -->
+  <div class="section">
+    <div class="section-head"><div class="section-title">About the Models</div></div>
+    <div class="section-body">
+      <div class="method-list">
+        <div>
+          <div class="method-item-title">Valuation Models</div>
+          <div class="method-item-body">We select up to 3 models for any given stock to generate a weighted average valuation (WAV) for the company. Different models or combinations are used in different sectors such as ABV for asset rich companies like real estate and financials or DCF for growth companies.</div>
+        </div>
+        <div>
+          <div class="method-item-title">Discounted Cash Flow (DCF)</div>
+          <div class="method-item-body">The Discounted Cash Flow (DCF) valuation is a cash flow model where cash flow projections are discounted back to the present to calculate value per share. DCF is a common valuation technique especially for companies undergoing irregular cash flows such as resource companies (mining, forestry, oil and gas) going through price cycles or smaller companies about to generate cash flow (junior exploration companies, junior pharma, technology firms&hellip;).</div>
+        </div>
+        <div>
+          <div class="method-item-title">Price Comparables</div>
+          <div class="method-item-body">The Price Comparables valuation is the result of valuing the company we are looking at on the basis of ratios from selected comparable companies: Price to Earnings, Price to Book, Price to Sales, Price to Cash Flow, Enterprise Value (EV) to EBITDA. Each of these ratios for the selected comparable companies are averaged and multiplied by the values for the company we are interested in to calculate a value per share.</div>
+        </div>
+        <div>
+          <div class="method-item-title">Other Comparables</div>
+          <div class="method-item-body">We have included the Other Comparables as a way to value companies that cannot be valued using earnings-based ratios. This technique is very useful for companies still experiencing negative cash flows such as mining exploration firms. We use Cash/Share, Book Value/Share, MarketCap, 1 Year Return, and NetPPE as the ratios here. Each of these ratios for the selected comparable companies are averaged and multiplied by the values for the company we are interested in to calculate a value per share.</div>
+        </div>
+        <div>
+          <div class="method-item-title">Adjusted Book Value (ABV)</div>
+          <div class="method-item-body">With Adjusted Book Value (ABV) we calculate the book value per share for the company based on its balance sheet and multiply that book value per share by its historical price to book ratio to calculate a value per share.</div>
+        </div>
+        <div>
+          <div class="method-item-title">Multiples</div>
+          <div class="method-item-body">Multiples are similar to Price Comparables where we look at current or historic ratios for the company in question to assess what it should be worth today based on those historic ratios. We use the same 5 ratios as in the price comparables and value the company with its historic averages.</div>
+        </div>
+        <div>
+          <div class="method-item-title">Analyst Consensus</div>
+          <div class="method-item-body">If we have analyst coverage for the company we use the consensus target price here.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CTA BOX — fully static, no data binding required
+  ════════════════════════════════════════════════════════════ -->
+  <div class="cta-box">
+    <div>
+      <div class="cta-title">Stock valuation is our passion.</div>
+      <div class="cta-sub">At stockcalc, we aim to educate and inspire our clients to seek the truth. With our fundamental valuation models, our clients have access to the value of stocks and ETFs, to make better investing decisions for themselves and their clients.</div>
+    </div>
+    <a class="cta-btn" href="https://www.stockcalc.com">www.stockcalc.com</a>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER — risk disclosure static; copyright year is dynamic
+  ════════════════════════════════════════════════════════════ -->
+  <div class="footer">
+    <div class="disclaimer">
+      <!-- Risk disclosure paragraph — static boilerplate, do not modify -->
+      <p>Risk Disclosure: Equities trading and trading of all markets, exchanges and instruments contains substantial risk and is not for every investor. An investor could potentially lose all or more than the initial investment. Risk capital is money that can be lost without jeopardizing ones' financial security or life style. Only risk capital should be used for trading and only those with sufficient risk capital should consider trading. Past performance is not necessarily indicative of future results. View full risk information <a href="https://www.stockcalc.com/Disclaimer.html">here</a>.</p>
+      <!-- STOCKCALC: copyright_year — current calendar year, dynamic. Entity name is static. -->
+      <p>&copy; 2026 Patchell Brook Equity Analytics. All rights reserved.</p>
+      <!--       ↑ copyright_year (dynamic) — entity name is static -->
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
