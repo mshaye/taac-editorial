@@ -33,6 +33,7 @@
       --green-mid:     #166534;
       --red:           #b91c1c;
       --red-bg:        #fef2f2;
+      --red-border:    #fecaca;
       --amber:         #b45309;
       --amber-bg:      #fffbeb;
       --serif: 'Libre Baskerville', Georgia, serif;
@@ -236,6 +237,20 @@
       .dt           { min-width: 540px; }
       .verdict-box  { flex-direction: column; }
       .verdict-left { border-right: none; border-bottom: 1px solid var(--green-border); padding-right: 0; padding-bottom: 16px; width: 100%; }
+
+      /* Model summary table → stacked cards on mobile */
+      .model-table          { display: block; }
+      .model-table colgroup,
+      .model-table col      { display: none; }
+      .model-table tbody    { display: block; }
+      .model-table tr       { display: block; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
+      .model-table tr:last-child { border-bottom: none; }
+      .model-table td       { display: block; padding: 0; text-align: left !important; }
+      .model-table td:nth-child(1) { margin-bottom: 3px; }  /* model name */
+      .model-table td:nth-child(2) { margin-bottom: 10px; } /* description */
+      .model-table td:nth-child(3),
+      .model-table td:nth-child(4) { display: inline-block; vertical-align: middle; }
+      .model-table td:nth-child(3) { margin-right: 10px; }  /* value beside pill */
     }
 
   </style>

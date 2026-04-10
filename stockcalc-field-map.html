@@ -3,358 +3,119 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stockcalc → Globe Report: Field Mapping Reference</title>
+  <title>Stockcalc → Globe Valuation Report: Field Mapping Reference</title>
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      font-size: 14px;
-      color: #1a1a2e;
-      background: #f8f9fa;
-      margin: 0;
-      padding: 32px;
-      line-height: 1.5;
-    }
-    .page-header {
-      background: #1b2a4a;
-      color: white;
-      padding: 32px 40px;
-      border-radius: 10px;
-      margin-bottom: 32px;
-    }
-    .page-header h1 {
-      margin: 0 0 6px;
-      font-size: 22px;
-      font-weight: 700;
-    }
-    .page-header p {
-      margin: 0;
-      opacity: 0.75;
-      font-size: 13px;
-    }
-    .legend {
-      display: flex;
-      gap: 24px;
-      margin-bottom: 28px;
-      flex-wrap: wrap;
-    }
-    .legend-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      color: #555;
-    }
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: 600;
-      white-space: nowrap;
-    }
-    .badge-live    { background: #d4edda; color: #155724; }
-    .badge-calc    { background: #cce5ff; color: #004085; }
-    .badge-static  { background: #fff3cd; color: #856404; }
-    .badge-lookup  { background: #f8d7da; color: #721c24; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; font-size: 14px; color: #1a1a2e; background: #f8f9fa; margin: 0; padding: 32px; line-height: 1.5; }
+    .page-header { background: #1b2a4a; color: white; padding: 32px 40px; border-radius: 10px; margin-bottom: 32px; }
+    .page-header h1 { margin: 0 0 6px; font-size: 22px; font-weight: 700; }
+    .page-header p  { margin: 0; opacity: 0.75; font-size: 13px; }
+    .legend { display: flex; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #555; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .badge-live   { background: #d4edda; color: #155724; }
+    .badge-calc   { background: #cce5ff; color: #004085; }
+    .badge-static { background: #fff3cd; color: #856404; }
+    .badge-lookup { background: #f8d7da; color: #721c24; }
 
-    section {
-      background: white;
-      border-radius: 8px;
-      border: 1px solid #dde2ea;
-      margin-bottom: 24px;
-      overflow: hidden;
-    }
-    .section-header {
-      background: #1b2a4a;
-      color: white;
-      padding: 12px 20px;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-    .section-note {
-      background: #eef1f7;
-      padding: 10px 20px;
-      font-size: 12px;
-      color: #444;
-      border-bottom: 1px solid #dde2ea;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th {
-      background: #f0f3f8;
-      padding: 10px 16px;
-      text-align: left;
-      font-size: 11px;
-      font-weight: 700;
-      color: #555;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      border-bottom: 1px solid #dde2ea;
-    }
-    td {
-      padding: 10px 16px;
-      border-bottom: 1px solid #f0f0f0;
-      vertical-align: top;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    tr:hover td {
-      background: #fafbfd;
-    }
-    .field-label {
-      font-weight: 600;
-      color: #1b2a4a;
-    }
-    .stub-value {
-      font-family: "SFMono-Regular", Consolas, monospace;
-      font-size: 12px;
-      background: #f4f4f4;
-      padding: 2px 6px;
-      border-radius: 3px;
-      color: #d63384;
-    }
-    .source-field {
-      font-family: "SFMono-Regular", Consolas, monospace;
-      font-size: 12px;
-      background: #e8f0fe;
-      padding: 2px 6px;
-      border-radius: 3px;
-      color: #1a56b0;
-    }
-    .note-text {
-      font-size: 12px;
-      color: #666;
-      font-style: italic;
-    }
-    .col-field   { width: 20%; }
-    .col-stub    { width: 18%; }
-    .col-source  { width: 22%; }
-    .col-type    { width: 10%; }
-    .col-note    { width: 30%; }
+    section { background: white; border-radius: 8px; border: 1px solid #dde2ea; margin-bottom: 24px; overflow: hidden; }
+    .section-header { background: #1b2a4a; color: white; padding: 12px 20px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .section-note { background: #eef1f7; padding: 10px 20px; font-size: 12px; color: #444; border-bottom: 1px solid #dde2ea; }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #f0f3f8; padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #dde2ea; }
+    td { padding: 10px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafbfd; }
+    .field-label  { font-weight: 600; color: #1b2a4a; }
+    .stub-value   { font-family: monospace; font-size: 12px; background: #f4f4f4; padding: 2px 6px; border-radius: 3px; color: #d63384; }
+    .source-field { font-family: monospace; font-size: 12px; background: #e8f0fe; padding: 2px 6px; border-radius: 3px; color: #1a56b0; }
+    .note-text    { font-size: 12px; color: #666; font-style: italic; }
+    .col-field  { width: 20%; }
+    .col-stub   { width: 18%; }
+    .col-source { width: 22%; }
+    .col-type   { width: 10%; }
+    .col-note   { width: 30%; }
   </style>
 </head>
 <body>
 
 <div class="page-header">
-  <h1>Stockcalc → Globe Report: Developer Field Mapping</h1>
-  <p>Reference document for retrofitting live Stockcalc data into the redesigned Globe short report template. Every data field shown in the new design is listed below with its stubbed value, likely source field, and data type classification.</p>
+  <h1>Stockcalc → Globe Valuation Report: Developer Field Mapping</h1>
+  <p>Reference for retrofitting live Stockcalc data into the redesigned Globe short (valuation) report template. BCE:TSX is the stub company. Reflects the updated model summary table design and Analyst Coverage section placement.</p>
 </div>
 
 <div class="legend">
-  <div class="legend-item"><span class="badge badge-live">LIVE</span> Real-time or daily market data (price, volume)</div>
-  <div class="legend-item"><span class="badge badge-calc">CALC</span> Computed by Stockcalc valuation models</div>
-  <div class="legend-item"><span class="badge badge-static">STATIC</span> Infrequently updated (company metadata, descriptions)</div>
-  <div class="legend-item"><span class="badge badge-lookup">LOOKUP</span> Derived from analyst or third-party data feeds</div>
+  <div class="legend-item"><span class="badge badge-live">LIVE</span> Real-time or daily market data</div>
+  <div class="legend-item"><span class="badge badge-calc">CALC</span> Computed by Stockcalc models</div>
+  <div class="legend-item"><span class="badge badge-static">STATIC</span> Infrequently updated metadata</div>
+  <div class="legend-item"><span class="badge badge-lookup">LOOKUP</span> Third-party analyst data</div>
 </div>
 
 
 <!-- ─── REPORT HEADER ─────────────────────────────────────────── -->
 <section>
   <div class="section-header">Report Header</div>
-  <div class="section-note">Top of the report. The report date, company identity, and close price block.</div>
   <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">BCE Stub Value</th>
-        <th class="col-source">Likely Source Field</th>
-        <th class="col-type">Type</th>
-        <th class="col-note">Notes</th>
-      </tr>
-    </thead>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">BCE Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
     <tbody>
-      <tr>
-        <td class="field-label">Report Date</td>
-        <td><span class="stub-value">August 01, 2025</span></td>
-        <td><span class="source-field">report_date</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">Date the report was generated. Format: "Month DD, YYYY".</td>
-      </tr>
-      <tr>
-        <td class="field-label">Report Type Label</td>
-        <td><span class="stub-value">Valuation Report</span></td>
-        <td><span class="source-field">— (hardcoded)</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td class="note-text">Fixed string. Does not change per company.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Company Full Name</td>
-        <td><span class="stub-value">BCE Inc.</span></td>
-        <td><span class="source-field">company_name</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td class="note-text">Full legal company name, not ticker.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Ticker Symbol</td>
-        <td><span class="stub-value">BCE</span></td>
-        <td><span class="source-field">ticker</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td class="note-text">Used in the page &lt;title&gt; and header. No exchange suffix needed here.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Close Price</td>
-        <td><span class="stub-value">$32.53</span></td>
-        <td><span class="source-field">close_price</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">Most recent end-of-day closing price.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Currency</td>
-        <td><span class="stub-value">CAD</span></td>
-        <td><span class="source-field">currency</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td class="note-text">Displayed inline with close price as "CAD" suffix.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Exchange</td>
-        <td><span class="stub-value">TSX</span></td>
-        <td><span class="source-field">exchange</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td class="note-text">Short exchange code. Appears as a label tag in the header.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Sector</td>
-        <td><span class="stub-value">Communication Services</span></td>
-        <td><span class="source-field">sector</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td class="note-text">GICS sector classification.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Industry</td>
-        <td><span class="stub-value">Telecom Services</span></td>
-        <td><span class="source-field">industry</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td class="note-text">GICS industry sub-classification.</td>
-      </tr>
+      <tr><td class="field-label">Page &lt;title&gt;</td><td><span class="stub-value">BCE — Valuation Report | Stockcalc</span></td><td><span class="source-field">company_name</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Format: "{company_name} — Valuation Report | Stockcalc"</td></tr>
+      <tr><td class="field-label">Report Date</td><td><span class="stub-value">August 01, 2025</span></td><td><span class="source-field">report_date</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Date report was generated. Format: "Month DD, YYYY".</td></tr>
+      <tr><td class="field-label">Report Type Label</td><td><span class="stub-value">Valuation Report</span></td><td><span class="source-field">— (hardcoded)</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Fixed string for this report type.</td></tr>
     </tbody>
   </table>
 </section>
 
 
-<!-- ─── VALUATION HERO BLOCK ──────────────────────────────────── -->
+<!-- ─── STOCK IDENTITY ────────────────────────────────────────── -->
 <section>
-  <div class="section-header">Valuation Hero Block</div>
-  <div class="section-note">The primary "verdict" block at the top of the report — the most prominent element in the new design. All values here should be calculated before render.</div>
+  <div class="section-header">Stock Identity</div>
   <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">BCE Stub Value</th>
-        <th class="col-source">Likely Source Field</th>
-        <th class="col-type">Type</th>
-        <th class="col-note">Notes</th>
-      </tr>
-    </thead>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">BCE Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
     <tbody>
-      <tr>
-        <td class="field-label">Weighted Avg. Valuation (WAV)</td>
-        <td><span class="stub-value">$32.75</span></td>
-        <td><span class="source-field">wav_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Weighted average of active model valuations. Primary price target displayed in the hero.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Market Close Price (hero)</td>
-        <td><span class="stub-value">$32.53</span></td>
-        <td><span class="source-field">close_price</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">Same as header close price. Repeated inline in the summary sentence.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Price Discount / Premium (absolute)</td>
-        <td><span class="stub-value">$0.22</span></td>
-        <td><span class="source-field">wav_price − close_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Computed: WAV minus close price. Positive = discount (undervalued). Absolute dollar value, no sign.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Discount / Premium Direction</td>
-        <td><span class="stub-value">▲ (discount)</span></td>
-        <td><span class="source-field">wav_price &gt; close_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Controls the arrow glyph (▲ undervalued / ▼ overvalued) and the word "discount" vs "premium" in the summary sentence.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Discount / Premium (%)</td>
-        <td><span class="stub-value">0.7%</span></td>
-        <td><span class="source-field">((wav_price − close_price) / close_price) × 100</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Percentage gap. Displayed as "▲ 0.7%" in the hero. One decimal place.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Historical Accuracy Rate</td>
-        <td><span class="stub-value">79%</span></td>
-        <td><span class="source-field">historical_accuracy_pct</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Percentage of times the WAV target was reached within 12 months historically. Whole number, no decimal.</td>
-      </tr>
+      <tr><td class="field-label">Company Name + Ticker</td><td><span class="stub-value">BCE Inc. (BCE)</span></td><td><span class="source-field">company_name + ticker</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Format: "{company_name} ({ticker})"</td></tr>
+      <tr><td class="field-label">Close Price</td><td><span class="stub-value">$32.53 CAD</span></td><td><span class="source-field">close_price + currency</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">EOD closing price. Currency code as muted suffix span.</td></tr>
+      <tr><td class="field-label">Exchange pill</td><td><span class="stub-value">TSX</span></td><td><span class="source-field">exchange</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">One .sector-pill element.</td></tr>
+      <tr><td class="field-label">Sector pill</td><td><span class="stub-value">Communication Services</span></td><td><span class="source-field">sector</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">One .sector-pill element.</td></tr>
+      <tr><td class="field-label">Industry pill</td><td><span class="stub-value">Telecom Services</span></td><td><span class="source-field">industry</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">One .sector-pill element.</td></tr>
     </tbody>
   </table>
 </section>
 
 
-<!-- ─── MODEL SUMMARY CARDS ───────────────────────────────────── -->
+<!-- ─── VERDICT BOX ───────────────────────────────────────────── -->
 <section>
-  <div class="section-header">Model Summary Cards</div>
-  <div class="section-note">Three cards shown below the hero, one per active valuation model. Each card shows the model's individual price estimate and an undervalued/overvalued verdict.</div>
+  <div class="section-header">Verdict Box</div>
+  <div class="section-note">Conditional colour state: green when WAV &gt; close_price (undervalued); red when WAV &lt; close_price (overvalued). The swap applies to .verdict-box background/border, .verdict-left border, .verdict-target-label colour, .verdict-price colour, and .vnum-green spans.</div>
   <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">BCE Stub Value</th>
-        <th class="col-source">Likely Source Field</th>
-        <th class="col-type">Type</th>
-        <th class="col-note">Notes</th>
-      </tr>
-    </thead>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">BCE Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
     <tbody>
-      <tr>
-        <td class="field-label">DCF Model Price</td>
-        <td><span class="stub-value">$34.75</span></td>
-        <td><span class="source-field">dcf_valuation</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Discounted Cash Flow model output.</td>
-      </tr>
-      <tr>
-        <td class="field-label">DCF Verdict</td>
-        <td><span class="stub-value">Undervalued</span></td>
-        <td><span class="source-field">dcf_valuation &gt; close_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">"Undervalued" if model price &gt; close price; "Overvalued" if less.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Comparables Model Price</td>
-        <td><span class="stub-value">$28.92</span></td>
-        <td><span class="source-field">comparables_valuation</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Price Comparables model output.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Comparables Verdict</td>
-        <td><span class="stub-value">Overvalued</span></td>
-        <td><span class="source-field">comparables_valuation &gt; close_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Same logic as DCF verdict.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Multiples Model Price</td>
-        <td><span class="stub-value">$34.42</span></td>
-        <td><span class="source-field">multiples_valuation</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Multiples model output.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Multiples Verdict</td>
-        <td><span class="stub-value">Undervalued</span></td>
-        <td><span class="source-field">multiples_valuation &gt; close_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Same logic as DCF verdict.</td>
-      </tr>
+      <tr><td class="field-label">WAV Price (left column)</td><td><span class="stub-value">$32.75</span></td><td><span class="source-field">wav_price</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Weighted average valuation. Format: "$XX.XX".</td></tr>
+      <tr><td class="field-label">Verdict sentence</td><td><span class="stub-value">templated prose</span></td><td><span class="source-field">wav_price + close_price + abs_gap + direction_word + arrow + pct_gap + ticker + accuracy_pct</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">All 8 values substituted into a fixed template string. direction_word = "discount" or "premium"; arrow = ▲ or ▼; pct_gap = 1 decimal %; accuracy_pct = whole number.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── MODEL SUMMARY TABLE (UPDATED DESIGN) ─────────────────── -->
+<section>
+  <div class="section-header">Model Summary Table</div>
+  <div class="section-note">
+    UPDATED: The mini progress-bar list has been replaced with a 4-column table (name | description | value with arrow | pill badge).
+    The intro paragraph and each row description contain company_name interpolated inline.
+    Confirm with Stockcalc whether the sector_profile_phrase in the intro paragraph is a static template per sector or generated per company.
+  </div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">BCE Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Intro paragraph — WAV price</td><td><span class="stub-value">$32.75</span></td><td><span class="source-field">wav_price</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Rendered in &lt;strong&gt; inside .model-intro paragraph.</td></tr>
+      <tr><td class="field-label">Intro paragraph — company name</td><td><span class="stub-value">BCE</span></td><td><span class="source-field">company_name</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Appears in "…selected for BCE's profile…"</td></tr>
+      <tr><td class="field-label">Intro paragraph — sector profile phrase</td><td><span class="stub-value">large, cash-flow-stable telecom</span></td><td><span class="source-field">sector_profile_phrase</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Confirm: static template per sector, or per-company generated text?</td></tr>
+      <tr><td class="field-label">DCF row — model price</td><td><span class="stub-value">$34.75</span></td><td><span class="source-field">dcf_valuation</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Render only if DCF is active. Same value as DCF section Valuation row.</td></tr>
+      <tr><td class="field-label">DCF row — arrow glyph + colour class</td><td><span class="stub-value">▲ (.val-up)</span></td><td><span class="source-field">dcf_valuation vs close_price</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">▲ + .val-up when dcf_valuation &gt; close_price. ▼ + .val-down when less.</td></tr>
+      <tr><td class="field-label">DCF row — pill class + text</td><td><span class="stub-value">.sig-under / "Undervalued"</span></td><td><span class="source-field">dcf_valuation vs close_price</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">.sig-under + "Undervalued" when dcf_valuation &gt; close_price. .sig-over + "Overvalued" when less.</td></tr>
+      <tr><td class="field-label">DCF row — description text</td><td><span class="stub-value">What is BCE worth based on…</span></td><td><span class="source-field">company_name</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Static phrase per model; company_name interpolated. "What is {company_name} worth based on the cash it is expected to generate?"</td></tr>
+      <tr><td class="field-label">Comparables row — model price</td><td><span class="stub-value">$28.92</span></td><td><span class="source-field">comparables_valuation</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Same logic as DCF row. Render only if Comparables is active.</td></tr>
+      <tr><td class="field-label">Multiples row — model price</td><td><span class="stub-value">$34.42</span></td><td><span class="source-field">multiples_valuation</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Same logic as DCF row. Render only if Multiples is active.</td></tr>
+      <tr><td class="field-label">ABV row (if active)</td><td><span class="stub-value">n/a in BCE stub</span></td><td><span class="source-field">abv_implied_price</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Add a 4th row if ABV is one of the active models for this company. Same arrow/class/pill logic.</td></tr>
     </tbody>
   </table>
 </section>
@@ -363,557 +124,16 @@
 <!-- ─── COMPANY OVERVIEW ──────────────────────────────────────── -->
 <section>
   <div class="section-header">Company Overview</div>
-  <div class="section-note">Key stats table plus the long-form company description paragraph.</div>
   <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">BCE Stub Value</th>
-        <th class="col-source">Likely Source Field</th>
-        <th class="col-type">Type</th>
-        <th class="col-note">Notes</th>
-      </tr>
-    </thead>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">BCE Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
     <tbody>
-      <tr>
-        <td class="field-label">Market Cap</td>
-        <td><span class="stub-value">$30.0B</span></td>
-        <td><span class="source-field">market_cap</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">Display in billions with one decimal: "$30.0B". Raw value likely in dollars or millions — confirm unit from source.</td>
-      </tr>
-      <tr>
-        <td class="field-label">P/E Ratio</td>
-        <td><span class="stub-value">76.95</span></td>
-        <td><span class="source-field">pe_ratio</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">Two decimal places.</td>
-      </tr>
-      <tr>
-        <td class="field-label">EPS</td>
-        <td><span class="stub-value">$2.01</span></td>
-        <td><span class="source-field">eps</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">Earnings per share. Two decimal places, dollar sign.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Dividend Yield</td>
-        <td><span class="stub-value">5.38%</span></td>
-        <td><span class="source-field">dividend_yield</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">Displayed as percentage with two decimals.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Shares Outstanding</td>
-        <td><span class="stub-value">921.8M</span></td>
-        <td><span class="source-field">shares_outstanding</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">Display in millions with one decimal: "921.8M". Note: ABV section uses a slightly different value (912.3M) — confirm which is current.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Beta</td>
-        <td><span class="stub-value">0.60</span></td>
-        <td><span class="source-field">beta</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">Two decimal places.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Company Description</td>
-        <td><span class="stub-value">BCE is both a wireless…</span></td>
-        <td><span class="source-field">company_description</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td class="note-text">Long-form text, 2–3 paragraphs. Plain text or HTML. Rendered in the overview content area.</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-
-<!-- ─── DCF MODEL ─────────────────────────────────────────────── -->
-<section>
-  <div class="section-header">Discounted Cash Flow (DCF)</div>
-  <div class="section-note">Sensitivity table showing how the valuation changes when each input variable is moved up or down. The final row is the model's base valuation output.</div>
-  <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">BCE Stub Value</th>
-        <th class="col-source">Likely Source Field</th>
-        <th class="col-type">Type</th>
-        <th class="col-note">Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="field-label">WACC (or Ke) — Current Value</td>
-        <td><span class="stub-value">4.69%</span></td>
-        <td><span class="source-field">dcf_wacc</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Weighted Average Cost of Capital used in the model.</td>
-      </tr>
-      <tr>
-        <td class="field-label">WACC — Dropped 1%</td>
-        <td><span class="stub-value">$55.22</span></td>
-        <td><span class="source-field">dcf_sensitivity_wacc_down1</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Implied price if WACC drops 1 percentage point.</td>
-      </tr>
-      <tr>
-        <td class="field-label">WACC — Raised 1%</td>
-        <td><span class="stub-value">$21.48</span></td>
-        <td><span class="source-field">dcf_sensitivity_wacc_up1</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Implied price if WACC raises 1 percentage point.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Terminal Growth Rate — Current</td>
-        <td><span class="stub-value">0%</span></td>
-        <td><span class="source-field">dcf_terminal_growth_rate</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Terminal growth rate assumption.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Terminal Growth Rate — Dropped 1%</td>
-        <td><span class="stub-value">$22.65</span></td>
-        <td><span class="source-field">dcf_sensitivity_tgr_down1</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Terminal Growth Rate — Raised 1%</td>
-        <td><span class="stub-value">$53.41</span></td>
-        <td><span class="source-field">dcf_sensitivity_tgr_up1</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Tax Rate — Current</td>
-        <td><span class="stub-value">60.61%</span></td>
-        <td><span class="source-field">dcf_tax_rate</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Tax Rate — Dropped 5%</td>
-        <td><span class="stub-value">$44.05</span></td>
-        <td><span class="source-field">dcf_sensitivity_tax_down5</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Tax Rate — Raised 5%</td>
-        <td><span class="stub-value">$25.45</span></td>
-        <td><span class="source-field">dcf_sensitivity_tax_up5</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Cash Flow — Current</td>
-        <td><span class="stub-value">$8.06B</span></td>
-        <td><span class="source-field">dcf_cash_flow</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Displayed in billions.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Cash Flow — Dropped 5%</td>
-        <td><span class="stub-value">$31.09</span></td>
-        <td><span class="source-field">dcf_sensitivity_cf_down5</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Cash Flow — Raised 5%</td>
-        <td><span class="stub-value">$38.41</span></td>
-        <td><span class="source-field">dcf_sensitivity_cf_up5</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Capital Expenditures — Current</td>
-        <td><span class="stub-value">0</span></td>
-        <td><span class="source-field">dcf_capex</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">CapEx sensitivity (dropped / raised 5%)</td>
-        <td><span class="stub-value">$34.75 / $34.75</span></td>
-        <td><span class="source-field">dcf_sensitivity_capex_down5 / up5</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">No change shown because CapEx input is 0.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Long-Term Debt — Current</td>
-        <td><span class="stub-value">$33.87B</span></td>
-        <td><span class="source-field">dcf_long_term_debt</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Displayed in billions.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Debt sensitivity (dropped / raised 5%)</td>
-        <td><span class="stub-value">$32.91 / $36.59</span></td>
-        <td><span class="source-field">dcf_sensitivity_debt_down5 / up5</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">DCF Valuation (base)</td>
-        <td><span class="stub-value">$34.75</span></td>
-        <td><span class="source-field">dcf_valuation</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Final row of the table. Same value as the DCF model card in the hero.</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-
-<!-- ─── COMPARABLES ───────────────────────────────────────────── -->
-<section>
-  <div class="section-header">Comparables — Model Inputs</div>
-  <div class="section-note">Per-ratio inputs and individual price outputs for the Price Comparables model.</div>
-  <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">BCE Stub Value</th>
-        <th class="col-source">Likely Source Field</th>
-        <th class="col-type">Type</th>
-        <th class="col-note">Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="field-label">Earnings / Share (EoD)</td>
-        <td><span class="stub-value">$0.18</span></td>
-        <td><span class="source-field">comp_eps_eod</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">End-of-day EPS value used as model input.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Earnings / Share — Price Based on Comps</td>
-        <td><span class="stub-value">$3.31</span></td>
-        <td><span class="source-field">comp_price_eps</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Earnings / Share — Adjustment Factor</td>
-        <td><span class="stub-value">0</span></td>
-        <td><span class="source-field">comp_adj_eps</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Book Value / Share (EoD)</td>
-        <td><span class="stub-value">$0.00</span></td>
-        <td><span class="source-field">comp_bvps_eod</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Book Value / Share — Price Based on Comps</td>
-        <td><span class="stub-value">$0.00</span></td>
-        <td><span class="source-field">comp_price_bvps</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Sales / Share (EoD)</td>
-        <td><span class="stub-value">$26.18</span></td>
-        <td><span class="source-field">comp_sps_eod</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Sales / Share — Price Based on Comps</td>
-        <td><span class="stub-value">$54.53</span></td>
-        <td><span class="source-field">comp_price_sps</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Cash Flow / Share (EoD)</td>
-        <td><span class="stub-value">$0.00</span></td>
-        <td><span class="source-field">comp_cfps_eod</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Cash Flow / Share — Price Based on Comps</td>
-        <td><span class="stub-value">($35.62)</span></td>
-        <td><span class="source-field">comp_price_cfps</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Negative value — parentheses formatting.</td>
-      </tr>
-      <tr>
-        <td class="field-label">EBITDA / Share (EoD)</td>
-        <td><span class="stub-value">$8.36</span></td>
-        <td><span class="source-field">comp_ebitdaps_eod</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">EBITDA / Share — Price Based on Comps</td>
-        <td><span class="stub-value">$0.00</span></td>
-        <td><span class="source-field">comp_price_ebitdaps</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Comparables Valuation (weighted)</td>
-        <td><span class="stub-value">$28.92</span></td>
-        <td><span class="source-field">comparables_valuation</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Final weighted output. Same as the Comparables card in the hero.</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-<section>
-  <div class="section-header">Comparables — Peer Group</div>
-  <div class="section-note">Dynamic table. Number of peer rows varies by company. The last row (Average) is always computed from the peers above it.</div>
-  <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">BCE Stub Value</th>
-        <th class="col-source">Likely Source Field</th>
-        <th class="col-type">Type</th>
-        <th class="col-note">Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="field-label">Subject Company Row (name, ticker)</td>
-        <td><span class="stub-value">BCE Inc. / BCE</span></td>
-        <td><span class="source-field">company_name / ticker</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td class="note-text">First row. Always the company being analyzed.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Subject Company — P/E, P/B, P/S, P/CF</td>
-        <td><span class="stub-value">21.60 / 2.94 / 2.12 / 5.99</span></td>
-        <td><span class="source-field">comp_subject_pe / pb / ps / pcf</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Peer Row (repeating): Company Name</td>
-        <td><span class="stub-value">Quebecor Inc., Rogers…, TELUS…</span></td>
-        <td><span class="source-field">comp_peer[n].company_name</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td class="note-text">Rendered in a loop. 1–N peers depending on company.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Peer Row (repeating): Ticker</td>
-        <td><span class="stub-value">QBR.A / RCI.A / T</span></td>
-        <td><span class="source-field">comp_peer[n].ticker</span></td>
-        <td><span class="badge badge-static">STATIC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Peer Row (repeating): P/E, P/B, P/S, P/CF</td>
-        <td><span class="stub-value">varies per peer</span></td>
-        <td><span class="source-field">comp_peer[n].pe / pb / ps / pcf</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Peer Average Row — P/E, P/B, P/S, P/CF</td>
-        <td><span class="stub-value">18.37 / 2.93 / 2.08 / 7.57</span></td>
-        <td><span class="source-field">comp_peer_avg_pe / pb / ps / pcf</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Average of peer rows only (excluding subject company).</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-
-<!-- ─── MULTIPLES ─────────────────────────────────────────────── -->
-<section>
-  <div class="section-header">Multiples</div>
-  <div class="section-note">Each row uses the company's own historical ratio average to derive an implied price. Last row is the weighted valuation output.</div>
-  <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">BCE Stub Value</th>
-        <th class="col-source">Likely Source Field</th>
-        <th class="col-type">Type</th>
-        <th class="col-note">Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="field-label">Earnings/Share — BCE Value</td>
-        <td><span class="stub-value">$0.18</span></td>
-        <td><span class="source-field">mult_eps_value</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Earnings/Share — Historic Ratio Avg</td>
-        <td><span class="stub-value">28.29</span></td>
-        <td><span class="source-field">mult_eps_hist_ratio</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Earnings/Share — Implied Price</td>
-        <td><span class="stub-value">$5.09</span></td>
-        <td><span class="source-field">mult_eps_implied_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Book Value/Share — BCE Value</td>
-        <td><span class="stub-value">$0.00</span></td>
-        <td><span class="source-field">mult_bvps_value</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Book Value/Share — Historic Ratio Avg</td>
-        <td><span class="stub-value">2.58</span></td>
-        <td><span class="source-field">mult_bvps_hist_ratio</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Book Value/Share — Implied Price</td>
-        <td><span class="stub-value">$0.00</span></td>
-        <td><span class="source-field">mult_bvps_implied_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Sales/Share — BCE Value</td>
-        <td><span class="stub-value">$26.18</span></td>
-        <td><span class="source-field">mult_sps_value</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Sales/Share — Historic Ratio Avg</td>
-        <td><span class="stub-value">1.74</span></td>
-        <td><span class="source-field">mult_sps_hist_ratio</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Sales/Share — Implied Price</td>
-        <td><span class="stub-value">$45.46</span></td>
-        <td><span class="source-field">mult_sps_implied_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Cash Flow/Share — BCE Value</td>
-        <td><span class="stub-value">$0.00</span></td>
-        <td><span class="source-field">mult_cfps_value</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Cash Flow/Share — Historic Ratio Avg</td>
-        <td><span class="stub-value">5.36</span></td>
-        <td><span class="source-field">mult_cfps_hist_ratio</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Cash Flow/Share — Implied Price</td>
-        <td><span class="stub-value">$0.00</span></td>
-        <td><span class="source-field">mult_cfps_implied_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">EBITDA/Share — BCE Value</td>
-        <td><span class="stub-value">$8.36</span></td>
-        <td><span class="source-field">mult_ebitdaps_value</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">EBITDA/Share — Historic Ratio Avg</td>
-        <td><span class="stub-value">6.31</span></td>
-        <td><span class="source-field">mult_ebitdaps_hist_ratio</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">EBITDA/Share — Implied Price</td>
-        <td><span class="stub-value">$52.71</span></td>
-        <td><span class="source-field">mult_ebitdaps_implied_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Multiples Valuation (weighted)</td>
-        <td><span class="stub-value">$34.42</span></td>
-        <td><span class="source-field">multiples_valuation</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Weighted output. Same as Multiples card in hero.</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
-
-
-<!-- ─── ADJUSTED BOOK VALUE ───────────────────────────────────── -->
-<section>
-  <div class="section-header">Adjusted Book Value (ABV)</div>
-  <div class="section-note">Note: this section appears in the original report. Confirm with Stockcalc whether ABV is included in the new design's 3 active models or shown as supplemental data only.</div>
-  <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">BCE Stub Value</th>
-        <th class="col-source">Likely Source Field</th>
-        <th class="col-type">Type</th>
-        <th class="col-note">Notes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="field-label">Adjusted Net Book Value (Equity)</td>
-        <td><span class="stub-value">$21,174,000,000</span></td>
-        <td><span class="source-field">abv_equity</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Raw dollar value. Formatted with commas, no abbreviation.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Common Shares Outstanding</td>
-        <td><span class="stub-value">912,300,000</span></td>
-        <td><span class="source-field">abv_shares_outstanding</span></td>
-        <td><span class="badge badge-live">LIVE</span></td>
-        <td class="note-text">Slightly different from the overview figure (921.8M) — confirm which source is authoritative.</td>
-      </tr>
-      <tr>
-        <td class="field-label">ANBV per Share</td>
-        <td><span class="stub-value">$19.00</span></td>
-        <td><span class="source-field">abv_per_share</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Average Price to Book Ratio (10yr)</td>
-        <td><span class="stub-value">2.64</span></td>
-        <td><span class="source-field">abv_avg_pb_10yr</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">ABV Average (implied price)</td>
-        <td><span class="stub-value">$50.22</span></td>
-        <td><span class="source-field">abv_implied_price</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">ANBV per Share × Average P/B Ratio.</td>
-      </tr>
+      <tr><td class="field-label">Market Cap</td><td><span class="stub-value">$30.0B</span></td><td><span class="source-field">market_cap</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Display in billions, 1 decimal: "$30.0B".</td></tr>
+      <tr><td class="field-label">P/E Ratio</td><td><span class="stub-value">76.95</span></td><td><span class="source-field">pe_ratio</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">2 decimal places.</td></tr>
+      <tr><td class="field-label">EPS</td><td><span class="stub-value">$2.01</span></td><td><span class="source-field">eps</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Format: "$X.XX".</td></tr>
+      <tr><td class="field-label">Dividend Yield</td><td><span class="stub-value">5.38%</span></td><td><span class="source-field">dividend_yield</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Format: "X.XX%".</td></tr>
+      <tr><td class="field-label">Shares Outstanding</td><td><span class="stub-value">921.8M</span></td><td><span class="source-field">shares_outstanding</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Display in millions, 1 decimal: "921.8M". NOTE: ABV section uses 912.3M — confirm authoritative source for each location.</td></tr>
+      <tr><td class="field-label">Beta</td><td><span class="stub-value">0.60</span></td><td><span class="source-field">beta</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">2 decimal places.</td></tr>
+      <tr><td class="field-label">Company Description</td><td><span class="stub-value">BCE is both a wireless…</span></td><td><span class="source-field">company_description</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">One or more &lt;p&gt; tags inside .co-desc.</td></tr>
     </tbody>
   </table>
 </section>
@@ -922,109 +142,112 @@
 <!-- ─── ANALYST COVERAGE ──────────────────────────────────────── -->
 <section>
   <div class="section-header">Analyst Coverage</div>
-  <div class="section-note">Two sub-sections: the breakdown/consensus block and the forward estimates table.</div>
+  <div class="section-note">
+    NOTE: This section now appears immediately after Company Overview, before the model detail sections (DCF, Comparables, Multiples, ABV).
+    It also has a new introductory sentence with ticker interpolated.
+    Hide this section (or show "No analyst coverage available") if no coverage exists.
+  </div>
   <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">BCE Stub Value</th>
-        <th class="col-source">Likely Source Field</th>
-        <th class="col-type">Type</th>
-        <th class="col-note">Notes</th>
-      </tr>
-    </thead>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">BCE Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
     <tbody>
-      <tr>
-        <td class="field-label">Buy Count</td>
-        <td><span class="stub-value">1</span></td>
-        <td><span class="source-field">analyst_buy_count</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Hold Count</td>
-        <td><span class="stub-value">0</span></td>
-        <td><span class="source-field">analyst_hold_count</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Sell Count</td>
-        <td><span class="stub-value">0</span></td>
-        <td><span class="source-field">analyst_sell_count</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Consensus Label</td>
-        <td><span class="stub-value">Buy</span></td>
-        <td><span class="source-field">analyst_consensus_label</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td class="note-text">String: "Buy", "Hold", or "Sell".</td>
-      </tr>
-      <tr>
-        <td class="field-label">Consensus Rating (numeric)</td>
-        <td><span class="stub-value">4.5 / 5</span></td>
-        <td><span class="source-field">analyst_consensus_rating</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td class="note-text">Displayed as "Rating: X / 5". One decimal place.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Consensus Target Price</td>
-        <td><span class="stub-value">$34.14</span></td>
-        <td><span class="source-field">analyst_target_price</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td class="note-text">Also used as the "2025 Target" in the estimates table.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Consensus Target — Upside %</td>
-        <td><span class="stub-value">+4.9%</span></td>
-        <td><span class="source-field">((analyst_target − close_price) / close_price) × 100</span></td>
-        <td><span class="badge badge-calc">CALC</span></td>
-        <td class="note-text">Displayed as "+X.X% upside" below the target price.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Estimates Table — Year</td>
-        <td><span class="stub-value">2024 / 2025 / 2026</span></td>
-        <td><span class="source-field">analyst_est[n].year</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td class="note-text">Repeating rows. Typically 3 years: prior, current, next.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Estimates Table — Mean EPS</td>
-        <td><span class="stub-value">$2.56 / $2.75 / $2.71</span></td>
-        <td><span class="source-field">analyst_est[n].mean_eps</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Estimates Table — # EPS Analysts</td>
-        <td><span class="stub-value">— / 7 / 7</span></td>
-        <td><span class="source-field">analyst_est[n].eps_analyst_count</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td class="note-text">Render "—" if null/zero.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Estimates Table — Mean Revenue (CAD M)</td>
-        <td><span class="stub-value">$24,409 / $24,327 / $25,071</span></td>
-        <td><span class="source-field">analyst_est[n].mean_revenue</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td class="note-text">In millions CAD. No "$" prefix in original — confirm display convention.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Estimates Table — # Revenue Analysts</td>
-        <td><span class="stub-value">10 / 7 / 7</span></td>
-        <td><span class="source-field">analyst_est[n].rev_analyst_count</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td></td>
-      </tr>
-      <tr>
-        <td class="field-label">Estimates Table — Mean Target</td>
-        <td><span class="stub-value">— / $34.14 / —</span></td>
-        <td><span class="source-field">analyst_est[n].mean_target</span></td>
-        <td><span class="badge badge-lookup">LOOKUP</span></td>
-        <td class="note-text">Typically only populated for current year. Render "—" if null.</td>
-      </tr>
+      <tr><td class="field-label">Intro sentence — ticker</td><td><span class="stub-value">BCE</span></td><td><span class="source-field">ticker</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Appears in "…currently rate BCE and where they set…" Surrounding text is static.</td></tr>
+      <tr><td class="field-label">Buy count</td><td><span class="stub-value">1</span></td><td><span class="source-field">analyst_buy_count</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td class="note-text">Bar width = (analyst_buy_count / analyst_total_count) × 100 + "%".</td></tr>
+      <tr><td class="field-label">Hold count</td><td><span class="stub-value">0</span></td><td><span class="source-field">analyst_hold_count</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td></td></tr>
+      <tr><td class="field-label">Sell count</td><td><span class="stub-value">0</span></td><td><span class="source-field">analyst_sell_count</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td></td></tr>
+      <tr><td class="field-label">Consensus label</td><td><span class="stub-value">Buy</span></td><td><span class="source-field">analyst_consensus_label</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td class="note-text">"Buy", "Hold", or "Sell".</td></tr>
+      <tr><td class="field-label">Consensus rating</td><td><span class="stub-value">4.5 / 5</span></td><td><span class="source-field">analyst_consensus_rating</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td class="note-text">Format: "Rating: X.X / 5".</td></tr>
+      <tr><td class="field-label">Target year</td><td><span class="stub-value">2025</span></td><td><span class="source-field">analyst_target_year</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td class="note-text">Current year as string, e.g. "2025 Target".</td></tr>
+      <tr><td class="field-label">Target price</td><td><span class="stub-value">$34.14</span></td><td><span class="source-field">analyst_target_price</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td class="note-text">Format: "$XX.XX".</td></tr>
+      <tr><td class="field-label">Upside %</td><td><span class="stub-value">+4.9% upside</span></td><td><span class="source-field">((analyst_target_price − close_price) / close_price) × 100</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Format: "+X.X% upside" or "−X.X% downside".</td></tr>
+      <tr><td class="field-label">Estimates table — Year</td><td><span class="stub-value">2024 / 2025 / 2026</span></td><td><span class="source-field">analyst_estimates[n].year</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td class="note-text">One &lt;tr&gt; per year. Null values → &amp;mdash;.</td></tr>
+      <tr><td class="field-label">Estimates table — Mean EPS</td><td><span class="stub-value">$2.56 / $2.75 / $2.71</span></td><td><span class="source-field">analyst_estimates[n].mean_eps</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td></td></tr>
+      <tr><td class="field-label">Estimates table — # EPS Analysts</td><td><span class="stub-value">— / 7 / 7</span></td><td><span class="source-field">analyst_estimates[n].eps_analyst_count</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td class="note-text">Render "—" if null.</td></tr>
+      <tr><td class="field-label">Estimates table — Mean Revenue (CAD M)</td><td><span class="stub-value">$24,409 / $24,327 / $25,071</span></td><td><span class="source-field">analyst_estimates[n].mean_revenue_m</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td class="note-text">In millions CAD, comma-formatted.</td></tr>
+      <tr><td class="field-label">Estimates table — # Revenue Analysts</td><td><span class="stub-value">10 / 7 / 7</span></td><td><span class="source-field">analyst_estimates[n].rev_analyst_count</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td></td></tr>
+      <tr><td class="field-label">Estimates table — Mean Target</td><td><span class="stub-value">— / $34.14 / —</span></td><td><span class="source-field">analyst_estimates[n].mean_target</span></td><td><span class="badge badge-lookup">LOOKUP</span></td><td class="note-text">Typically only current year. Render "—" if null.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── DCF ───────────────────────────────────────────────────── -->
+<section>
+  <div class="section-header">Discounted Cash Flow</div>
+  <div class="section-note">Render only if DCF is one of the active models. Sensitivity table showing implied price when each input is shifted. Highlighted Valuation row = dcf_valuation (same value as model summary table).</div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">BCE Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">WACC current</td><td><span class="stub-value">4.69%</span></td><td><span class="source-field">dcf_wacc</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">WACC dropped 1%</td><td><span class="stub-value">$55.22</span></td><td><span class="source-field">dcf_sensitivity_wacc_d1</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">.pos class.</td></tr>
+      <tr><td class="field-label">WACC raised 1%</td><td><span class="stub-value">$21.48</span></td><td><span class="source-field">dcf_sensitivity_wacc_u1</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">.neg class.</td></tr>
+      <tr><td class="field-label">Terminal Growth Rate current</td><td><span class="stub-value">0%</span></td><td><span class="source-field">dcf_terminal_growth_rate</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">TGR dropped / raised 1%</td><td><span class="stub-value">$22.65 / $53.41</span></td><td><span class="source-field">dcf_sensitivity_tgr_d1 / u1</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">.pos / .neg.</td></tr>
+      <tr><td class="field-label">Tax Rate current</td><td><span class="stub-value">60.61%</span></td><td><span class="source-field">dcf_tax_rate</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">Tax Rate dropped / raised 5%</td><td><span class="stub-value">$44.05 / $25.45</span></td><td><span class="source-field">dcf_sensitivity_tax_d5 / u5</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">.pos / .neg.</td></tr>
+      <tr><td class="field-label">Cash Flow current</td><td><span class="stub-value">$8.06B</span></td><td><span class="source-field">dcf_cash_flow</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Display in billions.</td></tr>
+      <tr><td class="field-label">Cash Flow dropped / raised 5%</td><td><span class="stub-value">$31.09 / $38.41</span></td><td><span class="source-field">dcf_sensitivity_cf_d5 / u5</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">.neg / .pos (lower CF = lower price).</td></tr>
+      <tr><td class="field-label">CapEx current</td><td><span class="stub-value">0</span></td><td><span class="source-field">dcf_capex</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">CapEx dropped / raised 5%</td><td><span class="stub-value">$34.75 / $34.75</span></td><td><span class="source-field">dcf_sensitivity_capex_d5 / u5</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">No change shown because CapEx = 0. No colour class.</td></tr>
+      <tr><td class="field-label">Long-Term Debt current</td><td><span class="stub-value">$33.87B</span></td><td><span class="source-field">dcf_long_term_debt</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Display in billions.</td></tr>
+      <tr><td class="field-label">Debt dropped / raised 5%</td><td><span class="stub-value">$32.91 / $36.59</span></td><td><span class="source-field">dcf_sensitivity_debt_d5 / u5</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">.pos / .neg.</td></tr>
+      <tr><td class="field-label">DCF Valuation (highlighted row)</td><td><span class="stub-value">$34.75</span></td><td><span class="source-field">dcf_valuation</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Same value as DCF row in model summary table.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── COMPARABLES ───────────────────────────────────────────── -->
+<section>
+  <div class="section-header">Comparables</div>
+  <div class="section-note">Render only if Comparables is one of the active models. Two sub-tables: Model Inputs and Peer Group.</div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">BCE Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Model Inputs table — first &lt;th&gt;</td><td><span class="stub-value">BCE</span></td><td><span class="source-field">ticker</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Header of the first column is the ticker.</td></tr>
+      <tr><td class="field-label">Earnings/Share — EOD, Price, Adj.</td><td><span class="stub-value">$0.18 / $3.31 / 0</span></td><td><span class="source-field">comp_eps_eod / comp_price_eps / comp_adj_eps</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">Book Value/Share — EOD, Price, Adj.</td><td><span class="stub-value">$0.00 / $0.00 / 0</span></td><td><span class="source-field">comp_bvps_eod / comp_price_bvps / comp_adj_bvps</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">Sales/Share — EOD, Price, Adj.</td><td><span class="stub-value">$26.18 / $54.53 / 0</span></td><td><span class="source-field">comp_sps_eod / comp_price_sps / comp_adj_sps</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">Cash Flow/Share — EOD, Price, Adj.</td><td><span class="stub-value">$0.00 / ($35.62) / 0</span></td><td><span class="source-field">comp_cfps_eod / comp_price_cfps / comp_adj_cfps</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Negative price → parentheses + .neg class.</td></tr>
+      <tr><td class="field-label">EBITDA/Share — EOD, Price, Adj.</td><td><span class="stub-value">$8.36 / $0.00 / 0</span></td><td><span class="source-field">comp_ebitdaps_eod / comp_price_ebitdaps / comp_adj_ebitdaps</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">Comparables Valuation (highlighted row)</td><td><span class="stub-value">$28.92</span></td><td><span class="source-field">comparables_valuation</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Same value as Comparables row in model summary table.</td></tr>
+      <tr><td class="field-label">Peer Group — subject row</td><td><span class="stub-value">BCE Inc. / BCE / 21.60 / 2.94 / 2.12 / 5.99</span></td><td><span class="source-field">company_name + ticker + comp_subject_pe/pb/ps/pcf</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">.dt-subject class. Always first row.</td></tr>
+      <tr><td class="field-label">Peer Group — peer rows (repeating)</td><td><span class="stub-value">Quebecor, Rogers, TELUS</span></td><td><span class="source-field">comp_peers[n].company_name / .ticker / .pe / .pb / .ps / .pcf</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">One &lt;tr&gt; per peer. No special class.</td></tr>
+      <tr><td class="field-label">Peer Group — average row</td><td><span class="stub-value">18.37 / 2.93 / 2.08 / 7.57</span></td><td><span class="source-field">comp_peer_avg_pe/pb/ps/pcf</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">.dt-avg class. Peers only, excluding subject.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── MULTIPLES ─────────────────────────────────────────────── -->
+<section>
+  <div class="section-header">Multiples</div>
+  <div class="section-note">Render only if Multiples is one of the active models. Second &lt;th&gt; = ticker symbol.</div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">BCE Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Earnings/Share — value, hist ratio, implied</td><td><span class="stub-value">$0.18 / 28.29 / $5.09</span></td><td><span class="source-field">mult_eps_value / mult_eps_hist_ratio / mult_eps_implied_price</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">Book Value/Share — value, hist ratio, implied</td><td><span class="stub-value">$0.00 / 2.58 / $0.00</span></td><td><span class="source-field">mult_bvps_value / mult_bvps_hist_ratio / mult_bvps_implied_price</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">Sales/Share — value, hist ratio, implied</td><td><span class="stub-value">$26.18 / 1.74 / $45.46</span></td><td><span class="source-field">mult_sps_value / mult_sps_hist_ratio / mult_sps_implied_price</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">Cash Flow/Share — value, hist ratio, implied</td><td><span class="stub-value">$0.00 / 5.36 / $0.00</span></td><td><span class="source-field">mult_cfps_value / mult_cfps_hist_ratio / mult_cfps_implied_price</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">EBITDA/Share — value, hist ratio, implied</td><td><span class="stub-value">$8.36 / 6.31 / $52.71</span></td><td><span class="source-field">mult_ebitdaps_value / mult_ebitdaps_hist_ratio / mult_ebitdaps_implied_price</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">Multiples Valuation (highlighted row)</td><td><span class="stub-value">$34.42</span></td><td><span class="source-field">multiples_valuation</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Same value as Multiples row in model summary table.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── ADJUSTED BOOK VALUE ───────────────────────────────────── -->
+<section>
+  <div class="section-header">Adjusted Book Value (ABV)</div>
+  <div class="section-note">Render only if ABV is one of the active models.</div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">BCE Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Adjusted Net Book Value (Equity)</td><td><span class="stub-value">$21,174,000,000</span></td><td><span class="source-field">abv_equity</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Raw dollars, comma-formatted.</td></tr>
+      <tr><td class="field-label">Common Shares Outstanding</td><td><span class="stub-value">912,300,000</span></td><td><span class="source-field">abv_shares_outstanding</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">NOTE: differs from Company Overview (921.8M). Confirm authoritative source for each location.</td></tr>
+      <tr><td class="field-label">ANBV per Share</td><td><span class="stub-value">$19.00</span></td><td><span class="source-field">abv_per_share</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">Average Price to Book Ratio (10yr)</td><td><span class="stub-value">2.64</span></td><td><span class="source-field">abv_avg_pb_10yr</span></td><td><span class="badge badge-calc">CALC</span></td><td></td></tr>
+      <tr><td class="field-label">ABV implied price (highlighted row)</td><td><span class="stub-value">$50.22</span></td><td><span class="source-field">abv_implied_price</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">ANBV per Share × avg P/B ratio.</td></tr>
     </tbody>
   </table>
 </section>
@@ -1033,35 +256,15 @@
 <!-- ─── STATIC / BOILERPLATE ──────────────────────────────────── -->
 <section>
   <div class="section-header">Static / Boilerplate Content</div>
-  <div class="section-note">These elements do not require data binding. They are fixed text in the template.</div>
   <table>
-    <thead>
-      <tr>
-        <th class="col-field">Field</th>
-        <th class="col-stub">Notes</th>
-      </tr>
-    </thead>
+    <thead><tr><th class="col-field">Element</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr>
-        <td class="field-label">Stockcalc wordmark / logo</td>
-        <td class="note-text">SVG or image asset. No dynamic content.</td>
-      </tr>
-      <tr>
-        <td class="field-label">"About the Models" section text</td>
-        <td class="note-text">All explanatory copy (DCF, Comparables, ABV, Multiples, Analyst Consensus descriptions) is static. Does not change per company.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Risk Disclosure paragraph</td>
-        <td class="note-text">Fixed boilerplate. Includes link to stockcalc.com/Disclaimer.html.</td>
-      </tr>
-      <tr>
-        <td class="field-label">Copyright line</td>
-        <td class="note-text">Year should be dynamic (current year). Entity name "Patchell Brook Equity Analytics" is static.</td>
-      </tr>
-      <tr>
-        <td class="field-label">stockcalc.com footer link</td>
-        <td class="note-text">Static URL. No data binding.</td>
-      </tr>
+      <tr><td class="field-label">Stockcalc wordmark</td><td class="note-text">Text/SVG asset. No data binding.</td></tr>
+      <tr><td class="field-label">About the Models section</td><td class="note-text">All explanatory copy is static. Does not change per company.</td></tr>
+      <tr><td class="field-label">Bridge note</td><td class="note-text">"How each figure is calculated is detailed in the sections below." — static string.</td></tr>
+      <tr><td class="field-label">CTA box copy + link</td><td class="note-text">Fully static.</td></tr>
+      <tr><td class="field-label">Risk disclosure paragraph</td><td class="note-text">Static boilerplate. Link to stockcalc.com/Disclaimer.html hardcoded.</td></tr>
+      <tr><td class="field-label">Copyright year</td><td class="note-text">Dynamic (current year). Entity name "Patchell Brook Equity Analytics" is static.</td></tr>
     </tbody>
   </table>
 </section>
