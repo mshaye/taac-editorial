@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- STOCKCALC: <title> — format: "{ticker}:{exchange} — Dividend Income Report" -->
+<title>CNQ:TSX — Dividend Income Report</title>
+<!--      ↑ ticker  ↑ exchange                                                -->
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+
+  /* ── DESIGN TOKENS — DO NOT MODIFY
+     All colours, fonts, and spacing are Globe/Stockcalc brand.
+     Ask Mike Shaye (Globe) before changing any value here. ── */
+  :root {
+    --bg:            #f2f4f6;
+    --surface:       #ffffff;
+    --border:        #d4d8dd;
+    --border-light:  #e8ebee;
+    --text:          #111418;
+    --text-sec:      #5a6270;
+    --text-muted:    #8c95a0;
+    --accent:        #122462;       /* Stockcalc navy — brand primary */
+    --accent-light:  #edf0f7;
+    --green:         #15803d;
+    --green-bg:      #f0fdf4;
+    --green-border:  #bbf7d0;
+    --red:           #b91c1c;
+    --red-bg:        #fef2f2;
+    --amber:         #b45309;
+    --amber-bg:      #fffbeb;
+    --mono:          'IBM Plex Mono', monospace;
+    --sans:          'IBM Plex Sans', sans-serif;
+    --serif:         'Libre Baskerville', Georgia, serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    padding: 28px 16px 56px;
+    line-height: 1.5;
+  }
+  .page {
+    max-width: 720px;
+    margin: 0 auto;
+    zoom: 1.25;
+  }
+
+  /* ── HEADER BAR (matches valuation report) ── */
+  .header-bar {
+    background: var(--accent);
+    padding: 10px 22px;
+    border-radius: 3px 3px 0 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .header-bar-bg { position: absolute; inset: 0; opacity: 0.07; pointer-events: none; }
+  .header-bar-inner { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; }
+  .sc-wordmark { font-family: var(--mono); font-size: 16px; font-weight: 600; color: #fff; letter-spacing: -0.01em; }
+  .sc-wordmark span { font-weight: 400; opacity: .6; }
+  .header-date { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.6); letter-spacing: .04em; }
+
+  /* ── REPORT BODY ── */
+  .report-body { background: var(--surface); border: 1px solid var(--border); border-top: none; padding: 24px 22px; }
+  .report-type { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+
+  /* Stock header */
+  .stock-header { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light); }
+  .company-name { font-family: var(--serif); font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--text); margin-bottom: 4px; }
+  .ticker-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .ticker { font-family: var(--mono); font-size: 13px; font-weight: 500; color: var(--text-sec); background: var(--bg); border: 1px solid var(--border); padding: 2px 10px; border-radius: 2px; }
+  .sector-tag { font-size: 13px; color: var(--text-muted); }
+  .price-row  { display: flex; gap: 28px; flex-wrap: wrap; }
+  .price-item-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
+  .price-item-val { font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--text); }
+  .price-item-val.big { font-size: 26px; }
+
+  /*
+    STOCKCALC NOTE — Verdict box states:
+    Default (healthy dividend) → class="verdict-box"              → green bg/border
+    Caution (stressed/at-risk) → class="verdict-box caution"      → amber bg/border
+    The .caution modifier also applies to .verdict-eyebrow.
+    The threshold that triggers "caution" should be determined by Stockcalc
+    (likely based on payout_ratio > threshold and/or a dividend cut in history).
+  */
+  .verdict-box { border: 1px solid var(--green-border); background: var(--green-bg); border-radius: 3px; padding: 16px 18px; margin-bottom: 20px; }
+  .verdict-box.caution { border-color: #fcd34d; background: var(--amber-bg); }
+  .verdict-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--green); margin-bottom: 6px; }
+  .verdict-eyebrow.caution { color: var(--amber); }
+  .verdict-headline { font-family: var(--serif); font-size: 16px; font-weight: 700; color: var(--text); line-height: 1.4; margin-bottom: 8px; }
+  .verdict-body { font-size: 13px; color: var(--text-sec); line-height: 1.7; }
+
+  /* Section */
+  .section { margin-bottom: 22px; }
+  .section-title { font-family: var(--serif); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border-light); }
+
+  /* Key numbers */
+  .key-numbers { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 14px; }
+  .kn-item { padding: 12px 14px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 2px; }
+  .kn-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+  .kn-val { font-family: var(--mono); font-size: 20px; font-weight: 500; color: var(--text); line-height: 1; margin-bottom: 4px; }
+  .kn-sub { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+  /* Plain language explanation */
+  .plain-explain { background: var(--bg); border-left: 3px solid var(--border); padding: 10px 14px; margin-bottom: 14px; font-size: 13px; color: var(--text-sec); line-height: 1.7; border-radius: 0 2px 2px 0; }
+  .plain-explain strong { color: var(--text); }
+
+  /* Dividend history table */
+  .div-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 12px; }
+  .div-table th { font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--text-sec); padding: 7px 10px; text-align: left; border-bottom: 1px solid var(--border); background: var(--bg); }
+  .div-table td { padding: 8px 10px; border-bottom: 1px solid var(--border-light); color: var(--text-sec); font-size: 13px; }
+  .div-table td:last-child { font-family: var(--mono); font-weight: 500; color: var(--text); }
+  .div-table tr:last-child td { border-bottom: none; }
+  .div-table tr:hover td { background: #fafbfc; }
+
+  /* Metric row */
+  .metric-row { display: flex; border: 1px solid var(--border-light); border-radius: 2px; overflow: hidden; margin-bottom: 14px; }
+  .metric-col { flex: 1; padding: 12px 14px; border-right: 1px solid var(--border-light); }
+  .metric-col:last-child { border-right: none; }
+  .metric-col-label { font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+  .metric-col-val { font-family: var(--mono); font-size: 16px; font-weight: 500; color: var(--text); line-height: 1; margin-bottom: 3px; }
+  .metric-col-sub { font-size: 11px; color: var(--text-muted); }
+
+  /* Payout bar */
+  .payout-wrap { margin-bottom: 14px; }
+  .payout-bar-outer { height: 18px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 2px; overflow: hidden; margin-bottom: 5px; position: relative; }
+  .payout-bar-fill { height: 100%; background: var(--green); opacity: .6; }
+  /* STOCKCALC: .payout-bar-marker is fixed at left:100% — marks the 100% unsustainable line. Do not move. */
+  .payout-bar-marker { position: absolute; top: 0; bottom: 0; width: 1.5px; background: var(--red); }
+  .payout-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); font-family: var(--mono); }
+
+  /* Valuation row */
+  .val-row { display: flex; align-items: center; gap: 16px; padding: 12px 14px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 2px; margin-bottom: 14px; }
+  .val-left { flex: 1; }
+  .val-label-sm { font-size: 11px; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 3px; }
+  .val-num { font-family: var(--mono); font-size: 22px; font-weight: 500; color: var(--text); }
+  /* STOCKCALC: .val-tag is always green in the current design. Confirm with Globe if a red/amber state is needed for overvalued stocks. */
+  .val-tag { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 2px; border: 1px solid var(--green-border); background: var(--green-bg); color: var(--green); white-space: nowrap; }
+
+  /* CTA */
+  .cta-box { background: var(--accent); border-radius: 2px; padding: 18px 20px; display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 1px; }
+  .cta-title { font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .cta-sub  { font-size: 10px; color: rgba(255,255,255,.65); }
+  .cta-btn { white-space: nowrap; padding: 8px 16px; border-radius: 2px; border: 1.5px solid rgba(255,255,255,.4); background: transparent; color: #fff; font-family: var(--sans); font-size: 10px; font-weight: 600; cursor: pointer; flex-shrink: 0; letter-spacing: .01em; text-decoration: none; }
+
+  /* Footer */
+  .footer    { background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 3px 3px; padding: 14px 22px; }
+  .disclaimer        { font-size: 10px; color: var(--text-muted); line-height: 1.65; }
+  .disclaimer p + p  { margin-top: 8px; }
+  .disclaimer a      { color: var(--text-muted); text-decoration: underline; }
+
+  @media (max-width: 520px) {
+    .report-body         { padding: 18px; }
+    .key-numbers         { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .metric-row          { flex-direction: column; }
+    .metric-col          { border-right: none; border-bottom: 1px solid var(--border-light); }
+    .metric-col:last-child { border-bottom: none; }
+    .cta-box             { flex-direction: column; align-items: flex-start; }
+  }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HEADER BAR
+  ════════════════════════════════════════════════════════════ -->
+  <div class="header-bar">
+    <!-- Decorative SVG lines — static, no data binding needed -->
+    <svg class="header-bar-bg" viewBox="0 0 700 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <polyline points="0,38 40,30 80,34 120,22 160,28 200,18 240,24 280,14 320,20 360,10 400,16 440,8 480,18 520,12 560,22 600,10 640,18 700,8" fill="none" stroke="white" stroke-width="1.5"/>
+      <polyline points="0,44 50,36 100,40 150,28 200,34 250,24 300,30 350,18 400,26 450,14 500,22 550,16 600,28 650,18 700,24" fill="none" stroke="white" stroke-width="1"/>
+    </svg>
+    <div class="header-bar-inner">
+      <!-- Stockcalc wordmark — static, no data binding -->
+      <div class="sc-wordmark">stock<span>calc</span></div>
+      <!-- STOCKCALC: report_date — date report was generated. Format: "Month DD, YYYY" -->
+      <div class="header-date">March 27, 2026</div>
+      <!--                       ↑ report_date -->
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       REPORT BODY
+  ════════════════════════════════════════════════════════════ -->
+  <div class="report-body">
+
+    <!-- "DIVIDEND INCOME REPORT" label — static string, no data binding -->
+    <div class="report-type">Dividend Income Report</div>
+
+    <!-- ── STOCK IDENTITY ────────────────────────────────────── -->
+    <div class="stock-header">
+
+      <!-- STOCKCALC: company_name — full legal company name -->
+      <div class="company-name">Canadian Natural Resources</div>
+      <!--                        ↑ company_name -->
+
+      <div class="ticker-row">
+        <!-- STOCKCALC: ticker + exchange — format "{ticker} : {exchange}" -->
+        <span class="ticker">CNQ : TSX</span>
+        <!--                  ↑ ticker  ↑ exchange -->
+
+        <!-- STOCKCALC: sector + industry — format "{sector} — {industry}" -->
+        <span class="sector-tag">Energy &mdash; Oil &amp; Gas Production</span>
+        <!--                       ↑ sector              ↑ industry -->
+      </div>
+
+      <div class="price-row">
+
+        <div class="price-item">
+          <div class="price-item-label">Close price</div>
+          <!-- STOCKCALC: close_price + currency
+               Format: "${close_price} " with currency code as a muted inline span
+               e.g. "$69.46 CAD" -->
+          <div class="price-item-val big">$69.46 <span style="font-size:14px;color:var(--text-muted)">CAD</span></div>
+          <!--                             ↑ close_price                                                 ↑ currency -->
+        </div>
+
+        <div class="price-item">
+          <div class="price-item-label">Annual dividend</div>
+          <!-- STOCKCALC: annual_dividend — total annual per-share dividend (sum of 4 quarterly payments)
+               Format: "$X.XX" -->
+          <div class="price-item-val big">$2.35</div>
+          <!--                             ↑ annual_dividend -->
+        </div>
+
+        <div class="price-item">
+          <div class="price-item-label">Next payment</div>
+          <!-- STOCKCALC: next_payment_date — next scheduled dividend payment date
+               Format: "Month DD, YYYY" -->
+          <div class="price-item-val" style="font-size:15px;padding-top:4px">June 27, 2026</div>
+          <!--                                                                  ↑ next_payment_date -->
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ── VERDICT BOX ───────────────────────────────────────────
+         TWO STATES — apply the correct class to both .verdict-box and .verdict-eyebrow:
+           Healthy dividend  → class="verdict-box"           + class="verdict-eyebrow"
+           At-risk dividend  → class="verdict-box caution"   + class="verdict-eyebrow caution"
+         The threshold that triggers "caution" is Stockcalc's decision (e.g. payout_ratio > 90%,
+         or a dividend cut detected in dividend_history[]).
+    ─────────────────────────────────────────────────────────── -->
+
+    <!-- STOCKCALC: Apply or omit the "caution" class based on dividend_health_flag -->
+    <div class="verdict-box">
+    <!--             ↑ add "caution" class here when at-risk -->
+
+      <!-- "Dividend assessment" — static eyebrow label -->
+      <!-- STOCKCALC: Apply or omit the "caution" class here to match .verdict-box state -->
+      <div class="verdict-eyebrow">Dividend assessment</div>
+      <!--                ↑ add "caution" class here when at-risk -->
+
+      <!-- STOCKCALC: verdict_headline — generated from template:
+           "{ticker}'s dividend is healthy and has grown every year for {consecutive_growth_years} consecutive years."
+           Swap "is healthy" for "is under pressure" (or similar) when caution state applies.
+           consecutive_growth_years = number of consecutive years of uninterrupted dividend growth -->
+      <div class="verdict-headline">CNQ's dividend is healthy and has grown every year for 8 consecutive years.</div>
+      <!--                            ↑ ticker                                                    ↑ consecutive_growth_years -->
+
+      <!-- STOCKCALC: verdict body prose — template with 3 data points interpolated:
+           [payout_ratio]          = e.g. "61.8%"
+           [dividend_cagr_10yr]    = 10-year compound annual growth rate, e.g. "14.2%"
+           [ticker]                = e.g. "CNQ"
+           Surrounding text is static framing. -->
+      <div class="verdict-body">The company pays out 61.8% of its earnings as dividends, which is within sustainable range. The dividend has compounded at 14.2% annually over the past decade &mdash; well ahead of inflation. Income investors holding CNQ have seen their quarterly payment grow consistently.</div>
+      <!--                                           ↑ payout_ratio                                                                                    ↑ dividend_cagr_10yr                                               ↑ ticker -->
+
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION: WHAT YOU EARN
+    ════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <!-- "What you earn" — static section title -->
+      <div class="section-title">What you earn</div>
+
+      <div class="key-numbers">
+
+        <!-- STOCKCALC: dividend_yield — annual_dividend / close_price × 100
+             Format: "X.XX%". Sub-label is static. -->
+        <div class="kn-item">
+          <div class="kn-label">Dividend yield</div>
+          <div class="kn-val">5.28%</div>
+          <!--               ↑ dividend_yield -->
+          <div class="kn-sub">Income per year on every dollar invested</div>
+        </div>
+
+        <!-- STOCKCALC: income_per_10k — dividend_yield × 10,000, rounded to nearest dollar
+             Format: "$XXX". Sub-label is static. -->
+        <div class="kn-item">
+          <div class="kn-label">Per $10,000 invested</div>
+          <div class="kn-val">$528</div>
+          <!--               ↑ income_per_10k (= dividend_yield × 10000, rounded) -->
+          <div class="kn-sub">Estimated annual income before tax</div>
+        </div>
+
+        <!-- STOCKCALC: quarterly_dividend — most recent quarterly per-share payment
+             Format: "$X.XXXX" (4 decimal places). Sub-label is static. -->
+        <div class="kn-item">
+          <div class="kn-label">Quarterly payment</div>
+          <div class="kn-val">$0.5875</div>
+          <!--               ↑ quarterly_dividend -->
+          <div class="kn-sub">Per share, paid four times per year</div>
+        </div>
+
+        <!-- STOCKCALC: dividend_cagr_10yr — 10-year compound annual dividend growth rate
+             Format: "XX.X%". Sub-label is static. -->
+        <div class="kn-item">
+          <div class="kn-label">10-year growth rate</div>
+          <div class="kn-val">14.2%</div>
+          <!--               ↑ dividend_cagr_10yr -->
+          <div class="kn-sub">Compound annual dividend growth</div>
+        </div>
+
+      </div>
+
+      <!-- STOCKCALC: plain-language income example block — generated from template:
+           [plain_shares_example] = example share count, e.g. 500 (can be a fixed constant)
+           [ticker]               = e.g. "CNQ"
+           [quarterly_income]     = plain_shares_example × quarterly_dividend, e.g. "$293.75"
+           [annual_income]        = plain_shares_example × annual_dividend, e.g. "$1,175"
+           The tax credit sentence ("Canadian dividend income is eligible…") is static copy
+           for Canadian-listed stocks. Confirm with Stockcalc whether non-Canadian stocks
+           should omit or replace this sentence. -->
+      <div class="plain-explain">
+        <strong>What this means:</strong> If you hold 500 shares of CNQ, you receive approximately $293.75 every quarter, or around $1,175 per year. Canadian dividend income is eligible for the dividend tax credit, which may reduce your effective tax rate on this income.
+        <!--                                                    ↑ plain_shares_example  ↑ ticker  ↑ quarterly_income                          ↑ annual_income -->
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION: IS THE DIVIDEND SAFE?
+    ════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <!-- "Is the dividend safe?" — static section title -->
+      <div class="section-title">Is the dividend safe?</div>
+
+      <!-- Three-column metric row -->
+      <div class="metric-row">
+
+        <!-- STOCKCALC: payout_ratio — dividends paid / net earnings × 100
+             Format: "XX.X%". Sub-label is static. -->
+        <div class="metric-col">
+          <div class="metric-col-label">Payout ratio</div>
+          <div class="metric-col-val">61.8%</div>
+          <!--                          ↑ payout_ratio -->
+          <div class="metric-col-sub">of earnings paid as dividends</div>
+        </div>
+
+        <!-- STOCKCALC: consecutive_growth_years — years of uninterrupted dividend growth
+             Format: "{N} years". Sub-label is static. -->
+        <div class="metric-col">
+          <div class="metric-col-label">Years without a cut</div>
+          <div class="metric-col-val">8 years</div>
+          <!--                          ↑ consecutive_growth_years -->
+          <div class="metric-col-sub">uninterrupted dividend payments</div>
+        </div>
+
+        <!-- STOCKCALC: interest_coverage_ratio — EBIT / interest expense
+             Format: "XX.Xx" (one decimal place). Sub-label is static. -->
+        <div class="metric-col">
+          <div class="metric-col-label">Interest coverage</div>
+          <div class="metric-col-val">13.3x</div>
+          <!--                          ↑ interest_coverage_ratio -->
+          <div class="metric-col-sub">earnings cover interest payments</div>
+        </div>
+
+      </div>
+
+      <!-- Payout bar visual -->
+      <div class="payout-wrap">
+        <!-- "Payout ratio — how much of earnings are paid as dividends" — static label -->
+        <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px">Payout ratio &mdash; how much of earnings are paid as dividends</div>
+        <div class="payout-bar-outer">
+          <!-- STOCKCALC: payout bar fill width = payout_ratio as a percentage
+               Set style="width:{payout_ratio}%" on this element. e.g. style="width:61.8%" -->
+          <div class="payout-bar-fill" style="width:61.8%"></div>
+          <!--                                         ↑ payout_ratio -->
+          <!-- Red marker — always fixed at left:100%. Do not make this dynamic. -->
+          <div class="payout-bar-marker" style="left:100%"></div>
+        </div>
+        <div class="payout-labels">
+          <!-- "0%" label — static -->
+          <span>0%</span>
+          <!-- STOCKCALC: centre label — format "{ticker}: {payout_ratio}%" in green -->
+          <span style="color:var(--green)">CNQ: 61.8%</span>
+          <!--                             ↑ ticker  ↑ payout_ratio -->
+          <!-- "100% (unsustainable)" label — static -->
+          <span style="color:var(--red)">100% (unsustainable)</span>
+        </div>
+      </div>
+
+      <!-- STOCKCALC: payout plain-language block — generated from template:
+           [sector_threshold]  = sector-specific sustainable payout ceiling, e.g. "75%" for energy
+                                 Confirm with Stockcalc whether this is hardcoded per sector or a variable.
+           [ticker]            = e.g. "CNQ"
+           [payout_ratio]      = e.g. "61.8%"
+           Surrounding framing text is static. -->
+      <div class="plain-explain">
+        <strong>What this means:</strong> A payout ratio under 75% is generally considered sustainable for an energy company. CNQ's ratio of 61.8% leaves room to maintain the dividend even if earnings dip. A ratio above 100% would signal the company is paying out more than it earns, which is not sustainable.
+        <!--                                                       ↑ sector_threshold                ↑ ticker  ↑ payout_ratio -->
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION: RECENT DIVIDEND HISTORY
+    ════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <!-- "Recent dividend history" — static section title -->
+      <div class="section-title">Recent dividend history</div>
+
+      <!-- STOCKCALC: Dividend history table — render the 4 most recent payments,
+           newest first. Loop over dividend_history[] array.
+           Column headers (Payment date / Type / Amount per share) are static strings. -->
+      <table class="div-table">
+        <thead>
+          <tr>
+            <th>Payment date</th>
+            <th>Type</th>
+            <th>Amount per share</th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- STOCKCALC: Each <tr> = one dividend payment. Repeat for N most recent payments.
+               dividend_history[n].payment_date  — format "Month D, YYYY"
+               dividend_history[n].type          — e.g. "Cash dividend" or "Special dividend"
+               dividend_history[n].amount        — format "$X.XXXX" -->
+          <tr>
+            <td>July 3, 2025</td>       <!-- dividend_history[0].payment_date -->
+            <td>Cash dividend</td>       <!-- dividend_history[0].type -->
+            <td>$0.5875</td>             <!-- dividend_history[0].amount -->
+          </tr>
+          <tr>
+            <td>April 4, 2025</td>       <!-- dividend_history[1].payment_date -->
+            <td>Cash dividend</td>       <!-- dividend_history[1].type -->
+            <td>$0.5875</td>             <!-- dividend_history[1].amount -->
+          </tr>
+          <tr>
+            <td>January 3, 2025</td>     <!-- dividend_history[2].payment_date -->
+            <td>Cash dividend</td>       <!-- dividend_history[2].type -->
+            <td>$0.5625</td>             <!-- dividend_history[2].amount -->
+          </tr>
+          <tr>
+            <td>October 4, 2024</td>     <!-- dividend_history[3].payment_date -->
+            <td>Cash dividend</td>       <!-- dividend_history[3].type -->
+            <td>$0.5250</td>             <!-- dividend_history[3].amount -->
+          </tr>
+
+        </tbody>
+      </table>
+
+      <!-- STOCKCALC: trend plain-language block — generated from dividend_history[].
+           This prose summarises the direction and magnitude of recent changes.
+           The stub text ("three times … $0.525 to $0.5875") is fully data-driven.
+           Confirm with Stockcalc whether this is a rule-based template (e.g. count increases,
+           show oldest and newest amount) or free-form generated text. -->
+      <div class="plain-explain">
+        <strong>Trend:</strong> The quarterly payment has increased three times in the past four quarters, from $0.525 to $0.5875. This consistent growth is a positive sign for income investors planning around this stock.
+        <!--                                                         ↑ derived from dividend_history[]                  ↑ oldest amount in window  ↑ newest amount -->
+      </div>
+    </div>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION: IS THE STOCK WORTH THE PRICE? (VALUATION)
+         STOCKCALC NOTE — Data inconsistency in stub:
+         The val-row shows $44.45 but the plain-language copy references "$46.73"
+         as the close price. The stock header shows $69.46. These numbers do not reconcile.
+         Use close_price from the stock header consistently throughout this section.
+    ════════════════════════════════════════════════════════════ -->
+    <div class="section">
+      <!-- "Is the stock worth the price?" — static section title -->
+      <div class="section-title">Is the stock worth the price?</div>
+
+      <div class="val-row">
+        <div class="val-left">
+          <!-- "Stockcalc fundamental valuation" — static label -->
+          <div class="val-label-sm">Stockcalc fundamental valuation</div>
+          <!-- STOCKCALC: wav_price (or primary model output) — weighted average valuation
+               Format: "${wav_price} " with currency code as a muted inline span
+               e.g. "$44.45 CAD" -->
+          <div class="val-num">$44.45 <span style="font-size:13px;color:var(--text-muted)">CAD</span></div>
+          <!--                  ↑ wav_price                                                ↑ currency -->
+        </div>
+
+        <!-- STOCKCALC: valuation_verdict_label — derived from gap between wav_price and close_price.
+             Suggested thresholds (confirm with Stockcalc):
+               wav_price > close_price by > 10% → "Undervalued"
+               gap within ±5%                   → "Fairly valued — within 5%"
+               wav_price < close_price by > 10% → "Overvalued"
+             The .val-tag is always green in the current design.
+             Confirm with Globe if a red/amber state is needed when overvalued. -->
+        <div class="val-tag">Fairly valued &mdash; within 5%</div>
+        <!--                  ↑ valuation_verdict_label -->
+      </div>
+
+      <!-- STOCKCALC: valuation plain-language block — generated from template:
+           [wav_price]    = Stockcalc model estimate, e.g. "$44.45"
+           [close_price]  = EOD close price from stock header — USE THIS CONSISTENTLY.
+                            The stub copy uses "$46.73" which does not match the $69.46
+                            in the stock header. This is a stub error. Always use close_price.
+           [verdict_desc] = e.g. "trading close to its estimated fair value" (derived from verdict label)
+           Surrounding framing is static. -->
+      <div class="plain-explain">
+        <strong>What this means:</strong> Based on CNQ's balance sheet, cash flow, and fundamentals, Stockcalc's model estimates the stock is worth approximately $44.45. At a recent close of $46.73, the stock is trading close to its estimated fair value. For a dividend investor, fair valuation combined with a growing yield is generally a positive combination.
+        <!--                                                                                                                                         ↑ wav_price               ↑ close_price (USE close_price FROM STOCK HEADER — stub value here is incorrect) -->
+      </div>
+    </div>
+
+  </div><!-- /.report-body -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       CTA BOX — fully static, no data binding required
+  ════════════════════════════════════════════════════════════ -->
+  <div class="cta-box">
+    <div>
+      <div class="cta-title">Stock valuation is our passion.</div>
+      <div class="cta-sub">At stockcalc, we aim to educate and inspire our clients to seek the truth. With our fundamental valuation models, our clients have access to the value of stocks and ETFs, to make better investing decisions for themselves and their clients.</div>
+    </div>
+    <a class="cta-btn" href="https://www.stockcalc.com">www.stockcalc.com</a>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       FOOTER — risk disclosure static; copyright year is dynamic
+  ════════════════════════════════════════════════════════════ -->
+  <div class="footer">
+    <div class="disclaimer">
+      <!-- Risk disclosure — static boilerplate, do not modify -->
+      <p>Risk Disclosure: Equities trading and trading of all markets, exchanges and instruments contains substantial risk and is not for every investor. An investor could potentially lose all or more than the initial investment. Risk capital is money that can be lost without jeopardizing ones' financial security or life style. Only risk capital should be used for trading and only those with sufficient risk capital should consider trading. Past performance is not necessarily indicative of future results. View full risk information <a href="https://www.stockcalc.com/Disclaimer.html">here</a>.</p>
+      <!-- STOCKCALC: copyright_year — current calendar year, dynamic. Entity name is static. -->
+      <p>&copy; 2026 Patchell Brook Equity Analytics. All rights reserved.</p>
+      <!--       ↑ copyright_year -->
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

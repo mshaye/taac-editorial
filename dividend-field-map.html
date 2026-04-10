@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stockcalc → Globe Dividend Report: Field Mapping Reference</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 14px;
+      color: #1a1a2e;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 32px;
+      line-height: 1.5;
+    }
+    .page-header {
+      background: #1b2a4a;
+      color: white;
+      padding: 32px 40px;
+      border-radius: 10px;
+      margin-bottom: 32px;
+    }
+    .page-header h1 { margin: 0 0 6px; font-size: 22px; font-weight: 700; }
+    .page-header p  { margin: 0; opacity: 0.75; font-size: 13px; }
+    .legend { display: flex; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #555; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+    .badge-live   { background: #d4edda; color: #155724; }
+    .badge-calc   { background: #cce5ff; color: #004085; }
+    .badge-static { background: #fff3cd; color: #856404; }
+    .badge-gen    { background: #e2d9f3; color: #4a1d8e; }
+
+    section { background: white; border-radius: 8px; border: 1px solid #dde2ea; margin-bottom: 24px; overflow: hidden; }
+    .section-header { background: #1b2a4a; color: white; padding: 12px 20px; font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .section-note { background: #eef1f7; padding: 10px 20px; font-size: 12px; color: #444; border-bottom: 1px solid #dde2ea; }
+    table { width: 100%; border-collapse: collapse; }
+    th { background: #f0f3f8; padding: 10px 16px; text-align: left; font-size: 11px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #dde2ea; }
+    td { padding: 10px 16px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #fafbfd; }
+    .field-label { font-weight: 600; color: #1b2a4a; }
+    .stub-value  { font-family: "SFMono-Regular", Consolas, monospace; font-size: 12px; background: #f4f4f4; padding: 2px 6px; border-radius: 3px; color: #d63384; }
+    .source-field { font-family: "SFMono-Regular", Consolas, monospace; font-size: 12px; background: #e8f0fe; padding: 2px 6px; border-radius: 3px; color: #1a56b0; }
+    .note-text { font-size: 12px; color: #666; font-style: italic; }
+    .col-field  { width: 22%; }
+    .col-stub   { width: 20%; }
+    .col-source { width: 22%; }
+    .col-type   { width: 10%; }
+    .col-note   { width: 26%; }
+  </style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>Stockcalc → Globe Dividend Report: Developer Field Mapping</h1>
+  <p>Reference document for retrofitting live Stockcalc data into the redesigned Globe dividend report template. CNQ:TSX is the stub company used throughout.</p>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><span class="badge badge-live">LIVE</span> Real-time or daily market data</div>
+  <div class="legend-item"><span class="badge badge-calc">CALC</span> Computed by Stockcalc models or derived from financials</div>
+  <div class="legend-item"><span class="badge badge-static">STATIC</span> Infrequently updated metadata</div>
+  <div class="legend-item"><span class="badge badge-gen">GENERATED</span> Prose generated from data — see note</div>
+</div>
+
+
+<!-- ─── REPORT HEADER ─────────────────────────────────────────── -->
+<section>
+  <div class="section-header">Report Header</div>
+  <div class="section-note">Page title and the header bar at the top of the report.</div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">CNQ Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Page &lt;title&gt;</td><td><span class="stub-value">CNQ:TSX — Dividend Income Report</span></td><td><span class="source-field">ticker + exchange</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Format: "{ticker}:{exchange} — Dividend Income Report"</td></tr>
+      <tr><td class="field-label">Report Date</td><td><span class="stub-value">March 27, 2026</span></td><td><span class="source-field">report_date</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Date report was generated. Format: "Month DD, YYYY".</td></tr>
+      <tr><td class="field-label">Report Type Label</td><td><span class="stub-value">Dividend Income Report</span></td><td><span class="source-field">— (hardcoded)</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Fixed string for this report type.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── STOCK IDENTITY ────────────────────────────────────────── -->
+<section>
+  <div class="section-header">Stock Identity</div>
+  <div class="section-note">Company name, ticker/exchange badge, sector tag, and the three top-of-card data points.</div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">CNQ Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Company Full Name</td><td><span class="stub-value">Canadian Natural Resources</span></td><td><span class="source-field">company_name</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Full legal name, not ticker.</td></tr>
+      <tr><td class="field-label">Ticker : Exchange badge</td><td><span class="stub-value">CNQ : TSX</span></td><td><span class="source-field">ticker + exchange</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Format: "{ticker} : {exchange}" rendered in the .ticker pill.</td></tr>
+      <tr><td class="field-label">Sector / Industry tag</td><td><span class="stub-value">Energy — Oil &amp; Gas Production</span></td><td><span class="source-field">sector + industry</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Format: "{sector} — {industry}" in the .sector-tag span.</td></tr>
+      <tr><td class="field-label">Close Price</td><td><span class="stub-value">$69.46 CAD</span></td><td><span class="source-field">close_price + currency</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Most recent EOD closing price. Currency code displayed as a muted suffix.</td></tr>
+      <tr><td class="field-label">Annual Dividend</td><td><span class="stub-value">$2.35</span></td><td><span class="source-field">annual_dividend</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Total annual dividend per share (sum of 4 quarterly payments). Format: "$X.XX"</td></tr>
+      <tr><td class="field-label">Next Payment Date</td><td><span class="stub-value">June 27, 2026</span></td><td><span class="source-field">next_payment_date</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Next scheduled ex-dividend or payment date. Format: "Month DD, YYYY".</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── VERDICT BOX ───────────────────────────────────────────── -->
+<section>
+  <div class="section-header">Verdict Box</div>
+  <div class="section-note">
+    The assessment box at the top of the report body. This section contains a mix of static framing and data-driven values embedded in generated prose.
+    IMPORTANT: The box has two visual states — green (.verdict-box, default) for a healthy dividend, amber (.verdict-box.caution) for a stressed or at-risk dividend.
+    The CSS class applied to .verdict-box, .verdict-eyebrow, and their colours all flip together based on dividend health.
+  </div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">CNQ Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Eyebrow label</td><td><span class="stub-value">Dividend assessment</span></td><td><span class="source-field">— (hardcoded)</span></td><td><span class="badge badge-static">STATIC</span></td><td class="note-text">Static string. Same for every company.</td></tr>
+      <tr><td class="field-label">Box state / colour</td><td><span class="stub-value">green (healthy)</span></td><td><span class="source-field">dividend_health_flag</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">"healthy" → apply no extra class (default green). "caution" → add class="verdict-box caution" and class="verdict-eyebrow caution". Threshold logic TBD with Stockcalc — likely based on payout ratio and/or dividend cut history.</td></tr>
+      <tr><td class="field-label">Verdict headline</td><td><span class="stub-value">CNQ's dividend is healthy and has grown every year for 8 consecutive years.</span></td><td><span class="source-field">ticker + consecutive_growth_years</span></td><td><span class="badge badge-gen">GENERATED</span></td><td class="note-text">Template: "{ticker}'s dividend is healthy and has grown every year for {consecutive_growth_years} consecutive years." Swap "healthy" for "under pressure" or similar when caution state is triggered.</td></tr>
+      <tr><td class="field-label">Payout ratio (in body prose)</td><td><span class="stub-value">61.8%</span></td><td><span class="source-field">payout_ratio</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Appears inline in verdict body prose. Same value as in "Is the dividend safe?" section.</td></tr>
+      <tr><td class="field-label">Consecutive growth years (in body prose)</td><td><span class="stub-value">8</span></td><td><span class="source-field">consecutive_growth_years</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Number of consecutive years dividend has increased without a cut.</td></tr>
+      <tr><td class="field-label">10-year CAGR (in body prose)</td><td><span class="stub-value">14.2%</span></td><td><span class="source-field">dividend_cagr_10yr</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">10-year compound annual growth rate of the dividend. Appears in body prose and in the "What you earn" key numbers grid.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── WHAT YOU EARN ─────────────────────────────────────────── -->
+<section>
+  <div class="section-header">What You Earn — Key Numbers Grid</div>
+  <div class="section-note">Four data tiles in a 2×2 grid, plus the plain-language explanation block below them.</div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">CNQ Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Dividend Yield</td><td><span class="stub-value">5.28%</span></td><td><span class="source-field">dividend_yield</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Annual dividend / close price × 100. Format: "X.XX%". Sub-label "Income per year on every dollar invested" is static.</td></tr>
+      <tr><td class="field-label">Income per $10,000</td><td><span class="stub-value">$528</span></td><td><span class="source-field">dividend_yield × 10000</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Computed: dividend_yield × $10,000. Round to nearest whole dollar. Format: "$XXX". Sub-label is static.</td></tr>
+      <tr><td class="field-label">Quarterly Payment</td><td><span class="stub-value">$0.5875</span></td><td><span class="source-field">quarterly_dividend</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Most recent quarterly dividend per share. Format: "$X.XXXX" (4 decimal places if non-round). Sub-label "Per share, paid four times per year" is static.</td></tr>
+      <tr><td class="field-label">10-year Growth Rate</td><td><span class="stub-value">14.2%</span></td><td><span class="source-field">dividend_cagr_10yr</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Same value as in verdict body. Sub-label "Compound annual dividend growth" is static.</td></tr>
+      <tr><td class="field-label">Plain-language block — share count example</td><td><span class="stub-value">500 shares … $293.75 … $1,175</span></td><td><span class="source-field">plain_shares_example + quarterly_dividend + annual_dividend</span></td><td><span class="badge badge-gen">GENERATED</span></td><td class="note-text">Template uses a round share count (e.g. 500) × quarterly_dividend and annual_dividend. The share count (500) can be a fixed example or configurable. The tax credit mention ("dividend tax credit") is static Canadian-market copy — confirm whether this should render for non-Canadian-listed stocks.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── IS THE DIVIDEND SAFE? ─────────────────────────────────── -->
+<section>
+  <div class="section-header">Is the Dividend Safe?</div>
+  <div class="section-note">Three-column metric row, a visual payout bar, and a plain-language explanation block.</div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">CNQ Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Payout Ratio</td><td><span class="stub-value">61.8%</span></td><td><span class="source-field">payout_ratio</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Dividends paid / net earnings × 100. Format: "XX.X%". Also drives the payout bar fill width.</td></tr>
+      <tr><td class="field-label">Years Without a Cut</td><td><span class="stub-value">8 years</span></td><td><span class="source-field">consecutive_growth_years</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Same as consecutive_growth_years used in verdict. Format: "{N} years".</td></tr>
+      <tr><td class="field-label">Interest Coverage</td><td><span class="stub-value">13.3x</span></td><td><span class="source-field">interest_coverage_ratio</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">EBIT / interest expense. Format: "XX.Xx". Sub-label "earnings cover interest payments" is static.</td></tr>
+      <tr><td class="field-label">Payout bar fill width</td><td><span class="stub-value">61.8% (of bar)</span></td><td><span class="source-field">payout_ratio</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Set style="width:{payout_ratio}%" on .payout-bar-fill. The red marker (.payout-bar-marker) is fixed at left:100% — it marks the 100% unsustainable threshold. Do not move it.</td></tr>
+      <tr><td class="field-label">Payout bar label (centre)</td><td><span class="stub-value">CNQ: 61.8%</span></td><td><span class="source-field">ticker + payout_ratio</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Format: "{ticker}: {payout_ratio}%". Rendered in green (.pos colour).</td></tr>
+      <tr><td class="field-label">Plain-language block — payout ratio threshold copy</td><td><span class="stub-value">under 75% … CNQ's ratio of 61.8%</span></td><td><span class="source-field">payout_ratio + ticker + sector-based threshold</span></td><td><span class="badge badge-gen">GENERATED</span></td><td class="note-text">The 75% threshold shown is sector-specific (energy). This threshold and the surrounding copy should vary by sector. Confirm with Stockcalc whether this is a fixed value or a sector-aware variable.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── RECENT DIVIDEND HISTORY ───────────────────────────────── -->
+<section>
+  <div class="section-header">Recent Dividend History</div>
+  <div class="section-note">A table of the most recent dividend payments, plus a trend summary block.</div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">CNQ Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Payment rows (repeating)</td><td><span class="stub-value">4 rows shown</span></td><td><span class="source-field">dividend_history[]</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Render the 4 most recent dividend payments. Loop over dividend_history array, newest first.</td></tr>
+      <tr><td class="field-label">Payment Date</td><td><span class="stub-value">July 3, 2025 / April 4, 2025…</span></td><td><span class="source-field">dividend_history[n].payment_date</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Format: "Month D, YYYY".</td></tr>
+      <tr><td class="field-label">Dividend Type</td><td><span class="stub-value">Cash dividend</span></td><td><span class="source-field">dividend_history[n].type</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Typically "Cash dividend". May vary (e.g. "Special dividend").</td></tr>
+      <tr><td class="field-label">Amount per Share</td><td><span class="stub-value">$0.5875 / $0.5625 / $0.5250</span></td><td><span class="source-field">dividend_history[n].amount</span></td><td><span class="badge badge-live">LIVE</span></td><td class="note-text">Format: "$X.XXXX". Right-aligned, monospace.</td></tr>
+      <tr><td class="field-label">Trend plain-language block</td><td><span class="stub-value">three times … $0.525 to $0.5875</span></td><td><span class="source-field">dividend_history[] — derived</span></td><td><span class="badge badge-gen">GENERATED</span></td><td class="note-text">Trend copy is generated from dividend_history[]. Summarises direction and range of recent changes. This will need to be a template or generated text — confirm approach with Stockcalc (template string vs. rule-based generation).</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── VALUATION ─────────────────────────────────────────────── -->
+<section>
+  <div class="section-header">Is the Stock Worth the Price? (Valuation)</div>
+  <div class="section-note">
+    A single valuation row showing the Stockcalc fundamental estimate, a verdict tag, and a plain-language block.
+    NOTE: There is a data inconsistency in the stub — the valuation row shows $44.45 but the plain-language copy references $46.73 as the close price.
+    The correct close price from the stock header is $69.46. Confirm with Stockcalc which valuation model output feeds this row and ensure close_price is consistent throughout.
+  </div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">CNQ Stub Value</th><th class="col-source">Likely Source Field</th><th class="col-type">Type</th><th class="col-note">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Stockcalc Fundamental Valuation</td><td><span class="stub-value">$44.45 CAD</span></td><td><span class="source-field">wav_price (or primary model output)</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">The weighted average valuation from Stockcalc's models. Same logic as the full valuation report. Currency suffix displayed as muted text.</td></tr>
+      <tr><td class="field-label">Verdict tag label</td><td><span class="stub-value">Fairly valued — within 5%</span></td><td><span class="source-field">valuation_verdict_label</span></td><td><span class="badge badge-calc">CALC</span></td><td class="note-text">Derived from gap between wav_price and close_price. Suggested thresholds: &gt;+10% gap → "Undervalued"; within ±5% → "Fairly valued — within 5%"; &lt;−10% → "Overvalued". Confirm threshold logic with Stockcalc. Tag is always green (.val-tag) in the current design — confirm if this should also have a red/amber state.</td></tr>
+      <tr><td class="field-label">Plain-language block — valuation copy</td><td><span class="stub-value">$44.45 … $46.73</span></td><td><span class="source-field">wav_price + close_price</span></td><td><span class="badge badge-gen">GENERATED</span></td><td class="note-text">Template uses wav_price and close_price. The $46.73 in the stub copy does not match the $69.46 in the stock header — this is a stub inconsistency, not a design requirement. Use close_price consistently throughout.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ─── STATIC / BOILERPLATE ──────────────────────────────────── -->
+<section>
+  <div class="section-header">Static / Boilerplate Content</div>
+  <table>
+    <thead><tr><th class="col-field">Field</th><th class="col-stub">Notes</th></tr></thead>
+    <tbody>
+      <tr><td class="field-label">Stockcalc wordmark</td><td class="note-text">SVG/text asset. No dynamic content.</td></tr>
+      <tr><td class="field-label">CTA box copy</td><td class="note-text">"Stock valuation is our passion…" — fully static. Link to stockcalc.com is hardcoded.</td></tr>
+      <tr><td class="field-label">Risk disclosure paragraph</td><td class="note-text">Fixed boilerplate. Link to stockcalc.com/Disclaimer.html is hardcoded.</td></tr>
+      <tr><td class="field-label">Copyright year</td><td class="note-text">Should be dynamic (current year). Entity name "Patchell Brook Equity Analytics" is static.</td></tr>
+      <tr><td class="field-label">Sub-labels on key number tiles</td><td class="note-text">All four sub-labels ("Income per year on every dollar invested", etc.) are static strings.</td></tr>
+      <tr><td class="field-label">Section titles</td><td class="note-text">"What you earn", "Is the dividend safe?", "Recent dividend history", "Is the stock worth the price?" — all static strings.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+</body>
+</html>
