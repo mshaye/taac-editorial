@@ -6,7 +6,7 @@
   <!-- STOCKCALC: <title> — format: "{company_name} — Valuation Report | Stockcalc" -->
   <title>BCE — Valuation Report | Stockcalc</title>
   <link
-    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Serif:wght@400;700&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
     rel="stylesheet"
   >
   <style>
@@ -26,7 +26,6 @@
       --text-muted:    #8c95a0;
       --accent:        #122462;
       --accent-light:  #edf0f7;
-      --accent-border: #bcc5dc;
       --green:         #15803d;
       --green-bg:      #f0fdf4;
       --green-border:  #bbf7d0;
@@ -35,7 +34,6 @@
       --red-bg:        #fef2f2;
       --red-border:    #fecaca;
       --amber:         #b45309;
-      --amber-bg:      #fffbeb;
       --serif: 'Libre Baskerville', Georgia, serif;
       --mono:  'IBM Plex Mono', monospace;
       --sans:  'IBM Plex Sans', sans-serif;
@@ -54,6 +52,7 @@
 
     .page { max-width: 720px; margin: 0 auto; zoom: 1.25; }
 
+    /* HEADER BAR */
     .header-bar { position: relative; overflow: hidden; background: var(--accent); padding: 10px 22px; border-radius: 3px 3px 0 0; }
     .header-bar-bg { position: absolute; inset: 0; opacity: 0.07; pointer-events: none; }
     .header-bar-inner { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: center; }
@@ -61,11 +60,13 @@
     .sc-wordmark span { font-weight: 400; opacity: 0.6; }
     .header-date { font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,0.6); letter-spacing: 0.04em; }
 
+    /* REPORT BODY */
     .report-body { background: var(--surface); border: 1px solid var(--border); border-top: none; padding: 24px 22px; }
     .report-type { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
 
+    /* Stock identity */
     .stock-header { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light); }
-    .company-name { font-family: var(--serif); font-size: 24px; font-weight: 700; line-height: 1.2; color: var(--text); margin-bottom: 12px; }
+    .company-name { font-family: var(--sans); font-size: 24px; font-weight: 600; line-height: 1.2; color: var(--text); margin-bottom: 12px; }
     .price-row { display: flex; gap: 28px; flex-wrap: wrap; }
     .price-item-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
     .price-item-val { font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--text); }
@@ -74,50 +75,44 @@
     .sector-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
     .sector-pill { font-size: 11px; font-weight: 500; color: var(--text-sec); background: var(--bg); border: 1px solid var(--border); border-radius: 2px; padding: 2px 8px; }
 
+    /* VERDICT BOX */
     /*
-      STOCKCALC NOTE — Verdict box background/border:
-        Undervalued (WAV > close_price) → --green-bg / --green-border (current)
-        Overvalued  (WAV < close_price) → swap to --red-bg / --red-border
-      Swap applies to: .verdict-box, .verdict-left border, .verdict-target-label colour,
-      .verdict-price colour, and .vnum-green spans.
+      STOCKCALC NOTE — Verdict box is white/neutral by design (--surface background, --border border).
+      The price target colour and .vnum-green spans still flip between green and red
+      based on valuation direction:
+        Undervalued (WAV > close_price) → --green / --green-mid for price and highlights
+        Overvalued  (WAV < close_price) → swap to --red for price and highlights
+      The sig pills (.sig-under / .sig-over) share the same white background;
+      only their text colour and border colour change with direction.
     */
-    .verdict-box { background: var(--green-bg); border: 1px solid var(--green-border); border-radius: 3px; padding: 22px 24px; display: flex; gap: 24px; align-items: center; margin-bottom: 20px; }
-    .verdict-left { display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 1px solid var(--green-border); padding-right: 24px; min-width: 110px; flex-shrink: 0; gap: 5px; }
+    .verdict-box { background: var(--surface); border: 1px solid var(--border); border-radius: 3px; padding: 22px 24px; display: flex; gap: 24px; align-items: center; margin-bottom: 20px; }
+    .verdict-left { display: flex; flex-direction: column; align-items: center; justify-content: center; padding-right: 24px; min-width: 110px; flex-shrink: 0; gap: 5px; }
+    /* NOTE: No border-right on .verdict-left — divider between price target and prose has been removed. */
     .verdict-target-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-mid); text-align: center; }
+    /* STOCKCALC: swap .verdict-target-label colour and .verdict-price colour to --red when overvalued */
     .verdict-price { font-family: var(--mono); font-size: 36px; font-weight: 600; color: var(--green); line-height: 1; }
     .verdict-price-currency { font-size: 16px; font-weight: 400; }
     .verdict-right { flex: 1; min-width: 0; }
     .verdict-body { font-size: 13px; line-height: 1.7; color: var(--text-sec); }
     .vnum-green { font-weight: 700; color: var(--green); }
+    /* STOCKCALC: swap .vnum-green colour to --red when overvalued */
 
-    /* BRIDGE / MODEL SUMMARY */
-    .model-intro { font-size: 13px; color: var(--text-sec); line-height: 1.75; margin: 0 0 16px; }
-    .model-intro strong { color: var(--accent); font-weight: 600; }
-    .model-table { width: 100%; border-collapse: collapse; table-layout: fixed; }
-    .model-table col.c-name { width: 22%; }
-    .model-table col.c-desc { width: 38%; }
-    .model-table col.c-val  { width: 22%; }
-    .model-table col.c-sig  { width: 18%; }
-    .model-table tr { border-bottom: 1px solid var(--border-light); }
-    .model-table tr:last-child { border-bottom: none; }
-    .model-table td { padding: 12px 10px 12px 0; vertical-align: middle; }
-    .model-table td.val-col { text-align: right; padding-right: 10px; }
-    .model-table td.sig-col { text-align: right; padding-right: 0; }
-    .m-name { font-size: 13px; font-weight: 500; color: var(--text); }
-    .m-desc { font-size: 11px; color: var(--text-muted); line-height: 1.55; }
-    .m-val  { font-family: var(--mono); font-size: 17px; font-weight: 500; }
+    /* MODEL SUMMARY — value colour applied directly to <td> */
     .val-up   { color: var(--green); }
     .val-down { color: var(--red); }
+    /* Sig pills: white background, neutral border; text colour only varies by state */
     .sig-pill  { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 2px; }
-    .sig-under { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
-    .sig-over  { background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-border); }
-    .model-bridge-note { font-size: 12px; color: var(--text-muted); margin-top: 14px; }
+    .sig-under { background: var(--surface); color: var(--green); border: 1px solid var(--border); }
+    .sig-over  { background: var(--surface); color: var(--red);   border: 1px solid var(--border); }
+    .model-intro { font-size: 13px; color: var(--text-sec); line-height: 1.75; margin: 0 0 16px; }
 
+    /* SECTIONS */
     .section { background: var(--surface); border: 1px solid var(--border); border-top: none; }
     .section-head { padding: 11px 22px 9px; border-bottom: 1px solid var(--border-light); }
     .section-title { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-sec); }
     .section-body { padding: 18px 22px; }
 
+    /* KEY NUMBERS */
     .key-numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
     .kn-item { padding: 12px 14px; background: var(--bg); border: 1px solid var(--border-light); border-radius: 2px; }
     .kn-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
@@ -125,6 +120,7 @@
     .co-desc { font-size: 13px; line-height: 1.7; color: var(--text-sec); }
     .co-desc p + p { margin-top: 8px; }
 
+    /* DATA TABLES */
     .dt { width: 100%; border-collapse: collapse; font-size: 13px; }
     .dt + .dt { margin-top: 14px; }
     .dt th { background: var(--bg); border-bottom: 1px solid var(--border); padding: 7px 10px; font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-sec); white-space: nowrap; text-align: right; }
@@ -137,6 +133,7 @@
     .dt-subject td { background: var(--bg) !important; font-weight: 600; }
     .dt-avg td { background: var(--bg) !important; color: var(--text-sec) !important; font-weight: 600; }
 
+    /* ANALYST COVERAGE */
     .analyst-flex { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 14px; }
     .analyst-bars { flex: 1; min-width: 0; }
     .abar { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
@@ -154,20 +151,24 @@
     .con-price { font-family: var(--mono); font-size: 15px; font-weight: 600; color: var(--text); }
     .con-upside { font-size: 10px; color: var(--green); margin-top: 1px; }
 
+    /* METHODOLOGY */
     .method-list { display: flex; flex-direction: column; gap: 16px; }
     .method-item-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
     .method-item-body { font-size: 12px; line-height: 1.7; color: var(--text-sec); }
 
+    /* CTA */
     .cta-box { display: flex; justify-content: space-between; align-items: center; gap: 16px; background: var(--accent); border-radius: 2px; padding: 20px 22px; margin-bottom: 1px; }
     .cta-title { font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
     .cta-sub { font-size: 10px; color: rgba(255,255,255,0.65); }
     .cta-btn { flex-shrink: 0; white-space: nowrap; padding: 8px 16px; border-radius: 2px; border: 1.5px solid rgba(255,255,255,0.4); background: transparent; color: #fff; font-family: var(--sans); font-size: 10px; font-weight: 600; letter-spacing: 0.01em; text-decoration: none; cursor: pointer; }
 
+    /* FOOTER */
     .footer { background: var(--bg); border: 1px solid var(--border); border-top: none; border-radius: 0 0 3px 3px; padding: 14px 22px; }
     .disclaimer { font-size: 10px; line-height: 1.65; color: var(--text-muted); }
     .disclaimer p + p { margin-top: 8px; }
     .disclaimer a { color: var(--text-muted); text-decoration: underline; }
 
+    /* UTILITIES */
     .divider { height: 1px; background: var(--border-light); margin: 14px 0; }
     .sub-head { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-sec); margin-top: 16px; margin-bottom: 8px; }
     .sub-head:first-child { margin-top: 0; }
@@ -180,6 +181,7 @@
       .section-body { overflow-x: auto; }
       .dt           { min-width: 540px; }
       .verdict-box  { flex-direction: column; }
+      /* On mobile, verdict-left stacks above verdict-right and gets a bottom border as separator */
       .verdict-left { border-right: none; border-bottom: 1px solid var(--green-border); padding-right: 0; padding-bottom: 16px; width: 100%; }
     }
 
@@ -208,8 +210,6 @@
 
   <!-- ═══════════════════════════════════════════════════════════
        REPORT BODY
-       Contains: identity, verdict box, model summary table.
-       Analyst Coverage and model detail sections follow outside.
   ════════════════════════════════════════════════════════════ -->
   <div class="report-body">
 
@@ -225,7 +225,7 @@
           <div class="price-item-label">Close price</div>
           <!-- STOCKCALC: close_price + currency -->
           <div class="price-item-val big">$32.53 <span class="price-currency">CAD</span></div>
-          <!--                             ↑ close_price              ↑ currency -->
+          <!--                             ↑ close_price                        ↑ currency -->
         </div>
       </div>
       <div class="sector-pills">
@@ -237,96 +237,118 @@
     </div>
 
 
-    <!-- ── VERDICT BOX ──
-         Green state shown (WAV > close_price).
-         Swap bg/border/text colours to red variant when WAV < close_price.
-         See CSS comment above .verdict-box for full swap list.
-    -->
+    <!-- ── VERDICT BOX ──────────────────────────────────────────
+         The box is always white (--surface bg, --border border).
+         No divider between price target and prose columns.
+
+         Colour swaps for the OVERVALUED state:
+           .verdict-target-label colour → --red
+           .verdict-price colour        → --red
+           .vnum-green colour           → --red
+         The box background and border do NOT change between states.
+
+         Sig pills (.sig-under / .sig-over) share the same white background
+         and neutral border; only their text colour changes.
+    ─────────────────────────────────────────────────────────── -->
     <div class="verdict-box">
       <div class="verdict-left">
+        <!-- "Price target" — static label -->
         <div class="verdict-target-label">Price target</div>
-        <!-- STOCKCALC: wav_price — format "$XX.XX" -->
+        <!-- STOCKCALC: wav_price — format "$XX.XX"
+             Colour: --green when undervalued; swap to --red when overvalued -->
         <div class="verdict-price"><span class="verdict-price-currency">$</span>32.75</div>
         <!--                                                               ↑ wav_price -->
       </div>
       <div class="verdict-right">
         <div class="verdict-body">
-          <!-- STOCKCALC: templated sentence.
-               Substitute: wav_price | close_price | abs_gap | direction_word |
-                           arrow (▲/▼) | pct_gap | ticker | accuracy_pct -->
-          Stockcalc valuation targets BCE at <strong>$32.75</strong> versus a market price of <strong>$32.53</strong>. This means it is trading at a <span class="vnum-green"><strong>$0.22</strong></span> discount (<span class="vnum-green"><strong>&#9650;&thinsp;0.7%</strong></span>). Historically, our target for BCE is reached <strong>79% of the time within 12 months</strong>.
-          <!--                              ↑ ticker ↑ wav_price               ↑ close_price                                   ↑ abs_gap ↑ direction  ↑ arrow ↑ pct_gap               ↑ ticker  ↑ accuracy_pct -->
+          <!-- STOCKCALC: templated sentence — substitute:
+               [ticker]          plain text, e.g. "BCE"
+               [abs_gap]         in .vnum-green <strong>, e.g. "$0.22"
+               [direction_word]  plain text, e.g. "discount" or "premium"
+               [wav_price]       plain text, e.g. "$32.75"
+               [arrow]           in .vnum-green <strong>, e.g. "▲" or "▼"
+               [pct_gap]         in .vnum-green <strong>, e.g. "0.7%"
+               [ticker]          plain text (repeated)
+               [accuracy_pct]    plain text, e.g. "79"
+
+               NOTE: close_price is no longer mentioned in this prose.
+               The template reads: "{ticker} trades at a {abs_gap} {direction_word}
+               to our price target of {wav_price} ({arrow}{pct_gap}).
+               Historically, our target for {ticker} is reached {accuracy_pct}%
+               of the time within 12 months." -->
+          BCE trades at a <span class="vnum-green"><strong>$0.22</strong></span> discount to our price target of $32.75 (<span class="vnum-green"><strong>&#9650;&thinsp;0.7%</strong></span>). Historically, our target for BCE is reached 79% of the time within 12 months.
+          <!--  ↑ ticker            ↑ abs_gap                  ↑ direction ↑ wav_price    ↑ arrow  ↑ pct_gap              ↑ ticker                                   ↑ accuracy_pct -->
         </div>
       </div>
     </div>
 
 
-    <!-- ── BRIDGE / MODEL SUMMARY TABLE ────────────────────────
-         Intro paragraph: wav_price interpolated into bold span.
-         The sector profile phrase ("large, cash-flow-stable telecom") should vary
-         by sector or company. Confirm with Stockcalc if this is a static template
-         per sector or generated per company.
+    <!-- ── MODEL SUMMARY TABLE ──────────────────────────────────
+         Standard .dt table, four columns: Model | What it measures | Value | Signal.
+         Intro paragraph: wav_price as plain text.
 
-         Table: one row per active model (up to 3 or 4).
-         Per-row logic — arrow glyph, colour class, and pill:
-           model_price > close_price → .val-up + ▲ + .sig-under + "Undervalued"
-           model_price < close_price → .val-down + ▼ + .sig-over  + "Overvalued"
+         Per-row logic:
+           model_price > close_price → .val-up on value <td> + .sig-under + "Undervalued"
+           model_price < close_price → .val-down on value <td> + .sig-over  + "Overvalued"
 
-         Row description text is static per model name.
+         Render only rows for active models.
+         company_name interpolated in each description cell.
     ─────────────────────────────────────────────────────────── -->
 
-    <!-- STOCKCALC: wav_price in <strong>; company_name and sector_profile_phrase in surrounding text -->
-    <p class="model-intro">The <strong>$32.75</strong> target is a weighted average of three valuation models selected for BCE's profile as a large, cash-flow-stable telecom. The sections below show how each number was reached.</p>
-    <!--                       ↑ wav_price                                                ↑ company_name  ↑ sector_profile_phrase -->
+    <!-- STOCKCALC: wav_price as plain text -->
+    <p class="model-intro">The $32.75 target is a weighted average of three valuation models. Each is detailed below.</p>
+    <!--                       ↑ wav_price -->
 
-    <table class="model-table">
-      <colgroup>
-        <col class="c-name"><col class="c-desc"><col class="c-val"><col class="c-sig">
-      </colgroup>
+    <table class="dt">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th style="text-align:left">What it measures</th>
+          <th>Value</th>
+          <th>Signal</th>
+        </tr>
+      </thead>
       <tbody>
 
         <!-- STOCKCALC: DCF row — render only if DCF is active.
-             dcf_valuation drives: arrow glyph | .val-up/.val-down class | pill class | pill text.
-             Description text is static. -->
+             dcf_valuation drives: .val-up/.val-down on <td> | .sig-under/.sig-over pill | "Undervalued"/"Overvalued" text -->
         <tr>
-          <td><span class="m-name">Discounted Cash Flow</span></td>
-          <td><span class="m-desc">What is BCE worth based on the cash it is expected to generate?</span></td>
-          <!--                              ↑ company_name in description phrase -->
-          <td class="val-col"><span class="m-val val-up">&#9650;&thinsp;$34.75</span></td>
-          <!--                                   ↑ class  ↑ arrow      ↑ dcf_valuation -->
-          <td class="sig-col"><span class="sig-pill sig-under">Undervalued</span></td>
-          <!--                                        ↑ class  ↑ string — both from dcf_valuation vs close_price -->
+          <td>Discounted Cash Flow</td>
+          <td style="text-align:left; font-family:var(--sans); font-size:12px; color:var(--text-muted);">What is BCE worth based on the cash it is expected to generate?</td>
+          <!--                                                                                             ↑ company_name -->
+          <td class="val-up">$34.75</td>
+          <!--    ↑ .val-up when dcf_valuation > close_price; .val-down when less    ↑ dcf_valuation -->
+          <td><span class="sig-pill sig-under">Undervalued</span></td>
+          <!--             ↑ .sig-under / "Undervalued" when dcf_valuation > close_price
+                             .sig-over  / "Overvalued"  when less -->
         </tr>
 
         <!-- STOCKCALC: Comparables row — render only if Comparables is active.
-             comparables_valuation drives arrow, class, pill. -->
+             comparables_valuation drives class and pill. -->
         <tr>
-          <td><span class="m-name">Comparables</span></td>
-          <td><span class="m-desc">What would BCE be worth if priced like its closest peers?</span></td>
-          <!--                                              ↑ company_name -->
-          <td class="val-col"><span class="m-val val-down">&#9660;&thinsp;$28.92</span></td>
-          <!--                                   ↑ class    ↑ arrow ↑ comparables_valuation -->
-          <td class="sig-col"><span class="sig-pill sig-over">Overvalued</span></td>
+          <td>Comparables</td>
+          <td style="text-align:left; font-family:var(--sans); font-size:12px; color:var(--text-muted);">What would BCE be worth if priced like its closest peers?</td>
+          <!--                                                                                             ↑ company_name -->
+          <td class="val-down">$28.92</td>
+          <!--    ↑ class               ↑ comparables_valuation -->
+          <td><span class="sig-pill sig-over">Overvalued</span></td>
         </tr>
 
         <!-- STOCKCALC: Multiples row — render only if Multiples is active.
-             multiples_valuation drives arrow, class, pill. -->
+             multiples_valuation drives class and pill. -->
         <tr>
-          <td><span class="m-name">Multiples</span></td>
-          <td><span class="m-desc">What does BCE's own history say it should be worth today?</span></td>
-          <!--                                           ↑ company_name -->
-          <td class="val-col"><span class="m-val val-up">&#9650;&thinsp;$34.42</span></td>
-          <!--                                   ↑ class ↑ arrow ↑ multiples_valuation -->
-          <td class="sig-col"><span class="sig-pill sig-under">Undervalued</span></td>
+          <td>Multiples</td>
+          <td style="text-align:left; font-family:var(--sans); font-size:12px; color:var(--text-muted);">What does BCE's own history say it should be worth today?</td>
+          <!--                                                                                             ↑ company_name -->
+          <td class="val-up">$34.42</td>
+          <!--    ↑ class         ↑ multiples_valuation -->
+          <td><span class="sig-pill sig-under">Undervalued</span></td>
         </tr>
 
-        <!-- STOCKCALC: If ABV is one of the active models, add a 4th row here with abv_implied_price. -->
+        <!-- STOCKCALC: If ABV is one of the active models, add a row here using abv_implied_price. -->
 
       </tbody>
     </table>
-
-    <!-- Bridge note — static string -->
-    <p class="model-bridge-note">How each figure is calculated is detailed in the sections below.</p>
 
   </div><!-- /.report-body -->
 
@@ -363,15 +385,15 @@
 
   <!-- ═══════════════════════════════════════════════════════════
        ANALYST COVERAGE
-       NOTE: This section appears before the model detail sections.
+       NOTE: Appears before model detail sections.
        STOCKCALC: Hide or show "No analyst coverage available" if no coverage exists.
   ════════════════════════════════════════════════════════════ -->
   <div class="section">
     <div class="section-head"><div class="section-title">Analyst Coverage</div></div>
     <div class="section-body">
 
-      <!-- Intro sentence — mostly static; ticker interpolated inline -->
-      <!-- STOCKCALC: ticker appears as "currently rate BCE" -->
+      <!-- Intro sentence — mostly static; ticker interpolated -->
+      <!-- STOCKCALC: ticker in "currently rate BCE" -->
       <p style="font-size:13px;color:var(--text-sec);line-height:1.7;margin-bottom:14px;">As an independent reference point, here is how sell-side analysts — using their own methodologies — currently rate BCE and where they set their price target.</p>
       <!--                                                                                                                                                              ↑ ticker -->
 
@@ -379,7 +401,7 @@
         <div class="analyst-bars">
           <div class="sub-head">Breakdown</div>
           <!-- STOCKCALC: analyst_buy_count | analyst_hold_count | analyst_sell_count | analyst_total_count
-               bar width = (count / total) × 100 + "%" -->
+               bar fill width = (count / total) × 100 + "%" -->
           <div class="abar">
             <div class="abar-lbl">Buy</div>
             <div class="abar-track"><div class="abar-fill buy" style="width:100%"></div></div>
@@ -459,11 +481,11 @@
           <!-- STOCKCALC: dcf_cash_flow | dcf_sensitivity_cf_d5 (.neg) | dcf_sensitivity_cf_u5 (.pos) -->
           <tr><td>Cash Flow</td><td>$8.06B</td><td>&mdash;</td><td class="neg">$31.09</td><td>&mdash;</td><td class="pos">$38.41</td></tr>
           <!-- STOCKCALC: dcf_capex | dcf_sensitivity_capex_d5 | dcf_sensitivity_capex_u5
-               Both cells show $34.75 because CapEx = 0. -->
+               Both cells show $34.75 because CapEx = 0. No colour class. -->
           <tr><td>Capital Expenditures</td><td>0</td><td>&mdash;</td><td>$34.75</td><td>&mdash;</td><td>$34.75</td></tr>
           <!-- STOCKCALC: dcf_long_term_debt | dcf_sensitivity_debt_d5 (.pos) | dcf_sensitivity_debt_u5 (.neg) -->
           <tr><td>Long-Term Debt</td><td>$33.87B</td><td>&mdash;</td><td class="pos">$32.91</td><td>&mdash;</td><td class="neg">$36.59</td></tr>
-          <!-- STOCKCALC: dcf_valuation — same value as DCF row in model summary table above -->
+          <!-- STOCKCALC: dcf_valuation — same value as DCF row in model summary table -->
           <tr class="dt-hl"><td>Valuation</td><td>$34.75</td><td></td><td></td><td></td><td></td></tr>
         </tbody>
       </table>
@@ -482,8 +504,13 @@
       <!-- STOCKCALC: first <th> = ticker symbol -->
       <table class="dt">
         <thead>
-          <tr><th>BCE</th><th>End of Date Value</th><th>Price Based on Comparables</th><th>Adjustment Factor (%)</th></tr>
-          <!--   ↑ ticker -->
+          <tr>
+            <th>BCE</th>
+            <!--  ↑ ticker -->
+            <th>End of Date Value</th>
+            <th>Price Based on Comparables</th>
+            <th>Adjustment Factor (%)</th>
+          </tr>
         </thead>
         <tbody>
           <!-- STOCKCALC: comp_eps_eod | comp_price_eps | comp_adj_eps -->
@@ -502,7 +529,7 @@
       </table>
 
       <div class="sub-head">Peer Group</div>
-      <!-- STOCKCALC: .dt-subject for subject | no class for peers | .dt-avg for average row -->
+      <!-- STOCKCALC: .dt-subject for subject | no class for peers | .dt-avg for average -->
       <table class="dt">
         <thead>
           <tr><th>Company</th><th>Ticker</th><th>P/E</th><th>P/B</th><th>P/S</th><th>P/CF</th></tr>
@@ -561,7 +588,7 @@
         <thead><tr><th>Item</th><th>Value</th></tr></thead>
         <tbody>
           <!-- STOCKCALC: abv_equity | abv_shares_outstanding | abv_per_share | abv_avg_pb_10yr | abv_implied_price
-               NOTE: abv_shares_outstanding (912.3M) differs from Company Overview shares_outstanding (921.8M).
+               NOTE: abv_shares_outstanding (912.3M) differs from Company Overview (921.8M).
                Confirm authoritative source for each location. -->
           <tr><td>Adjusted Net Book Value (Equity)</td>   <td>$21,174,000,000</td></tr>
           <tr><td>Common Shares Outstanding</td>          <td>912,300,000</td></tr>
@@ -610,6 +637,7 @@
   ════════════════════════════════════════════════════════════ -->
   <div class="footer">
     <div class="disclaimer">
+      <!-- Risk disclosure — static boilerplate, do not modify -->
       <p>Risk Disclosure: Equities trading and trading of all markets, exchanges and instruments contains substantial risk and is not for every investor. An investor could potentially lose all or more than the initial investment. Risk capital is money that can be lost without jeopardizing ones' financial security or life style. Only risk capital should be used for trading and only those with sufficient risk capital should consider trading. Past performance is not necessarily indicative of future results. View full risk information <a href="https://www.stockcalc.com/Disclaimer.html">here</a>.</p>
       <!-- STOCKCALC: copyright_year — dynamic -->
       <p>&copy; 2026 Patchell Brook Equity Analytics. All rights reserved.</p>
