@@ -15,6 +15,9 @@
        DESIGN TOKENS — DO NOT MODIFY
        All colours, fonts, and spacing are Globe/Stockcalc brand.
        Ask Mike Shaye (Globe) before changing any value here.
+       Note: --green-bg, --green-border, --red-bg, --red-border are reserved
+       for future conditional verdict/signal styling and are not currently
+       referenced in layout rules.
     ───────────────────────────────────────── */
     :root {
       --bg:            #f2f4f6;
@@ -70,74 +73,21 @@
     .report-body { background: var(--surface); border: 1px solid var(--border); border-top: none; padding: 24px 22px; }
     .report-type { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
 
-    /* Stock identity */
+    /* STOCK IDENTITY */
     .stock-header { margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-light); }
-    .company-name { font-family: var(--sans); font-size: 24px; font-weight: 600; line-height: 1.2; color: var(--text); margin-bottom: 12px; }
+    .company-name { font-size: 24px; font-weight: 600; line-height: 1.2; color: var(--text); margin-bottom: 12px; }
     .price-row { display: flex; gap: 28px; flex-wrap: wrap; }
     .price-item-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 2px; }
     .price-item-val { font-family: var(--mono); font-size: 18px; font-weight: 500; color: var(--text); }
     .price-item-val.big { font-size: 26px; }
+    .price-item-val.green { color: var(--green); }
     .price-currency { font-size: 14px; color: var(--text-muted); }
     .sector-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
     .sector-pill { font-size: 11px; font-weight: 500; color: var(--text-sec); background: var(--bg); border: 1px solid var(--border); border-radius: 2px; padding: 2px 8px; }
 
-    /* VERDICT BOX */
-    /*
-      STOCKCALC NOTE — Verdict box is white/neutral by design (--surface background, --border border).
-      The price target colour and .vnum-green spans still flip between green and red
-      based on valuation direction:
-        Undervalued (WAV > close_price) → --green / --green-mid for price and highlights
-        Overvalued  (WAV < close_price) → swap to --red for price and highlights
-      The sig pills (.sig-under / .sig-over) share the same white background;
-      only their text colour and border colour change with direction.
-    */
-    .verdict-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      padding: 22px 24px;
-      display: flex;
-      gap: 24px;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .verdict-left {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding-right: 24px;
-      min-width: 110px;
-      flex-shrink: 0;
-      gap: 5px;
-    }
-    .verdict-target-label {
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--green-mid);
-      text-align: center;
-    }
-    .verdict-price {
-      font-family: var(--mono);
-      font-size: 36px;
-      font-weight: 600;
-      color: var(--green);
-      line-height: 1;
-    }
-    .verdict-price-currency { font-size: 16px; font-weight: 400; }
-    .verdict-right { flex: 1; min-width: 0; }
-    .verdict-body { font-size: 13px; line-height: 1.7; color: var(--text-sec); }
-    .vnum-green  { font-weight: 700; color: var(--green); }
-    .val-up   { color: var(--green); }
-    .val-down { color: var(--red); }
-    .sig-pill   { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 2px; }
-    .sig-under  { background: var(--surface); color: var(--green); border: 1px solid var(--border); }
-    .sig-over   { background: var(--surface);   color: var(--red);   border: 1px solid var(--border); }
-
-    /* MODEL SUMMARY */
+    /* VERDICT + MODEL INTRO */
     .model-intro { font-size: 13px; color: var(--text-sec); line-height: 1.75; margin: 0 0 16px; }
+    .vnum-green { font-weight: 700; color: var(--green); }
 
     /* SECTIONS */
     .section { background: var(--surface); border: 1px solid var(--border); border-top: none; }
@@ -166,6 +116,15 @@
     .dt-subject td { background: var(--bg) !important; font-weight: 600; }
     .dt-avg td { background: var(--bg) !important; color: var(--text-sec) !important; font-weight: 600; }
 
+    /* MODEL SUMMARY TABLE */
+    .dt-models { table-layout: fixed; }
+    .dt-models .col-model { width: 28%; }
+    .dt-models .col-desc  { width: 39%; }
+    .dt-models .col-val   { width: 16%; }
+    .dt-models .col-sig   { width: 17%; }
+    .dt-models td.model-name { font-family: var(--sans); font-weight: 500; color: var(--text); }
+    .dt-models td.model-desc { text-align: left; font-family: var(--sans); font-size: 12px; color: var(--text-muted); }
+
     /* ANALYST COVERAGE */
     .analyst-flex { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 14px; }
     .analyst-bars { flex: 1; min-width: 0; }
@@ -190,6 +149,7 @@
     .method-item-body { font-size: 12px; line-height: 1.7; color: var(--text-sec); }
 
     /* CTA */
+    /* margin-bottom: 1px prevents the footer's border-top from doubling with the CTA's bottom edge */
     .cta-box { display: flex; justify-content: space-between; align-items: center; gap: 16px; background: var(--accent); border-radius: 2px; padding: 20px 22px; margin-bottom: 1px; }
     .cta-title { font-family: var(--serif); font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 4px; }
     .cta-sub { font-size: 10px; color: rgba(255,255,255,0.65); }
@@ -207,14 +167,24 @@
     .sub-head:first-child { margin-top: 0; }
     .pos { color: var(--green); }
     .neg { color: var(--red); }
+    .sig-pill   { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.04em; padding: 3px 8px; border-radius: 2px; }
+    .sig-under  { background: var(--surface); color: var(--green); border: 1px solid var(--border); }
+    .sig-over   { background: var(--surface); color: var(--red);   border: 1px solid var(--border); }
 
     @media (max-width: 520px) {
       .report-body  { padding: 18px; }
       .key-numbers  { grid-template-columns: repeat(2, 1fr); }
       .section-body { overflow-x: auto; }
-      .dt           { min-width: 540px; }
-      .verdict-box  { flex-direction: column; }
-      .verdict-left { border-right: none; border-bottom: 1px solid var(--green-border); padding-right: 0; padding-bottom: 16px; width: 100%; }
+      .dt:not(.dt-models) { min-width: 540px; }
+      .dt-models { table-layout: auto; }
+      .dt-models thead { display: none; }
+      .dt-models tbody tr { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 2px 8px; padding: 10px 0; border-bottom: 1px solid var(--border-light); }
+      .dt-models tbody tr:last-child { border-bottom: none; }
+      .dt-models td { border: none; padding: 0; text-align: left !important; font-size: 12px; }
+      .dt-models td.model-name { grid-column: 1 / -1; font-size: 13px; font-weight: 600; }
+      .dt-models td.model-desc { grid-column: 1 / -1; color: var(--text-muted); }
+      .dt-models td:nth-child(3) { font-family: var(--mono); font-size: 13px; font-weight: 500; }
+      .dt-models td:nth-child(4) { text-align: right !important; }
     }
 
   </style>
@@ -256,6 +226,11 @@
           <!-- STOCKCALC: close_price + currency -->
           <div class="price-item-val big">$32.53 <span class="price-currency">CAD</span></div>
         </div>
+        <div class="price-item">
+          <div class="price-item-label">Price target</div>
+          <!-- STOCKCALC: wav_price + currency -->
+          <div class="price-item-val big green">$32.75 <span class="price-currency">CAD</span></div>
+        </div>
       </div>
       <div class="sector-pills">
         <!-- STOCKCALC: exchange | sector | industry -->
@@ -266,31 +241,18 @@
     </div>
 
 
-    <!-- ── VERDICT BOX ──
-         Conditional styling: green when WAV > close_price; swap to red variant when WAV < close_price.
-         See CSS note above the .verdict-box rule.
-    -->
-    <div class="verdict-box">
-      <div class="verdict-left">
-        <div class="verdict-target-label">Price target</div>
-        <!-- STOCKCALC: wav_price -->
-        <div class="verdict-price"><span class="verdict-price-currency">$</span>32.75</div>
-      </div>
-      <div class="verdict-right">
-        <div class="verdict-body">
-          <!-- STOCKCALC: templated sentence — substitute wav_price, close_price, abs_gap,
-               direction_word, pct_gap, arrow, ticker, accuracy_pct -->
-          BCE trades at a <span class="vnum-green"><strong>$0.22</strong></span> discount to our price target of $32.75 (<span class="vnum-green"><strong>&#9650;&thinsp;0.7%</strong></span>). Historically, our target for BCE is reached 79% of the time within 12 months.
-        </div>
-      </div>
-    </div>
+    <!-- ── VERDICT + MODEL SUMMARY ── -->
+    <!-- STOCKCALC: templated sentence — substitute abs_gap, wav_price, pct_gap,
+         arrow, ticker, accuracy_pct -->
+    <p class="model-intro">BCE trades at a <span class="vnum-green">$0.22</span> discount to our price target of $32.75 (<span class="vnum-green">&#9650;&thinsp;0.7%</span>). Historically, our target for BCE is reached 79% of the time within 12 months. The target is a weighted average of three valuation models. Each is detailed below.</p>
 
-
-    <!-- ── MODEL SUMMARY ──
-         STOCKCALC: wav_price in intro paragraph -->
-    <p class="model-intro">The $32.75 target is a weighted average of three valuation models. Each is detailed below.</p>
-
-    <table class="dt">
+    <table class="dt dt-models">
+      <colgroup>
+        <col class="col-model">
+        <col class="col-desc">
+        <col class="col-val">
+        <col class="col-sig">
+      </colgroup>
       <thead>
         <tr>
           <th>Model</th>
@@ -300,31 +262,27 @@
         </tr>
       </thead>
       <tbody>
-
         <!-- STOCKCALC: DCF row — render only if DCF is active -->
         <tr>
-          <td>Discounted Cash Flow</td>
-          <td style="text-align:left; font-family:var(--sans); font-size:12px; color:var(--text-muted);">What is BCE worth based on the cash it is expected to generate?</td>
-          <td class="val-up">$34.75</td>
+          <td class="model-name">Discounted Cash Flow</td>
+          <td class="model-desc">What is BCE worth based on the cash it is expected to generate?</td>
+          <td class="pos">$34.75</td>
           <td><span class="sig-pill sig-under">Undervalued</span></td>
         </tr>
-
         <!-- STOCKCALC: Comparables row — render only if Comparables is active -->
         <tr>
-          <td>Comparables</td>
-          <td style="text-align:left; font-family:var(--sans); font-size:12px; color:var(--text-muted);">What would BCE be worth if priced like its closest peers?</td>
-          <td class="val-down">$28.92</td>
+          <td class="model-name">Comparables</td>
+          <td class="model-desc">What would BCE be worth if priced like its closest peers?</td>
+          <td class="neg">$28.92</td>
           <td><span class="sig-pill sig-over">Overvalued</span></td>
         </tr>
-
         <!-- STOCKCALC: Multiples row — render only if Multiples is active -->
         <tr>
-          <td>Multiples</td>
-          <td style="text-align:left; font-family:var(--sans); font-size:12px; color:var(--text-muted);">What does BCE's own history say it should be worth today?</td>
-          <td class="val-up">$34.42</td>
+          <td class="model-name">Multiples</td>
+          <td class="model-desc">What does BCE's own history say it should be worth today?</td>
+          <td class="pos">$34.42</td>
           <td><span class="sig-pill sig-under">Undervalued</span></td>
         </tr>
-
       </tbody>
     </table>
 
