@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enbridge Inc. — Globe and Mail Stock Header</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: #ffffff;
+      font-family: "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #9b9b9b;
+      margin: 0 0 8px;
+    }
+    .card {
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+    }
+    .card.control {
+      max-width: 420px;
+    }
+    .card.wide {
+      max-width: 1260px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+    .card.light {
+      border: 0.5px solid rgba(0, 0, 0, 0.3);
+      background: #ffffff;
+    }
+    .card.dark {
+      border: 0.5px solid rgba(255, 255, 255, 0.2);
+      background: #242424;
+    }
+    .company {
+      margin: 0 0 8px;
+      font-size: 24px;
+      line-height: 28px;
+      font-weight: 500;
+    }
+    .card.light .company { color: #111111; }
+    .card.dark  .company { color: #f0f0f0; }
+    .price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin: 0 0 8px;
+    }
+    .price {
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 500;
+      letter-spacing: -0.5px;
+    }
+    .card.light .price { color: #111111; }
+    .card.dark  .price { color: #f0f0f0; }
+    .change {
+      font-size: 18px;
+      line-height: 22px;
+      font-weight: 500;
+    }
+    .card.light .change { color: #27ae60; }
+    .card.dark  .change { color: #2ecc71; }
+    .meta {
+      margin: 0;
+      font-size: 14px;
+      line-height: 22px;
+      font-weight: 400;
+    }
+    .card.light .meta { color: #6b6b6b; }
+    .card.dark  .meta { color: #9b9b9b; }
+    .watchlist-btn {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 10px 18px;
+      border-radius: 6px;
+      border: 0.5px solid rgba(0, 0, 0, 0.3);
+      background: #ffffff;
+      color: #111111;
+      font-family: "Inter", sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <p class="label">Light</p>
+    <div class="card control light">
+      <p class="company">Enbridge Inc.</p>
+      <div class="price-row">
+        <span class="price">72.77</span>
+        <span class="change">&#9650; 1.20 (1.68%)</span>
+      </div>
+      <p class="meta">ENB as of 11:26 ET. TSX Real Time CAD.</p>
+    </div>
+  </div>
+
+  <div>
+    <p class="label">Dark</p>
+    <div class="card control dark">
+      <p class="company">Enbridge Inc.</p>
+      <div class="price-row">
+        <span class="price">72.77</span>
+        <span class="change">&#9650; 1.20 (1.68%)</span>
+      </div>
+      <p class="meta">ENB as of 11:26 ET. TSX Real Time CAD.</p>
+    </div>
+  </div>
+
+  <div>
+    <p class="label">Light — Watchlist</p>
+    <div class="card wide light">
+      <div>
+        <p class="company">Enbridge Inc.</p>
+        <div class="price-row">
+          <span class="price">72.77</span>
+          <span class="change">&#9650; 1.20 (1.68%)</span>
+        </div>
+        <p class="meta">ENB as of 11:26 ET. TSX Real Time CAD.</p>
+      </div>
+      <button class="watchlist-btn">
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7.5 1L9.18 5.41L14 5.73L10.5 8.77L11.59 13.5L7.5 11L3.41 13.5L4.5 8.77L1 5.73L5.82 5.41L7.5 1Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+        Add to Watchlist
+      </button>
+    </div>
+  </div>
+
+</body>
+</html>
