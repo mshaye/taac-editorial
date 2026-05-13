@@ -234,7 +234,17 @@
   .art-count { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: #1a1a1a; min-width: 36px; text-align: right; }
   .art-count-sm { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: #5f5e5a; }
 
-  /* Footer */
+  /* Tickers-per-article table */
+  .dist-tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 4px; }
+  .dist-tbl th { background: #f5f4f0; padding: 8px 14px; font-size: 11px; font-weight: 500; color: #888780; text-align: right; border-bottom: 0.5px solid #d3d1c7; }
+  .dist-tbl th:first-child { text-align: left; }
+  .dist-tbl td { padding: 8px 14px; border-bottom: 0.5px solid #f1efe8; text-align: right; }
+  .dist-tbl td:first-child { text-align: left; font-weight: 500; }
+  .dist-tbl tr:last-child td { border-bottom: none; }
+  .dist-total td { background: #f5f4f0; font-weight: 500; border-top: 0.5px solid #d3d1c7; }
+  .pct { font-size: 11px; color: #888780; margin-left: 4px; }
+
+  /* Report footer */
   .report-footer {
     margin-top: 48px;
     padding-top: 16px;
@@ -251,7 +261,7 @@
   <div class="report-header">
     <div class="report-meta">The Globe and Mail &nbsp;·&nbsp; Internal</div>
     <div class="report-title">Content Coverage: Ticker Presence by Provider</div>
-    <div class="report-sub">April 2026 &nbsp;·&nbsp; TSX, NYSE, NASDAQ</div>
+    <div class="report-sub">April 2026 &nbsp;·&nbsp; TSX, NYSE, NASDAQ &nbsp;·&nbsp; Excludes The New York Times</div>
   </div>
 
   <div class="section-title">Coverage breadth — unique tickers</div>
@@ -364,6 +374,52 @@
     </div>
   </div>
   <p class="callout" style="margin-top:10px">Sorted by Motley Fool article volume. Bar width is proportional to MF volume. Tickers with high MF volume and low Globe volume reflect concentrated third-party publishing on a narrow set of names rather than competitive editorial coverage.</p>
+
+  <div class="section-title">Article focus — tickers per article</div>
+
+  <table class="dist-tbl">
+    <thead>
+      <tr>
+        <th>Tickers per article</th>
+        <th>Motley Fool</th>
+        <th>Globe Investor</th>
+        <th>ROB</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>2,394 <span class="pct">58.9%</span></td>
+        <td>15 <span class="pct">15.8%</span></td>
+        <td>45 <span class="pct">60.8%</span></td>
+      </tr>
+      <tr>
+        <td>2–5</td>
+        <td>1,660 <span class="pct">40.8%</span></td>
+        <td>28 <span class="pct">29.5%</span></td>
+        <td>29 <span class="pct">39.2%</span></td>
+      </tr>
+      <tr>
+        <td>6–10</td>
+        <td>10 <span class="pct">0.2%</span></td>
+        <td>19 <span class="pct">20.0%</span></td>
+        <td>0 <span class="pct">—</span></td>
+      </tr>
+      <tr>
+        <td>10+</td>
+        <td>0 <span class="pct">—</span></td>
+        <td>33 <span class="pct">34.7%</span></td>
+        <td>0 <span class="pct">—</span></td>
+      </tr>
+      <tr class="dist-total">
+        <td>Total articles</td>
+        <td>4,064</td>
+        <td>95</td>
+        <td>74</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="callout" style="margin-top:10px">Articles restricted to TSX, NYSE, and NASDAQ. Globe Investor's 10+ bucket is driven by analyst upgrades and downgrades roundups, which tag 25–40 tickers per article.</p>
 
   <div class="report-footer">
     Source: Globe CMS article-ticker data, April 2026. Coverage = distinct base tickers associated with at least one published article in the period. Exchange filter: TSX, NYSE, NASDAQ only. Article row counts: Motley Fool 7,251 · Globe Investor 902 · Reuters/AP/CP 269 · ROB 131.
