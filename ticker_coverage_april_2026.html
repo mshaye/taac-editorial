@@ -26,233 +26,77 @@
     border: 0.5px solid #d3d1c7;
   }
 
-  /* Header */
-  .report-header {
-    border-bottom: 3px solid #122462;
-    padding-bottom: 16px;
-    margin-bottom: 36px;
-  }
-  .report-meta {
-    font-size: 12px;
-    color: #888780;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    margin-bottom: 8px;
-  }
-  .report-title {
-    font-size: 24px;
-    font-weight: 600;
-    color: #122462;
-    line-height: 1.2;
-    margin-bottom: 8px;
-  }
-  .report-sub {
-    font-size: 15px;
-    color: #5f5e5a;
-  }
+  .report-header { border-bottom: 3px solid #122462; padding-bottom: 16px; margin-bottom: 36px; }
+  .report-meta { font-size: 12px; color: #888780; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 8px; }
+  .report-title { font-size: 24px; font-weight: 600; color: #122462; line-height: 1.2; margin-bottom: 8px; }
+  .report-sub { font-size: 15px; color: #5f5e5a; }
+  .report-desc { font-size: 14px; color: #5f5e5a; margin-top: 12px; line-height: 1.6; }
 
-  /* Section titles */
   .section-title {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .1em;
-    text-transform: uppercase;
-    color: #888780;
-    border-bottom: 0.5px solid #d3d1c7;
-    padding-bottom: 8px;
-    margin: 40px 0 20px;
+    font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: #888780; border-bottom: 0.5px solid #d3d1c7; padding-bottom: 8px; margin: 40px 0 20px;
   }
 
-  /* Stat cards */
-  .stat-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 32px;
-  }
-  .stat {
-    background: #f5f4f0;
-    border-radius: 6px;
-    padding: 14px 16px;
-  }
-  .stat-label {
-    font-size: 13px;
-    color: #888780;
-    margin-bottom: 4px;
-  }
-  .stat-value {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 26px;
-    font-weight: 600;
-    color: #122462;
-    line-height: 1;
-  }
-  .stat-sub {
-    font-size: 13px;
-    color: #888780;
-    margin-top: 4px;
-  }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 32px; }
+  .stat { background: #f5f4f0; border-radius: 6px; padding: 14px 16px; }
+  .stat-label { font-size: 13px; color: #888780; margin-bottom: 4px; }
+  .stat-value { font-family: "IBM Plex Mono", monospace; font-size: 26px; font-weight: 600; color: #122462; line-height: 1; }
+  .stat-sub { font-size: 13px; color: #888780; margin-top: 4px; }
 
-  /* Legend */
-  .legend {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 10px;
-    font-size: 13px;
-    color: #5f5e5a;
-  }
-  .legend span {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .swatch {
-    width: 10px;
-    height: 10px;
-    border-radius: 2px;
-    display: inline-block;
-  }
+  .legend { display: flex; gap: 20px; margin-bottom: 10px; font-size: 13px; color: #5f5e5a; }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+  .chart-wrap { position: relative; width: 100%; }
+  .callout { font-size: 13px; color: #5f5e5a; font-style: italic; margin-top: 10px; line-height: 1.5; }
 
-  /* Charts */
-  .chart-wrap {
-    position: relative;
-    width: 100%;
-  }
+  .overlap-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+  .overlap-card { background: #f5f4f0; border-radius: 6px; padding: 12px 14px; }
+  .overlap-pair { font-size: 13px; color: #888780; margin-bottom: 4px; line-height: 1.4; }
+  .overlap-val { font-family: "IBM Plex Mono", monospace; font-size: 22px; font-weight: 600; color: #122462; }
 
-  /* Callout */
-  .callout {
-    font-size: 13px;
-    color: #5f5e5a;
-    font-style: italic;
-    margin-top: 10px;
-    line-height: 1.5;
-  }
-
-  /* Overlap cards */
-  .overlap-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 8px;
-  }
-  .overlap-card {
-    background: #f5f4f0;
-    border-radius: 6px;
-    padding: 12px 14px;
-  }
-  .overlap-pair {
-    font-size: 13px;
-    color: #888780;
-    margin-bottom: 4px;
-    line-height: 1.4;
-  }
-  .overlap-val {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 22px;
-    font-weight: 600;
-    color: #122462;
-  }
-
-  /* Tabs */
-  .tabs {
-    display: flex;
-    border-bottom: 0.5px solid #d3d1c7;
-    margin-bottom: 0;
-    gap: 0;
-  }
-  .tab {
-    padding: 9px 18px;
-    font-size: 14px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    color: #888780;
-    margin-bottom: -0.5px;
-    user-select: none;
-    transition: color .15s;
-  }
+  .tabs { display: flex; border-bottom: 0.5px solid #d3d1c7; }
+  .tab { padding: 9px 18px; font-size: 14px; cursor: pointer; border-bottom: 2px solid transparent; color: #888780; margin-bottom: -0.5px; user-select: none; }
   .tab:hover { color: #1a1a1a; }
-  .tab.active {
-    color: #122462;
-    border-bottom-color: #122462;
-    font-weight: 500;
-  }
-  .tab-count {
-    font-size: 12px;
-    color: #b4b2a9;
-    font-weight: 400;
-    margin-left: 4px;
-  }
+  .tab.active { color: #122462; border-bottom-color: #122462; font-weight: 500; }
+  .tab-count { font-size: 12px; color: #b4b2a9; font-weight: 400; margin-left: 4px; }
   .panel { display: none; }
   .panel.active { display: block; }
 
-  /* Table */
-  .tbl-scroll {
-    max-height: 460px;
-    overflow-y: auto;
-    border: 0.5px solid #d3d1c7;
-    border-top: none;
-  }
-  .tbl {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-  }
-  .tbl thead th {
-    position: sticky;
-    top: 0;
-    background: #fff;
-    text-align: left;
-    padding: 8px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    color: #888780;
-    border-bottom: 0.5px solid #d3d1c7;
-    z-index: 1;
-  }
-  .tbl td {
-    padding: 5px 12px;
-    border-bottom: 0.5px solid #f1efe8;
-    vertical-align: middle;
-  }
+  .tbl-scroll { max-height: 460px; overflow-y: auto; border: 0.5px solid #d3d1c7; border-top: none; }
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .tbl thead th { position: sticky; top: 0; background: #fff; text-align: left; padding: 8px 12px; font-size: 12px; font-weight: 500; color: #888780; border-bottom: 0.5px solid #d3d1c7; z-index: 1; }
+  .tbl td { padding: 5px 12px; border-bottom: 0.5px solid #f1efe8; vertical-align: middle; }
   .tbl tr:last-child td { border-bottom: none; }
   .tbl tr:hover td { background: #f5f4f0; }
   .tbl td.right, .tbl th.right { text-align: right; }
-  .ticker-name { font-weight: 500; color: #1a1a1a; }
-  .bar-cell {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    justify-content: flex-end;
-  }
-  .bar-inner {
-    height: 6px;
-    border-radius: 3px;
-    background: #122462;
-    opacity: .65;
-    min-width: 2px;
-  }
-  .art-count { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: #1a1a1a; min-width: 36px; text-align: right; }
+  .ticker-name { font-weight: 500; }
+  .bar-cell { display: flex; align-items: center; gap: 8px; justify-content: flex-end; }
+  .bar-inner { height: 6px; border-radius: 3px; background: #122462; opacity: .65; min-width: 2px; }
+  .art-count { font-family: "IBM Plex Mono", monospace; font-size: 13px; min-width: 36px; text-align: right; }
   .art-count-sm { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: #5f5e5a; }
 
-  /* Tickers-per-article table */
   .dist-tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 4px; }
-  .dist-tbl th { background: #f5f4f0; padding: 8px 14px; font-size: 11px; font-weight: 500; color: #888780; text-align: right; border-bottom: 0.5px solid #d3d1c7; }
+  .dist-tbl th { background: #f5f4f0; padding: 8px 14px; font-size: 12px; font-weight: 500; color: #888780; text-align: right; border-bottom: 0.5px solid #d3d1c7; }
   .dist-tbl th:first-child { text-align: left; }
   .dist-tbl td { padding: 8px 14px; border-bottom: 0.5px solid #f1efe8; text-align: right; }
   .dist-tbl td:first-child { text-align: left; font-weight: 500; }
-  .dist-tbl tr:last-child td { border-bottom: none; }
   .dist-total td { background: #f5f4f0; font-weight: 500; border-top: 0.5px solid #d3d1c7; }
   .pct { font-size: 11px; color: #888780; margin-left: 4px; }
 
-  /* Report footer */
-  .report-footer {
-    margin-top: 48px;
-    padding-top: 16px;
-    border-top: 0.5px solid #d3d1c7;
-    font-size: 12px;
-    color: #888780;
-    line-height: 1.7;
-  }
+  .inter-wrap { border: 0.5px solid #d3d1c7; overflow: hidden; }
+  .inter-tbl { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+  .inter-tbl th { background: #f5f4f0; padding: 8px 10px; font-size: 12px; font-weight: 500; color: #888780; border-bottom: 0.5px solid #d3d1c7; text-align: left; }
+  .inter-tbl td { padding: 6px 10px; border-bottom: 0.5px solid #f1efe8; vertical-align: top; font-size: 12px; }
+  .inter-tbl tr:last-child td { border-bottom: none; }
+  .inter-tbl tr:hover td { background: #f5f4f0; }
+  .group-hdr td { background: #f5f4f0 !important; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #888780; padding: 6px 10px 4px; border-top: 0.5px solid #d3d1c7; }
+  .exch { display: inline-block; font-size: 10px; font-weight: 500; padding: 1px 5px; border-radius: 3px; margin-right: 3px; }
+  .tsx  { background: #e6f1fb; color: #0c447c; }
+  .nyse { background: #eeedfe; color: #3c3489; }
+  .nsdq { background: #e1f5ee; color: #085041; }
+  .prov { font-size: 11px; color: #5f5e5a; }
+
+  .report-footer { margin-top: 48px; padding-top: 16px; border-top: 0.5px solid #d3d1c7; font-size: 12px; color: #888780; line-height: 1.7; }
 </style>
 </head>
 <body>
@@ -261,32 +105,17 @@
   <div class="report-header">
     <div class="report-meta">The Globe and Mail &nbsp;·&nbsp; Internal</div>
     <div class="report-title">Content Coverage: Ticker Presence by Provider</div>
-    <div class="report-sub">April 2026 &nbsp;·&nbsp; TSX, NYSE, NASDAQ</div>
+    <div class="report-sub">April 2026 &nbsp;·&nbsp; TSX, NYSE, NASDAQ &nbsp;·&nbsp; Excludes The New York Times</div>
+    <div class="report-desc">This report maps ticker coverage across Globe editorial and third-party content providers for April 2026 — with special focus on the Motley Fool footprint — showing how many companies each provider covers, where coverage overlaps or is exclusive, and how focused individual articles tend to be, to support decisions about content strategy and vendor value.</div>
   </div>
 
   <div class="section-title">Coverage breadth — unique tickers</div>
 
   <div class="stat-grid">
-    <div class="stat">
-      <div class="stat-label">Motley Fool</div>
-      <div class="stat-value">565</div>
-      <div class="stat-sub">unique tickers</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Globe Investor</div>
-      <div class="stat-value">427</div>
-      <div class="stat-sub">unique tickers</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">Reuters / AP / CP</div>
-      <div class="stat-value">156</div>
-      <div class="stat-sub">unique tickers</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">ROB</div>
-      <div class="stat-value">76</div>
-      <div class="stat-sub">unique tickers</div>
-    </div>
+    <div class="stat"><div class="stat-label">Motley Fool</div><div class="stat-value">572</div><div class="stat-sub">unique tickers</div></div>
+    <div class="stat"><div class="stat-label">Globe Investor</div><div class="stat-value">425</div><div class="stat-sub">unique tickers</div></div>
+    <div class="stat"><div class="stat-label">Reuters / AP / CP</div><div class="stat-value">158</div><div class="stat-sub">unique tickers</div></div>
+    <div class="stat"><div class="stat-label">ROB</div><div class="stat-value">76</div><div class="stat-sub">unique tickers</div></div>
   </div>
 
   <div class="legend">
@@ -294,81 +123,45 @@
     <span><span class="swatch" style="background:#2563a8"></span>NYSE</span>
     <span><span class="swatch" style="background:#5b9bd5"></span>NASDAQ</span>
   </div>
-  <div class="chart-wrap" style="height:220px">
-    <canvas id="c1" role="img" aria-label="Grouped bar chart showing unique tickers per provider per exchange">Motley Fool: TSX 236, NYSE 202, NASDAQ 134. Globe Investor: TSX 319, NYSE 63, NASDAQ 48. Reuters/AP/CP: TSX 42, NYSE 66, NASDAQ 51. ROB: TSX 47, NYSE 21, NASDAQ 8.</canvas>
-  </div>
+  <div class="chart-wrap" style="height:220px"><canvas id="c1"></canvas></div>
 
   <div class="section-title">Exclusive territory — tickers no other provider covers</div>
 
   <div class="legend">
     <span><span class="swatch" style="background:#122462"></span>Exclusive tickers (all exchanges combined)</span>
   </div>
-  <div class="chart-wrap" style="height:160px">
-    <canvas id="c2" role="img" aria-label="Horizontal bar chart of exclusive tickers per provider">Motley Fool 285, Globe Investor 178, Reuters/AP/CP 32, ROB 6.</canvas>
-  </div>
-  <p class="callout">Globe Investor owns TSX exclusivity (139 tickers no other provider covers). Motley Fool dominates NYSE (137 exclusive) and NASDAQ (88 exclusive).</p>
+  <div class="chart-wrap" style="height:160px"><canvas id="c2"></canvas></div>
+  <p class="callout">Globe Investor owns TSX exclusivity (141 tickers no other provider covers). Motley Fool dominates NYSE (153 exclusive) and NASDAQ (92 exclusive).</p>
 
   <div class="section-title">Overlap — shared tickers across providers</div>
 
   <div class="overlap-grid">
-    <div class="overlap-card">
-      <div class="overlap-pair">Motley Fool + Globe Investor</div>
-      <div class="overlap-val">227</div>
-    </div>
-    <div class="overlap-card">
-      <div class="overlap-pair">Motley Fool + Reuters / AP / CP</div>
-      <div class="overlap-val">106</div>
-    </div>
-    <div class="overlap-card">
-      <div class="overlap-pair">Globe Investor + Reuters / AP / CP</div>
-      <div class="overlap-val">71</div>
-    </div>
-    <div class="overlap-card">
-      <div class="overlap-pair">Globe Investor + ROB</div>
-      <div class="overlap-val">57</div>
-    </div>
-    <div class="overlap-card">
-      <div class="overlap-pair">Motley Fool + ROB</div>
-      <div class="overlap-val">53</div>
-    </div>
-    <div class="overlap-card">
-      <div class="overlap-pair">All four providers</div>
-      <div class="overlap-val">16</div>
-    </div>
+    <div class="overlap-card"><div class="overlap-pair">Motley Fool + Globe Investor</div><div class="overlap-val">223</div></div>
+    <div class="overlap-card"><div class="overlap-pair">Motley Fool + Reuters / AP / CP</div><div class="overlap-val">106</div></div>
+    <div class="overlap-card"><div class="overlap-pair">Globe Investor + Reuters / AP / CP</div><div class="overlap-val">69</div></div>
+    <div class="overlap-card"><div class="overlap-pair">Globe Investor + ROB</div><div class="overlap-val">57</div></div>
+    <div class="overlap-card"><div class="overlap-pair">Motley Fool + ROB</div><div class="overlap-val">52</div></div>
+    <div class="overlap-card"><div class="overlap-pair">All four providers</div><div class="overlap-val">15</div></div>
   </div>
 
   <div class="section-title">Overlap detail — Globe vs. Motley Fool</div>
 
   <div class="tabs">
-    <div class="tab active" onclick="showTab('gi', this)">Motley Fool × Globe Investor <span class="tab-count">227 tickers</span></div>
-    <div class="tab" onclick="showTab('rob', this)">Motley Fool × ROB <span class="tab-count">53 tickers</span></div>
+    <div class="tab active" onclick="showTab('gi',this)">Motley Fool × Globe Investor <span class="tab-count">222 tickers</span></div>
+    <div class="tab" onclick="showTab('rob',this)">Motley Fool × ROB <span class="tab-count">51 tickers</span></div>
   </div>
-
   <div id="gi" class="panel active">
     <div class="tbl-scroll">
       <table class="tbl">
-        <thead>
-          <tr>
-            <th style="width:100px">Ticker</th>
-            <th class="right" style="width:220px">Motley Fool articles</th>
-            <th class="right">Globe Investor articles</th>
-          </tr>
-        </thead>
+        <thead><tr><th style="width:100px">Ticker</th><th class="right" style="width:220px">Motley Fool articles</th><th class="right">Globe Investor articles</th></tr></thead>
         <tbody id="gi-body"></tbody>
       </table>
     </div>
   </div>
-
   <div id="rob" class="panel">
     <div class="tbl-scroll">
       <table class="tbl">
-        <thead>
-          <tr>
-            <th style="width:100px">Ticker</th>
-            <th class="right" style="width:220px">Motley Fool articles</th>
-            <th class="right">ROB articles</th>
-          </tr>
-        </thead>
+        <thead><tr><th style="width:100px">Ticker</th><th class="right" style="width:220px">Motley Fool articles</th><th class="right">ROB articles</th></tr></thead>
         <tbody id="rob-body"></tbody>
       </table>
     </div>
@@ -378,84 +171,89 @@
   <div class="section-title">Article focus — tickers per article</div>
 
   <table class="dist-tbl">
-    <thead>
-      <tr>
-        <th>Tickers per article</th>
-        <th>Motley Fool</th>
-        <th>Globe Investor</th>
-        <th>ROB</th>
-      </tr>
-    </thead>
+    <thead><tr><th>Tickers per article</th><th>Motley Fool</th><th>Globe Investor</th><th>ROB</th></tr></thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>2,394 <span class="pct">58.9%</span></td>
-        <td>15 <span class="pct">15.8%</span></td>
-        <td>45 <span class="pct">60.8%</span></td>
-      </tr>
-      <tr>
-        <td>2–5</td>
-        <td>1,660 <span class="pct">40.8%</span></td>
-        <td>28 <span class="pct">29.5%</span></td>
-        <td>29 <span class="pct">39.2%</span></td>
-      </tr>
-      <tr>
-        <td>6–10</td>
-        <td>10 <span class="pct">0.2%</span></td>
-        <td>19 <span class="pct">20.0%</span></td>
-        <td>0 <span class="pct">—</span></td>
-      </tr>
-      <tr>
-        <td>10+</td>
-        <td>0 <span class="pct">—</span></td>
-        <td>33 <span class="pct">34.7%</span></td>
-        <td>0 <span class="pct">—</span></td>
-      </tr>
-      <tr class="dist-total">
-        <td>Total articles</td>
-        <td>4,064</td>
-        <td>95</td>
-        <td>74</td>
-      </tr>
+      <tr><td>1</td><td>2,391 <span class="pct">58.8%</span></td><td>14 <span class="pct">14.9%</span></td><td>45 <span class="pct">60.8%</span></td></tr>
+      <tr><td>2–5</td><td>1,664 <span class="pct">40.9%</span></td><td>28 <span class="pct">29.8%</span></td><td>29 <span class="pct">39.2%</span></td></tr>
+      <tr><td>6–10</td><td>10 <span class="pct">0.2%</span></td><td>19 <span class="pct">20.2%</span></td><td>0 <span class="pct">—</span></td></tr>
+      <tr><td>10+</td><td>0 <span class="pct">—</span></td><td>33 <span class="pct">35.1%</span></td><td>0 <span class="pct">—</span></td></tr>
+      <tr class="dist-total"><td>Total articles</td><td>4,065</td><td>94</td><td>74</td></tr>
     </tbody>
   </table>
   <p class="callout" style="margin-top:10px">Articles restricted to TSX, NYSE, and NASDAQ. Globe Investor's 10+ bucket is driven by analyst upgrades and downgrades roundups, which tag 25–40 tickers per article.</p>
 
+  <div class="section-title">Interlisted tickers — appearing on multiple exchanges</div>
+
+  <div class="inter-wrap">
+    <table class="inter-tbl">
+      <thead><tr><th style="width:80px">Ticker</th><th style="width:140px">Exchanges</th><th>TSX coverage</th><th>US exchange coverage</th></tr></thead>
+      <tbody>
+        <tr class="group-hdr"><td colspan="4">NYSE + TSX &nbsp;(22 tickers)</td></tr>
+        <tr><td class="ticker-name">ABX</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool, ROB, Reuters/AP/CP</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">AEM</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool, ROB, Reuters/AP/CP</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">AGI</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">AI</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">AMC</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">BAM</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">BB</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool, ROB, Reuters/AP/CP</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">BMO</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">BN</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">BNS</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool, Reuters/AP/CP</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">CLS</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool, ROB</td><td class="prov">Globe Investor, Motley Fool</td></tr>
+        <tr><td class="ticker-name">CMG</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">CP</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool, Reuters/AP/CP</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">EFX</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool</td><td class="prov">Reuters/AP/CP</td></tr>
+        <tr><td class="ticker-name">ENB</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool, ROB</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">ET</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Motley Fool</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">NTR</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool</td><td class="prov">ROB</td></tr>
+        <tr><td class="ticker-name">RIO</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor</td><td class="prov">ROB</td></tr>
+        <tr><td class="ticker-name">RY</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool, ROB</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">SAP</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">T</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool, ROB</td><td class="prov">Motley Fool, Reuters/AP/CP</td></tr>
+        <tr><td class="ticker-name">WPM</td><td><span class="exch tsx">TSX</span><span class="exch nyse">NYSE</span></td><td class="prov">Globe Investor, Motley Fool</td><td class="prov">Motley Fool</td></tr>
+        <tr class="group-hdr"><td colspan="4">NASDAQ + TSX &nbsp;(9 tickers)</td></tr>
+        <tr><td class="ticker-name">ACB</td><td><span class="exch tsx">TSX</span><span class="exch nsdq">NASDAQ</span></td><td class="prov">Globe Investor, Reuters/AP/CP</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">CG</td><td><span class="exch tsx">TSX</span><span class="exch nsdq">NASDAQ</span></td><td class="prov">Globe Investor</td><td class="prov">Reuters/AP/CP</td></tr>
+        <tr><td class="ticker-name">CIGI</td><td><span class="exch tsx">TSX</span><span class="exch nsdq">NASDAQ</span></td><td class="prov">Globe Investor, Motley Fool</td><td class="prov">Globe Investor</td></tr>
+        <tr><td class="ticker-name">MSFT</td><td><span class="exch tsx">TSX</span><span class="exch nsdq">NASDAQ</span></td><td class="prov">Globe Investor, Reuters/AP/CP</td><td class="prov">Globe Investor, Motley Fool, ROB, Reuters/AP/CP</td></tr>
+        <tr><td class="ticker-name">MU</td><td><span class="exch tsx">TSX</span><span class="exch nsdq">NASDAQ</span></td><td class="prov">Motley Fool</td><td class="prov">Globe Investor, Motley Fool</td></tr>
+        <tr><td class="ticker-name">NVDA</td><td><span class="exch tsx">TSX</span><span class="exch nsdq">NASDAQ</span></td><td class="prov">Reuters/AP/CP</td><td class="prov">Globe Investor, Motley Fool, ROB, Reuters/AP/CP</td></tr>
+        <tr><td class="ticker-name">OTEX</td><td><span class="exch tsx">TSX</span><span class="exch nsdq">NASDAQ</span></td><td class="prov">Globe Investor, Motley Fool, Reuters/AP/CP</td><td class="prov">Reuters/AP/CP</td></tr>
+        <tr><td class="ticker-name">SHOP</td><td><span class="exch tsx">TSX</span><span class="exch nsdq">NASDAQ</span></td><td class="prov">Globe Investor, Motley Fool</td><td class="prov">Motley Fool</td></tr>
+        <tr><td class="ticker-name">TLRY</td><td><span class="exch tsx">TSX</span><span class="exch nsdq">NASDAQ</span></td><td class="prov">Globe Investor, Reuters/AP/CP</td><td class="prov">Motley Fool</td></tr>
+        <tr class="group-hdr"><td colspan="4">NASDAQ + NYSE &nbsp;(1 ticker)</td></tr>
+        <tr><td class="ticker-name">WMT</td><td><span class="exch nyse">NYSE</span><span class="exch nsdq">NASDAQ</span></td><td class="prov">—</td><td class="prov">Globe Investor, Motley Fool (NASDAQ) &nbsp;·&nbsp; Reuters/AP/CP (NYSE)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="callout" style="margin-top:10px">NVDA and MSFT appearing under TSX likely reflects index-linked or ETF article tagging rather than direct TSX listings.</p>
+
   <div class="report-footer">
-    Source: Globe CMS article-ticker data, April 2026. Coverage = distinct base tickers associated with at least one published article in the period. Exchange filter: TSX, NYSE, NASDAQ only. Article row counts: Motley Fool 7,251 · Globe Investor 902 · Reuters/AP/CP 269 · ROB 131.
+    Source: Globe CMS article-ticker data, April 2026. Coverage = distinct base tickers associated with at least one published article in the period. Exchange filter: TSX, NYSE, NASDAQ only. Excludes The New York Times, Focus Wealth Management, and CREA content. Article row counts: Motley Fool 7,257 &nbsp;·&nbsp; Globe Investor 898 &nbsp;·&nbsp; Reuters/AP/CP 271 &nbsp;·&nbsp; ROB 131.
   </div>
 
 </div>
 
 <script>
 const giData = [
-["NVDA",1133,4],["INTC",1131,2],["MSFT",177,7],["AMZN",134,5],["ENB",115,1],["COST",113,1],["AAPL",109,5],["PLTR",83,1],["TSLA",81,1],["T",81,4],["GOOGL",78,6],["GOOG",77,1],["AVGO",72,1],["META",70,3],["MU",69,1],["FTS",62,1],["CNQ",60,11],["TSM",59,1],["SHOP",57,3],["ORCL",48,1],["CVX",46,1],["BCE",40,3],["BNS",39,2],["NOW",35,1],["TD",34,3],["RY",32,7],["BAM",30,2],["WCP",30,4],["LLY",28,1],["DOL",28,2],["V",28,1],["CNR",27,11],["MDA",25,2],["SU",24,15],["TRP",24,1],["BN",23,3],["CLS",22,9],["NPI",21,3],["BIP",21,5],["QBTS",20,2],["BMO",20,3],["MFC",19,7],["BA",19,1],["NTR",18,5],["CVE",17,9],["MS",17,1],["UNH",16,1],["LMT",16,1],["PPL",15,3],["BDT",15,8],["FRU",15,1],["ATZ",15,3],["TRI",14,3],["L",14,1],["CSU",14,3],["ABX",13,5],["BEP",13,2],["CP",12,6],["AQN",12,1],["CU",12,2],["PEY",12,2],["POW",12,2],["WSP",12,4],["IBM",12,1],["OTEX",11,2],["POET",11,3],["CM",11,6],["AEM",11,4],["CCO",11,1],["EIF",10,2],["CAT",10,2],["BB",10,2],["ALA",10,2],["AC",10,6],["CAR",10,1],["PANW",9,2],["H",9,1],["CEG",9,1],["TOU",9,1],["EMA",8,2],["ARX",8,1],["CPX",8,4],["REI",8,1],["WCN",8,2],["KXS",7,1],["SLF",7,8],["VNP",7,2],["GSY",7,6],["SES",7,2],["AI",6,1],["ARE",6,8],["EQB",6,2],["BKNG",6,1],["DIR",6,1],["NEE",6,1],["IFC",6,3],["MG",6,3],["MRU",6,2],["AD",5,1],["DELL",5,1],["DSG",5,1],["CHP",5,1],["LSPD",5,1],["TVE",5,1],["QSR",5,6],["XIU",5,1],["PBH",5,3],["KEY",5,2],["K",5,3],["BTE",5,3],["DAL",4,1],["CHE",4,3],["FFH",4,2],["CEU",4,2],["VHI",4,1],["SIA",4,1],["RTX",4,2],["TGT",4,1],["STN",4,4],["SNOW",4,1],["MTL",4,7],["PET",4,4],["CJ",4,4],["CS",4,2],["CGX",4,1],["GWO",4,8],["NEM",4,2],["IVN",4,3],["WMT",3,2],["VDY",3,1],["GRT",3,2],["HLF",3,3],["ANET",3,1],["ATRL",3,7],["FCR",3,2],["ADBE",3,1],["FC",3,1],["DOO",3,3],["QCOM",3,1],["NWC",3,3],["PAAS",3,3],["WPM",3,1],["SOBO",3,3],["SAP",3,4],["WDC",3,1],["TLRY",3,2],["HON",3,1],["IMO",3,5],["LUG",3,2],["AP",2,2],["ADSK",2,1],["BLX",2,6],["AII",2,1],["AMC",2,1],["CMG",2,1],["DFY",2,3],["EFX",2,4],["CF",2,1],["D",2,2],["FM",2,4],["FCX",2,1],["FTG",2,2],["XEI",2,1],["XDIV",2,3],["TPZ",2,1],["TIH",2,5],["SOIL",2,1],["IPCO",2,4],["FTT",2,1],["GFL",2,4],["NET",2,1],["SIS",2,5],["PXT",2,5],["SJ",2,2],["TNZ",2,2],["X",2,3],["TFII",2,4],["NXE",2,1],["CAE",2,2],["CIGI",2,3],["CJT",2,1],["CAVA",2,1],["ALYA",1,1],["BSX",1,1],["BIR",1,3],["CHRD",1,2],["BYD",1,3],["AIF",1,1],["AGI",1,4],["ADN",1,1],["ACN",1,1],["ACB",1,1],["ATH",1,5],["BDGI",1,4],["FTNT",1,1],["FSV",1,3],["EDR",1,1],["DDOG",1,2],["DBM",1,2],["LUV",1,1],["NOA",1,1],["MTY",1,2],["HPE",1,1],["GTE",1,2],["GTWO",1,2],["GRID",1,1],["GD",1,2],["IGM",1,2],["INTU",1,1],["KMP",1,1],["PLNT",1,1],["OLA",1,1],["OBE",1,1],["NOC",1,1],["PSK",1,2],["RBLX",1,1],["RCI",1,8],["RUS",1,1],["TCS",1,1],["TCW",1,1],["TSU",1,2],["TOY",1,1],["WJX",1,1],["WFG",1,3],["VET",1,3],["XIC",1,1]
+["NVDA",1133,4],["INTC",1131,2],["MSFT",177,7],["AMZN",134,5],["ENB",115,1],["COST",113,1],["AAPL",109,5],["PLTR",83,1],["TSLA",81,1],["T",81,3],["GOOGL",78,6],["GOOG",77,1],["AVGO",72,1],["META",70,3],["MU",69,1],["FTS",62,1],["CNQ",60,11],["TSM",59,1],["SHOP",57,3],["ORCL",48,1],["CVX",46,1],["BCE",40,3],["BNS",39,2],["TD",34,3],["RY",32,6],["BAM",30,2],["WCP",30,4],["DOL",28,2],["LLY",28,1],["V",28,1],["CNR",27,11],["MDA",25,2],["TRP",24,1],["SU",24,15],["BN",23,3],["CLS",22,9],["NPI",21,3],["BMO",20,3],["QBTS",20,2],["BIP-UN",19,5],["BA",19,1],["MFC",19,7],["NTR",18,5],["MS",17,1],["CVE",17,9],["UNH",16,1],["LMT",16,1],["FRU",15,1],["PPL",15,3],["BDT",15,8],["ATZ",15,3],["L",14,1],["TRI",14,3],["CSU",14,3],["ABX",13,5],["AQN",12,1],["CU",12,2],["CP",12,6],["WSP",12,4],["IBM",12,1],["PEY",12,2],["POW",12,2],["CCO",11,1],["CM",11,6],["OTEX",11,2],["POET",11,3],["AEM",11,4],["CAT",10,2],["EIF",10,2],["ALA",10,2],["AC",10,6],["BB",10,2],["H",9,1],["PANW",9,2],["CEG",9,1],["TOU",9,1],["EMA",8,2],["ARX",8,1],["BEP-UN",8,2],["WCN",8,2],["REI-UN",8,1],["CPX",8,4],["VNP",7,2],["GSY",7,6],["SES",7,2],["SLF",7,8],["KXS",7,1],["AI",6,1],["DIR-UN",6,1],["EQB",6,2],["BKNG",6,1],["ARE",6,8],["NEE",6,1],["MG",6,3],["IFC",6,3],["MRU",6,2],["BTE",5,3],["AD-UN",5,1],["K",5,3],["TVE",5,1],["QSR",5,6],["XIU",5,1],["LSPD",5,1],["PBH",5,3],["KEY",5,2],["DELL",5,1],["DSG",5,1],["CHP-UN",5,1],["CHE-UN",4,3],["FFH",4,2],["VHI",4,1],["SIA",4,1],["RTX",4,2],["TGT",4,1],["STN",4,4],["SNOW",4,1],["CGX",4,1],["CJ",4,4],["DAL",4,1],["CS",4,2],["CEU",4,2],["MTL",4,7],["NEM",4,2],["IVN",4,3],["GWO",4,8],["PET",4,4],["ADBE",3,1],["FC",3,1],["ATRL",3,7],["ANET",3,1],["FCR-UN",3,2],["DOO",3,3],["WMT",3,2],["VDY",3,1],["QCOM",3,1],["LUG",3,2],["GRT-UN",3,2],["WPM",3,1],["SOBO",3,3],["SAP",3,4],["WDC",3,1],["TLRY",3,2],["NWC",3,3],["HON",3,1],["IMO",3,5],["PAAS",3,3],["HLF",3,3],["AMC",2,1],["ADSK",2,1],["AII",2,1],["AP-UN",2,2],["BLX",2,6],["CMG",2,1],["CIGI",2,3],["EFX",2,4],["DFY",2,3],["FCX",2,1],["FM",2,4],["XEI",2,1],["XDIV",2,3],["TPZ",2,1],["TIH",2,5],["SOIL",2,1],["FTT",2,1],["FTG",2,2],["IPCO",2,4],["GFL",2,4],["SIS",2,5],["PXT",2,5],["SJ",2,2],["TNZ",2,2],["X",2,3],["TFII",2,4],["NXE",2,1],["CAVA",2,1],["CJT",2,1],["CAE",2,2],["CF",2,1],["AIF",1,1],["BYD",1,3],["BSX",1,1],["CHRD",1,2],["CAR",1,1],["BIR",1,3],["ADN",1,1],["ACN",1,1],["ACB",1,1],["AGI",1,4],["ALYA",1,1],["ATH",1,5],["FSV",1,3],["EDR",1,1],["DBM",1,2],["DDOG",1,2],["BDGI",1,4],["LUV",1,1],["HPE",1,1],["MTY",1,2],["GTWO",1,2],["GTE",1,2],["GRID",1,1],["GD",1,2],["INTU",1,1],["IGM",1,2],["KMP-UN",1,1],["FTNT",1,1],["OLA",1,1],["NOC",1,1],["NOA",1,1],["OBE",1,1],["PSK",1,2],["PLNT",1,1],["RBLX",1,1],["RUS",1,1],["TCS",1,1],["TCW",1,1],["TSU",1,2],["TOY",1,1],["WJX",1,1],["WFG",1,3],["VET",1,3],["XIC",1,1]
 ];
 
 const robData = [
-["NVDA",1133,2],["MSFT",177,2],["ENB",115,2],["AAPL",109,1],["T",81,3],["BCE",40,1],["BAC",35,1],["TD",34,2],["CRWV",33,1],["RY",32,4],["XOM",31,1],["LLY",28,1],["CLS",22,1],["QBTS",20,1],["GS",19,1],["BA",19,1],["NTR",18,1],["LMT",16,2],["PPL",15,2],["L",14,3],["ABX",13,4],["CM",11,3],["AEM",11,3],["AC",10,7],["LULU",10,1],["BB",10,1],["ARX",8,2],["GSY",7,1],["SES",7,1],["SHEL",7,4],["MRU",6,2],["C",6,1],["LSPD",5,1],["QSR",5,1],["CHP",5,1],["DAL",4,1],["GWO",4,1],["FFH",4,1],["NEM",4,2],["FCR",3,1],["DOO",3,1],["ATRL",3,1],["CAE",2,3],["GFL",2,1],["WN",2,2],["UAL",2,2],["X",2,1],["AAUC",1,1],["BHP",1,1],["GD",1,1],["RCI",1,6],["UL",1,2]
+["NVDA",1133,2],["MSFT",177,2],["ENB",115,2],["AAPL",109,1],["T",81,3],["BCE",40,1],["BAC",35,1],["TD",34,2],["CRWV",33,1],["RY",32,4],["XOM",31,1],["LLY",28,1],["CLS",22,1],["QBTS",20,1],["BA",19,1],["GS",19,1],["NTR",18,1],["LMT",16,2],["PPL",15,2],["L",14,3],["ABX",13,4],["CM",11,3],["AEM",11,3],["AC",10,7],["BB",10,1],["LULU",10,1],["ARX",8,2],["SES",7,1],["SHEL",7,4],["GSY",7,1],["MRU",6,2],["C",6,1],["CHP-UN",5,1],["LSPD",5,1],["QSR",5,1],["DAL",4,1],["FFH",4,1],["GWO",4,1],["NEM",4,2],["FCR-UN",3,1],["DOO",3,1],["ATRL",3,1],["CAE",2,3],["X",2,1],["WN",2,2],["UAL",2,2],["GFL",2,1],["BHP",1,1],["AAUC",1,1],["GD",1,1],["UL",1,2]
 ];
 
 const maxMF = 1133;
 
-function buildRows(data, col3) {
+function buildRows(data) {
   return data.map(d => {
-    const barW = Math.max(Math.round((d[1] / maxMF) * 120), 2);
-    return `<tr>
-      <td class="ticker-name">${d[0]}</td>
-      <td class="right">
-        <div class="bar-cell">
-          <span class="art-count">${d[1].toLocaleString()}</span>
-          <div class="bar-inner" style="width:${barW}px"></div>
-        </div>
-      </td>
-      <td class="right art-count-sm">${d[2]}</td>
-    </tr>`;
+    const barW = Math.max(Math.round((d[1]/maxMF)*120),2);
+    return `<tr><td class="ticker-name">${d[0]}</td><td class="right"><div class="bar-cell"><span class="art-count">${d[1].toLocaleString()}</span><div class="bar-inner" style="width:${barW}px"></div></div></td><td class="right art-count-sm">${d[2]}</td></tr>`;
   }).join('');
 }
 
-document.getElementById('gi-body').innerHTML = buildRows(giData, 'Globe Investor');
-document.getElementById('rob-body').innerHTML = buildRows(robData, 'ROB');
+document.getElementById('gi-body').innerHTML = buildRows(giData);
+document.getElementById('rob-body').innerHTML = buildRows(robData);
 
 function showTab(id, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
@@ -470,20 +268,19 @@ const gridCol = 'rgba(0,0,0,0.07)';
 new Chart(document.getElementById('c1'), {
   type: 'bar',
   data: {
-    labels: ['Motley Fool', 'Globe Investor', 'Reuters / AP / CP', 'ROB'],
+    labels: ['Motley Fool','Globe Investor','Reuters / AP / CP','ROB'],
     datasets: [
-      { label: 'TSX',    data: [236, 319, 42, 47], backgroundColor: '#122462' },
-      { label: 'NYSE',   data: [202, 63, 66, 21],  backgroundColor: '#2563a8' },
-      { label: 'NASDAQ', data: [134, 48, 51, 8],   backgroundColor: '#5b9bd5' }
+      { label: 'TSX',    data: [232,319,43,47], backgroundColor: '#122462' },
+      { label: 'NYSE',   data: [220,61,67,21],  backgroundColor: '#2563a8' },
+      { label: 'NASDAQ', data: [138,48,51,8],   backgroundColor: '#5b9bd5' }
     ]
   },
   options: {
-    responsive: true,
-    maintainAspectRatio: false,
+    responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: textCol, font: { size: 12 } }, grid: { display: false } },
-      y: { ticks: { color: textCol, font: { size: 11 } }, grid: { color: gridCol } }
+      x: { ticks: { color: textCol, font: { size: 12, family: '"IBM Plex Sans"' } }, grid: { display: false } },
+      y: { ticks: { color: textCol, font: { size: 11, family: '"IBM Plex Sans"' } }, grid: { color: gridCol } }
     }
   }
 });
@@ -491,21 +288,15 @@ new Chart(document.getElementById('c1'), {
 new Chart(document.getElementById('c2'), {
   type: 'bar',
   data: {
-    labels: ['Motley Fool', 'Globe Investor', 'Reuters / AP / CP', 'ROB'],
-    datasets: [{
-      label: 'Exclusive tickers',
-      data: [285, 178, 32, 6],
-      backgroundColor: '#122462'
-    }]
+    labels: ['Motley Fool','Globe Investor','Reuters / AP / CP','ROB'],
+    datasets: [{ label: 'Exclusive tickers', data: [293,179,33,6], backgroundColor: '#122462' }]
   },
   options: {
-    indexAxis: 'y',
-    responsive: true,
-    maintainAspectRatio: false,
+    indexAxis: 'y', responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { color: textCol, font: { size: 11 } }, grid: { color: gridCol } },
-      y: { ticks: { color: textCol, font: { size: 12 } }, grid: { display: false } }
+      x: { ticks: { color: textCol, font: { size: 11, family: '"IBM Plex Sans"' } }, grid: { color: gridCol } },
+      y: { ticks: { color: textCol, font: { size: 12, family: '"IBM Plex Sans"' } }, grid: { display: false } }
     }
   }
 });
