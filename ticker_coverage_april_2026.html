@@ -72,6 +72,15 @@
   .art-count     { font-family: "IBM Plex Mono", monospace; min-width: 36px; text-align: right; }
   .art-count-sm  { font-family: "IBM Plex Mono", monospace; }
 
+  /* Summary tables (Table 1 and Table 2) */
+  .sum-tbl              { width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 4px; }
+  .sum-tbl th           { background: #f5f4f0; padding: 8px 14px; font-weight: 500; text-align: right; border-bottom: 0.5px solid #d3d1c7; font-size: 13px; }
+  .sum-tbl th:first-child { text-align: left; }
+  .sum-tbl td           { padding: 7px 14px; border-bottom: 0.5px solid #f1efe8; text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 13px; }
+  .sum-tbl td:first-child { text-align: left; font-family: "IBM Plex Sans", sans-serif; font-weight: 500; }
+  .sum-tbl tr:last-child td { border-bottom: none; }
+  .sum-tbl .total-col   { font-weight: 700; color: #122462; }
+
   .dist-tbl              { width: 100%; border-collapse: collapse; margin-bottom: 4px; }
   .dist-tbl th           { background: #f5f4f0; padding: 8px 14px; font-weight: 500; text-align: right; border-bottom: 0.5px solid #d3d1c7; }
   .dist-tbl th:first-child { text-align: left; }
@@ -86,7 +95,7 @@
   .profile-tbl td:first-child   { text-align: left; font-family: "IBM Plex Sans", sans-serif; font-weight: 500; }
   .profile-tbl tr:last-child td { border-bottom: none; }
   .profile-tbl .sect-dot        { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; flex-shrink: 0; }
-  .profile-tbl .leader          { background: #e8edf7; font-weight: 600; }
+  .profile-tbl .leader          { font-weight: 700; color: #122462; background: #e8edf7; }
 </style>
 </head>
 <body>
@@ -100,10 +109,10 @@
   <div class="section-title">Total Ticker Coverage</div>
 
   <div class="stat-grid">
-    <div class="stat"><div class="stat-label">Globe Investor</div><div class="stat-value">425</div></div>
-    <div class="stat"><div class="stat-label">Reuters / AP / CP</div><div class="stat-value">158</div></div>
+    <div class="stat"><div class="stat-label">Globe Investor</div><div class="stat-value">428</div></div>
+    <div class="stat"><div class="stat-label">Reuters / AP / CP</div><div class="stat-value">161</div></div>
     <div class="stat"><div class="stat-label">ROB</div><div class="stat-value">76</div></div>
-    <div class="stat"><div class="stat-label">Motley Fool</div><div class="stat-value">572</div></div>
+    <div class="stat"><div class="stat-label">Motley Fool</div><div class="stat-value">590</div></div>
   </div>
 
   <div class="legend">
@@ -113,6 +122,24 @@
   </div>
   <div class="chart-wrap" style="height:220px"><canvas id="c1"></canvas></div>
 
+  <table class="sum-tbl">
+    <thead>
+      <tr>
+        <th>Provider</th>
+        <th>TSX</th>
+        <th>NYSE</th>
+        <th>NASDAQ</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Globe Investor</td><td>319</td><td>61</td><td>48</td><td class="total-col">428</td></tr>
+      <tr><td>Reuters / AP / CP</td><td>43</td><td>67</td><td>51</td><td class="total-col">161</td></tr>
+      <tr><td>ROB</td><td>47</td><td>21</td><td>8</td><td class="total-col">76</td></tr>
+      <tr><td>Motley Fool</td><td>232</td><td>220</td><td>138</td><td class="total-col">590</td></tr>
+    </tbody>
+  </table>
+
   <div class="section-title">Exclusive Coverage (sole provider)</div>
 
   <div class="legend">
@@ -121,7 +148,24 @@
     <span><span class="swatch" style="background:#5b9bd5"></span>NASDAQ</span>
   </div>
   <div class="chart-wrap" style="height:200px"><canvas id="c2"></canvas></div>
-  <p class="callout">Globe Investor owns TSX exclusivity (141 tickers no other provider covers). Motley Fool dominates NYSE (153 exclusive) and NASDAQ (92 exclusive).</p>
+
+  <table class="sum-tbl">
+    <thead>
+      <tr>
+        <th>Provider</th>
+        <th>TSX</th>
+        <th>NYSE</th>
+        <th>NASDAQ</th>
+        <th>Total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Globe Investor</td><td>141</td><td>22</td><td>16</td><td class="total-col">179</td></tr>
+      <tr><td>Reuters / AP / CP</td><td>9</td><td>14</td><td>10</td><td class="total-col">33</td></tr>
+      <tr><td>ROB</td><td>4</td><td>2</td><td>0</td><td class="total-col">6</td></tr>
+      <tr><td>Motley Fool</td><td>48</td><td>153</td><td>92</td><td class="total-col">293</td></tr>
+    </tbody>
+  </table>
 
   <div class="section-title">Overlap across providers</div>
 
@@ -195,11 +239,11 @@
       </tr>
       <tr>
         <td><span class="sect-dot" style="background:#1d5799"></span>Financial Services</td>
-        <td>9.9%</td><td>11.6%</td><td>13.6%</td><td>13.3%</td>
+        <td>9.9%</td><td>11.6%</td><td>13.6%</td><td class="leader">13.3%</td>
       </tr>
       <tr>
         <td><span class="sect-dot" style="background:#0ea5e9"></span>Consumer Products &amp; Services</td>
-        <td>10.4%</td><td>12.2%</td><td class="leader">20.5%</td><td class="leader">26.1%</td>
+        <td>10.4%</td><td>12.2%</td><td>20.5%</td><td class="leader">26.1%</td>
       </tr>
       <tr>
         <td><span class="sect-dot" style="background:#0e7490"></span>Industrial Products &amp; Services</td>
@@ -207,30 +251,28 @@
       </tr>
       <tr>
         <td><span class="sect-dot" style="background:#d97706"></span>Oil &amp; Gas</td>
-        <td>5.4%</td><td>9.9%</td><td>4.5%</td><td>5.5%</td>
+        <td>5.4%</td><td class="leader">9.9%</td><td>4.5%</td><td>5.5%</td>
       </tr>
       <tr>
         <td><span class="sect-dot" style="background:#92400e"></span>Mining</td>
-        <td>2.1%</td><td>9.6%</td><td>12.5%</td><td>5.5%</td>
+        <td>2.1%</td><td class="leader">9.6%</td><td>12.5%</td><td>5.5%</td>
       </tr>
       <tr>
         <td><span class="sect-dot" style="background:#7c3aed"></span>Comm. &amp; Media</td>
-        <td>5.0%</td><td>5.9%</td><td>12.5%</td><td>7.9%</td>
+        <td>5.0%</td><td>5.9%</td><td class="leader">12.5%</td><td>7.9%</td>
       </tr>
       <tr>
         <td><span class="sect-dot" style="background:#059669"></span>Utilities &amp; Pipelines</td>
-        <td>4.6%</td><td>5.7%</td><td>4.5%</td><td>3.6%</td>
+        <td>4.6%</td><td class="leader">5.7%</td><td>4.5%</td><td>3.6%</td>
       </tr>
       <tr>
         <td><span class="sect-dot" style="background:#9ca3af"></span>Other (Clean Tech, Life Sciences, Real Estate, ETP)</td>
-        <td>8.0%</td><td>14.7%</td><td>2.2%</td><td>5.4%</td>
+        <td>8.0%</td><td class="leader">14.7%</td><td>2.2%</td><td>5.4%</td>
       </tr>
     </tbody>
   </table>
 
-  <p class="callout" style="margin-top:12px;">
-    Motley Fool is structurally Technology-first — nearly half its content lives in one sector. Globe Investor distributes more evenly across the TSX's sectoral mix, with meaningful shares in Mining (9.6%) and Oil &amp; Gas (9.9%) that Motley Fool largely skips. ROB coverage is balanced generalist business news, with Communications &amp; Media (12.5%) and Mining (12.5%) elevated versus Globe Investor, reflecting corporate news origination. Wire Services are Consumer-led, driven by US and international corporate earnings and M&amp;A coverage.
-  </p>
+
 
 </div>
 
@@ -265,7 +307,7 @@ function showTab(id, el) {
 const textCol = '#444444';
 const gridCol = 'rgba(0,0,0,0.07)';
 
-// c1 — Total Ticker Coverage: Globe Investor, Reuters/AP/CP, ROB, Motley Fool
+// c1 — Total Ticker Coverage
 new Chart(document.getElementById('c1'), {
   type: 'bar',
   data: {
@@ -289,12 +331,7 @@ new Chart(document.getElementById('c1'), {
   }
 });
 
-// c2 — Exclusive Coverage: stacked horizontal bars (TSX/NYSE/NASDAQ), MF at bottom
-// TSX/NYSE/NASDAQ breakdown per provider:
-// GI:      TSX=141, NYSE=22,  NASDAQ=16  (total 179)
-// Reuters: TSX=9,   NYSE=14,  NASDAQ=10  (total 33)
-// ROB:     TSX=4,   NYSE=2,   NASDAQ=0   (total 6)
-// MF:      TSX=48,  NYSE=153, NASDAQ=92  (total 293)
+// c2 — Exclusive Coverage
 new Chart(document.getElementById('c2'), {
   type: 'bar',
   data: {
